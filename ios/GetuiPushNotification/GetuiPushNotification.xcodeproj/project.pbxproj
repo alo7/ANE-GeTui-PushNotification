@@ -1,0 +1,462 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C23A25CB1A2C58A0001726C6 /* GetuiDelegateImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = C23A25C91A2C58A0001726C6 /* GetuiDelegateImpl.m */; };
+		C23A25CC1A2C58A0001726C6 /* GetuiDelegateImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = C23A25CA1A2C58A0001726C6 /* GetuiDelegateImpl.h */; };
+		C24A096D1A2818C500CEE158 /* libGexinSdk-1.0.7.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C24A096C1A2818C500CEE158 /* libGexinSdk-1.0.7.a */; };
+		C2547AE51A274B0400905F4B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2547AE41A274B0400905F4B /* Foundation.framework */; };
+		C2547AE71A274B0400905F4B /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2547AE61A274B0400905F4B /* CoreFoundation.framework */; };
+		C2547AE91A274B0400905F4B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2547AE81A274B0400905F4B /* UIKit.framework */; };
+		C2547AEB1A274B0400905F4B /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2547AEA1A274B0400905F4B /* MobileCoreServices.framework */; };
+		C2547AEF1A274B0400905F4B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2547AEE1A274B0400905F4B /* SystemConfiguration.framework */; };
+		C2547AF31A274B0400905F4B /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2547AF21A274B0400905F4B /* CFNetwork.framework */; };
+		C2547B011A274B0400905F4B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2547B001A274B0400905F4B /* Security.framework */; };
+		C2547B101A274B0400905F4B /* GetuiPushNotification.h in Headers */ = {isa = PBXBuildFile; fileRef = C2547B0F1A274B0400905F4B /* GetuiPushNotification.h */; };
+		C2547B121A274B0400905F4B /* GetuiPushNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = C2547B111A274B0400905F4B /* GetuiPushNotification.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C2547B081A274B0400905F4B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2547AD91A274B0400905F4B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C2547AE01A274B0400905F4B;
+			remoteInfo = GetuiPushNotification;
+		};
+		C2547B0A1A274B0400905F4B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2547AD91A274B0400905F4B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C2547B031A274B0400905F4B;
+			remoteInfo = GetuiPushNotification.ane;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		C23A25C91A2C58A0001726C6 /* GetuiDelegateImpl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetuiDelegateImpl.m; sourceTree = "<group>"; };
+		C23A25CA1A2C58A0001726C6 /* GetuiDelegateImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetuiDelegateImpl.h; sourceTree = "<group>"; };
+		C24A096C1A2818C500CEE158 /* libGexinSdk-1.0.7.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libGexinSdk-1.0.7.a"; path = "getui-sdk/libGexinSdk-1.0.7.a"; sourceTree = "<group>"; };
+		C2547AE11A274B0400905F4B /* libGetuiPushNotification.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libGetuiPushNotification.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		C2547AE41A274B0400905F4B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		C2547AE61A274B0400905F4B /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		C2547AE81A274B0400905F4B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		C2547AEA1A274B0400905F4B /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		C2547AEE1A274B0400905F4B /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		C2547AF21A274B0400905F4B /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		C2547B001A274B0400905F4B /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		C2547B041A274B0400905F4B /* GetuiPushNotification.ane */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = GetuiPushNotification.ane; sourceTree = BUILT_PRODUCTS_DIR; };
+		C2547B071A274B0400905F4B /* DebugGetuiPushNotificationAIRApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DebugGetuiPushNotificationAIRApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C2547B0E1A274B0400905F4B /* GetuiPushNotification-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GetuiPushNotification-Prefix.pch"; sourceTree = "<group>"; };
+		C2547B0F1A274B0400905F4B /* GetuiPushNotification.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GetuiPushNotification.h; sourceTree = "<group>"; };
+		C2547B111A274B0400905F4B /* GetuiPushNotification.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GetuiPushNotification.m; sourceTree = "<group>"; };
+		C2547B1A1A274B0400905F4B /* extension.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = extension.xml; sourceTree = "<group>"; };
+		C2547B1B1A274B0400905F4B /* platformoptions.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = platformoptions.xml; sourceTree = "<group>"; };
+		C2547B1C1A274B0400905F4B /* generateANE.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = generateANE.sh; sourceTree = "<group>"; };
+		C2547B1D1A274B0400905F4B /* debugIPA.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = debugIPA.sh; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C2547ADE1A274B0400905F4B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C24A096D1A2818C500CEE158 /* libGexinSdk-1.0.7.a in Frameworks */,
+				C2547AF31A274B0400905F4B /* CFNetwork.framework in Frameworks */,
+				C2547AEF1A274B0400905F4B /* SystemConfiguration.framework in Frameworks */,
+				C2547B011A274B0400905F4B /* Security.framework in Frameworks */,
+				C2547AE71A274B0400905F4B /* CoreFoundation.framework in Frameworks */,
+				C2547AEB1A274B0400905F4B /* MobileCoreServices.framework in Frameworks */,
+				C2547AE91A274B0400905F4B /* UIKit.framework in Frameworks */,
+				C2547AE51A274B0400905F4B /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C2547AD81A274B0400905F4B = {
+			isa = PBXGroup;
+			children = (
+				C2547B0C1A274B0400905F4B /* GetuiPushNotification */,
+				C2547AE31A274B0400905F4B /* Frameworks */,
+				C2547AE21A274B0400905F4B /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C2547AE21A274B0400905F4B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C2547AE11A274B0400905F4B /* libGetuiPushNotification.a */,
+				C2547B041A274B0400905F4B /* GetuiPushNotification.ane */,
+				C2547B071A274B0400905F4B /* DebugGetuiPushNotificationAIRApp.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C2547AE31A274B0400905F4B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C24A096C1A2818C500CEE158 /* libGexinSdk-1.0.7.a */,
+				C2547AE41A274B0400905F4B /* Foundation.framework */,
+				C2547AE61A274B0400905F4B /* CoreFoundation.framework */,
+				C2547AE81A274B0400905F4B /* UIKit.framework */,
+				C2547AEA1A274B0400905F4B /* MobileCoreServices.framework */,
+				C2547AEE1A274B0400905F4B /* SystemConfiguration.framework */,
+				C2547AF21A274B0400905F4B /* CFNetwork.framework */,
+				C2547B001A274B0400905F4B /* Security.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C2547B0C1A274B0400905F4B /* GetuiPushNotification */ = {
+			isa = PBXGroup;
+			children = (
+				C23A25C91A2C58A0001726C6 /* GetuiDelegateImpl.m */,
+				C23A25CA1A2C58A0001726C6 /* GetuiDelegateImpl.h */,
+				C2547B0F1A274B0400905F4B /* GetuiPushNotification.h */,
+				C2547B111A274B0400905F4B /* GetuiPushNotification.m */,
+				C2547B0D1A274B0400905F4B /* Supporting Files */,
+			);
+			path = GetuiPushNotification;
+			sourceTree = "<group>";
+		};
+		C2547B0D1A274B0400905F4B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				C2547B0E1A274B0400905F4B /* GetuiPushNotification-Prefix.pch */,
+				C2547B1A1A274B0400905F4B /* extension.xml */,
+				C2547B1B1A274B0400905F4B /* platformoptions.xml */,
+				C2547B1C1A274B0400905F4B /* generateANE.sh */,
+				C2547B1D1A274B0400905F4B /* debugIPA.sh */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		C2547ADF1A274B0400905F4B /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C23A25CC1A2C58A0001726C6 /* GetuiDelegateImpl.h in Headers */,
+				C2547B101A274B0400905F4B /* GetuiPushNotification.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		C2547AE01A274B0400905F4B /* GetuiPushNotification */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C2547B201A274B0400905F4B /* Build configuration list for PBXNativeTarget "GetuiPushNotification" */;
+			buildPhases = (
+				C2547ADD1A274B0400905F4B /* Sources */,
+				C2547ADE1A274B0400905F4B /* Frameworks */,
+				C2547ADF1A274B0400905F4B /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = GetuiPushNotification;
+			productName = GetuiPushNotification;
+			productReference = C2547AE11A274B0400905F4B /* libGetuiPushNotification.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		C2547B031A274B0400905F4B /* GetuiPushNotification.ane */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C2547B231A274B0400905F4B /* Build configuration list for PBXNativeTarget "GetuiPushNotification.ane" */;
+			buildPhases = (
+				C2547B021A274B0400905F4B /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C2547B091A274B0400905F4B /* PBXTargetDependency */,
+			);
+			name = GetuiPushNotification.ane;
+			productName = GetuiPushNotification.ane;
+			productReference = C2547B041A274B0400905F4B /* GetuiPushNotification.ane */;
+			productType = "com.apple.product-type.library.static";
+		};
+		C2547B061A274B0400905F4B /* DebugGetuiPushNotificationAIRApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C2547B261A274B0400905F4B /* Build configuration list for PBXNativeTarget "DebugGetuiPushNotificationAIRApp" */;
+			buildPhases = (
+				C2547B051A274B0400905F4B /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C2547B0B1A274B0400905F4B /* PBXTargetDependency */,
+			);
+			name = DebugGetuiPushNotificationAIRApp;
+			productName = DebugGetuiPushNotificationAIRApp;
+			productReference = C2547B071A274B0400905F4B /* DebugGetuiPushNotificationAIRApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C2547AD91A274B0400905F4B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				TargetAttributes = {
+					C2547AE01A274B0400905F4B = {
+						CreatedOnToolsVersion = 6.1;
+					};
+					C2547B031A274B0400905F4B = {
+						CreatedOnToolsVersion = 6.1;
+					};
+					C2547B061A274B0400905F4B = {
+						CreatedOnToolsVersion = 6.1;
+					};
+				};
+			};
+			buildConfigurationList = C2547ADC1A274B0400905F4B /* Build configuration list for PBXProject "GetuiPushNotification" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = C2547AD81A274B0400905F4B;
+			productRefGroup = C2547AE21A274B0400905F4B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C2547AE01A274B0400905F4B /* GetuiPushNotification */,
+				C2547B031A274B0400905F4B /* GetuiPushNotification.ane */,
+				C2547B061A274B0400905F4B /* DebugGetuiPushNotificationAIRApp */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		C2547B021A274B0400905F4B /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "\n\t\t\t\t\t\t\t\tchmod 755 \"$PROJECT_DIR/$PROJECT_NAME/generateANE.sh\"\n\t\t\t\t\t\t\t\t\"$PROJECT_DIR/$PROJECT_NAME/generateANE.sh\"\n\t\t\t\t\t";
+		};
+		C2547B051A274B0400905F4B /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "\n\t\t\t\t\t\t\t\tchmod 755 \"$PROJECT_DIR/$PROJECT_NAME/debugIPA.sh\"\n\t\t\t\t\t\t\t\t\"$PROJECT_DIR/$PROJECT_NAME/debugIPA.sh\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C2547ADD1A274B0400905F4B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C2547B121A274B0400905F4B /* GetuiPushNotification.m in Sources */,
+				C23A25CB1A2C58A0001726C6 /* GetuiDelegateImpl.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C2547B091A274B0400905F4B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C2547AE01A274B0400905F4B /* GetuiPushNotification */;
+			targetProxy = C2547B081A274B0400905F4B /* PBXContainerItemProxy */;
+		};
+		C2547B0B1A274B0400905F4B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C2547B031A274B0400905F4B /* GetuiPushNotification.ane */;
+			targetProxy = C2547B0A1A274B0400905F4B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		C2547B1E1A274B0400905F4B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = NO;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_CPP_EXCEPTIONS = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				SDKROOT = iphoneos;
+				USER_HEADER_SEARCH_PATHS = /Users/jiongli/ashole/saybot/sdk/air/include/;
+			};
+			name = Debug;
+		};
+		C2547B1F1A274B0400905F4B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = NO;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_CPP_EXCEPTIONS = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				SDKROOT = iphoneos;
+				USER_HEADER_SEARCH_PATHS = /Users/jiongli/ashole/saybot/sdk/air/include/;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C2547B211A274B0400905F4B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/GetuiPushNotification.dst;
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "GetuiPushNotification/GetuiPushNotification-Prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/getui-sdk\"";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				USER_HEADER_SEARCH_PATHS = "/Users/jiongli/ashole/saybot/sdk/air/include/ \"$(SRCROOT)/getui-sdk/include/\"";
+			};
+			name = Debug;
+		};
+		C2547B221A274B0400905F4B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/GetuiPushNotification.dst;
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "GetuiPushNotification/GetuiPushNotification-Prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/getui-sdk\"";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				USER_HEADER_SEARCH_PATHS = "/Users/jiongli/ashole/saybot/sdk/air/include/ \"$(SRCROOT)/getui-sdk/include/\"";
+			};
+			name = Release;
+		};
+		C2547B241A274B0400905F4B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				AIR_SDK_PATH = /Users/jiongli/ashole/saybot/sdk/air;
+				EXECUTABLE_EXTENSION = ane;
+				EXECUTABLE_PREFIX = "";
+				NATIVEEXTENSION_SWC = /Users/jiongli/workspace2/GetuiAne/out/production/GetuiAne/GetuiAne.swc;
+				PRODUCT_NAME = GetuiPushNotification;
+			};
+			name = Debug;
+		};
+		C2547B251A274B0400905F4B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				AIR_SDK_PATH = /Users/jiongli/ashole/saybot/sdk/air;
+				EXECUTABLE_EXTENSION = ane;
+				EXECUTABLE_PREFIX = "";
+				NATIVEEXTENSION_SWC = /Users/jiongli/workspace2/GetuiAne/out/production/GetuiAne/GetuiAne.swc;
+				PRODUCT_NAME = GetuiPushNotification;
+			};
+			name = Release;
+		};
+		C2547B271A274B0400905F4B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				AIR_SDK_PATH = /Users/jiongli/ashole/saybot/sdk/air;
+				NATIVEEXTENSION_SWC = /Users/jiongli/workspace2/GetuiAne/out/production/GetuiAneANETest/bin/GetuiAne.swc;
+				PRODUCT_NAME = DebugGetuiPushNotificationAIRApp;
+			};
+			name = Debug;
+		};
+		C2547B281A274B0400905F4B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				AIR_SDK_PATH = /Users/jiongli/ashole/saybot/sdk/air;
+				NATIVEEXTENSION_SWC = /Users/jiongli/workspace2/GetuiAne/out/production/GetuiAneANETest/bin/GetuiAne.swc;
+				PRODUCT_NAME = DebugGetuiPushNotificationAIRApp;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C2547ADC1A274B0400905F4B /* Build configuration list for PBXProject "GetuiPushNotification" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C2547B1E1A274B0400905F4B /* Debug */,
+				C2547B1F1A274B0400905F4B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C2547B201A274B0400905F4B /* Build configuration list for PBXNativeTarget "GetuiPushNotification" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C2547B211A274B0400905F4B /* Debug */,
+				C2547B221A274B0400905F4B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C2547B231A274B0400905F4B /* Build configuration list for PBXNativeTarget "GetuiPushNotification.ane" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C2547B241A274B0400905F4B /* Debug */,
+				C2547B251A274B0400905F4B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C2547B261A274B0400905F4B /* Build configuration list for PBXNativeTarget "DebugGetuiPushNotificationAIRApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C2547B271A274B0400905F4B /* Debug */,
+				C2547B281A274B0400905F4B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C2547AD91A274B0400905F4B /* Project object */;
+}

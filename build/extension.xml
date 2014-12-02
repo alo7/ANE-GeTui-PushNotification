@@ -30,7 +30,7 @@ either expressed or implied, of the FreeBSD Project.
 -->
 
 <extension xmlns="http://ns.adobe.com/air/extension/3.5">
-	<id>www.alo7.ane.GetuiPushNotification</id>
+	<id>com.alo7.ane.GetuiPushNotification</id>
 	<versionNumber>1</versionNumber>
 	<platforms>
 		<platform name="iPhone-ARM">

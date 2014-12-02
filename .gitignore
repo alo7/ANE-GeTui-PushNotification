@@ -1,3 +1,16 @@
 .idea/
 out/
+tmp/
 *.iml
+ios/*/build/
+ios/*/DerivedData/
+.DS_Store
+.Trashes
+.*.sw?
+*.cso
+tmp
+*.mode1v3
+*.pbxuser
+*.xcworkspace
+xcuserdata
+console.log
