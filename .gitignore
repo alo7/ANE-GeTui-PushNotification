@@ -14,3 +14,4 @@ tmp
 *.xcworkspace
 xcuserdata
 console.log
+*.ane
