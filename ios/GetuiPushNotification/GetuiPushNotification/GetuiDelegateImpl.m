@@ -10,9 +10,11 @@
 
 @implementation GetuiDelegateImpl
 
+@synthesize freContext = _freContext;
 @synthesize gexinPusher = _gexinPusher;
 @synthesize appKey = _appKey;
 @synthesize appSecret = _appSecret;
+@synthesize appVersion = _appVersion;
 @synthesize appID = _appID;
 @synthesize clientId = _clientId;
 @synthesize sdkStatus = _sdkStatus;
@@ -26,12 +28,15 @@
     [_appKey release];
     [_appSecret release];
     [_appID release];
+    [_appVersion release];
     [_clientId release];
     [_payloadId release];
     
     [super dealloc];
 }
 
+
+// 注册消息推送
 - (void)registerRemoteNotification
 {
 #ifdef __IPHONE_8_0
@@ -50,23 +55,35 @@
 #endif
 }
 
-
+// 注册成功
 - (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
 {
     NSString *token = [[deviceToken description] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
     [_deviceToken release];
     _deviceToken = [[token stringByReplacingOccurrencesOfString:@" " withString:@""] retain];
-    NSLog(@"deviceToken:%@", _deviceToken);
+   
+    if ( _freContext != nil )
+    {
+        FREDispatchStatusEventAsync(_freContext, (uint8_t*)"TOKEN_SUCCESS", (uint8_t*)[_deviceToken UTF8String]);
+    }
     
-    
-    // [3]:向个推服务器注册deviceToken
+       // [3]:向个推服务器注册deviceToken
     if (_gexinPusher) {
         [_gexinPusher registerDeviceToken:_deviceToken];
     }
 }
 
+//注册失败
 - (void)didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
 {
+    
+    NSString* tokenString = [NSString stringWithFormat:@"Failed to get token, error: %@",error];
+    
+    if ( _freContext != nil )
+    {
+        FREDispatchStatusEventAsync(_freContext, (uint8_t*)"TOKEN_FAIL", (uint8_t*)[tokenString UTF8String]);
+    }
+    
     // [3-EXT]:如果APNS注册失败，通知个推服务器
     if (_gexinPusher) {
         [_gexinPusher registerDeviceToken:@""];
@@ -81,11 +98,15 @@
     // [4-EXT]:处理APN
     NSString *payloadMsg = [userinfo objectForKey:@"payload"];
     NSString *record = [NSString stringWithFormat:@"[APN]%@, %@", [NSDate date], payloadMsg];
-    NSLog(@"%@",record);
+//    NSLog(@"%@",record);
+    if ( _freContext != nil )
+    {
+        FREDispatchStatusEventAsync(_freContext, (uint8_t*)"RECEIVE_REMOTE_NOTIFICATION", (uint8_t*)[record UTF8String]);
+    }
 }
 
 
-- (void)startSdkWith:(NSString *)appID appKey:(NSString *)appKey appSecret:(NSString *)appSecret
+- (void)startSdkWith:(NSString *)appID appKey:(NSString *)appKey appSecret:(NSString *)appSecret appVersion:(NSString *)appVersion
 {
     if (!_gexinPusher) {
         _sdkStatus = SdkStatusStoped;
@@ -93,6 +114,7 @@
         self.appID = appID;
         self.appKey = appKey;
         self.appSecret = appSecret;
+        self.appVersion = appVersion;
         
         [_clientId release];
         _clientId = nil;
@@ -101,7 +123,7 @@
         _gexinPusher = [GexinSdk createSdkWithAppId:_appID
                                              appKey:_appKey
                                           appSecret:_appSecret
-                                         appVersion:@"0.0.0"
+                                         appVersion:_appVersion
                                            delegate:self
                                               error:&err];
         if (_gexinPusher) {
@@ -163,19 +185,6 @@
     return [_gexinPusher sendMessage:body error:error];
 }
 
-- (void)testSdkFunction
-{
-//    UIViewController *funcsView = [[TestFunctionController alloc] initWithNibName:@"TestFunctionController" bundle:nil];
-//    [_naviController pushViewController:funcsView animated:YES];
-//    [funcsView release];
-}
-
-- (void)testSendMessage
-{
-//    UIViewController *sendMessageView = [[SendMessageController alloc] initWithNibName:@"SendMessageController" bundle:nil];
-//    [_naviController pushViewController:sendMessageView animated:YES];
-//    [sendMessageView release];
-}
 
 #pragma mark - GexinSdkDelegate
 - (void)GexinSdkDidRegisterClient:(NSString *)clientId
@@ -184,9 +193,11 @@
     _sdkStatus = SdkStatusStarted;
     [_clientId release];
     _clientId = [clientId retain];
-//    [_viewController updateStatusView:self];
     
-    //    [self stopSdk];
+    if ( _freContext != nil )
+    {
+        FREDispatchStatusEventAsync(_freContext, (uint8_t*)"GETUI_DID_REGISTER_CLIENT", (uint8_t*)[_clientId UTF8String]);
+    }
 }
 
 - (void)GexinSdkDidReceivePayload:(NSString *)payloadId fromApplication:(NSString *)appId
@@ -201,22 +212,32 @@
         payloadMsg = [[NSString alloc] initWithBytes:payload.bytes
                                               length:payload.length
                                             encoding:NSUTF8StringEncoding];
+        if ( _freContext != nil )
+        {
+            NSString *record = [NSString stringWithFormat:@"%d, %@, %@", ++_lastPaylodIndex, [NSDate date], payloadMsg];
+            FREDispatchStatusEventAsync(_freContext, (uint8_t*)"GETUI_DID_RECEIVE_PAYLOAD", (uint8_t*)[record UTF8String]);
+        }
     }
-//    NSString *record = [NSString stringWithFormat:@"%d, %@, %@", ++_lastPaylodIndex, [NSDate date], payloadMsg];
-//    [_viewController logMsg:record];
+
     [payloadMsg release];
 }
 
 - (void)GexinSdkDidSendMessage:(NSString *)messageId result:(int)result {
     // [4-EXT]:发送上行消息结果反馈
 //    NSString *record = [NSString stringWithFormat:@"Received sendmessage:%@ result:%d", messageId, result];
-//    [_viewController logMsg:record];
 }
 
 - (void)GexinSdkDidOccurError:(NSError *)error
 {
     // [EXT]:个推错误报告，集成步骤发生的任何错误都在这里通知，如果集成后，无法正常收到消息，查看这里的通知。
 //    [_viewController logMsg:[NSString stringWithFormat:@">>>[GexinSdk error]:%@", [error localizedDescription]]];
+    if ( _freContext != nil )
+    {
+        NSString *logMsg = [NSString stringWithFormat:@">>>[GexinSdk error]:%@", [error localizedDescription]];
+        FREDispatchStatusEventAsync(_freContext, (uint8_t*)"GETUI_DID_OCCUR_ERROR", (uint8_t*)[logMsg UTF8String]);
+    }
+    
 }
 
 @end
+

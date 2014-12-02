@@ -59,6 +59,8 @@
 		C2547B1B1A274B0400905F4B /* platformoptions.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = platformoptions.xml; sourceTree = "<group>"; };
 		C2547B1C1A274B0400905F4B /* generateANE.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = generateANE.sh; sourceTree = "<group>"; };
 		C2547B1D1A274B0400905F4B /* debugIPA.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = debugIPA.sh; sourceTree = "<group>"; };
+		C25AFAB21A2D89D9000AC637 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		C25AFAB41A2D89DF000AC637 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +85,7 @@
 		C2547AD81A274B0400905F4B = {
 			isa = PBXGroup;
 			children = (
+				C25AFAB61A2D89E8000AC637 /* libs */,
 				C2547B0C1A274B0400905F4B /* GetuiPushNotification */,
 				C2547AE31A274B0400905F4B /* Frameworks */,
 				C2547AE21A274B0400905F4B /* Products */,
@@ -136,6 +139,15 @@
 				C2547B1D1A274B0400905F4B /* debugIPA.sh */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		C25AFAB61A2D89E8000AC637 /* libs */ = {
+			isa = PBXGroup;
+			children = (
+				C25AFAB41A2D89DF000AC637 /* libsqlite3.dylib */,
+				C25AFAB21A2D89D9000AC637 /* libz.dylib */,
+			);
+			name = libs;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

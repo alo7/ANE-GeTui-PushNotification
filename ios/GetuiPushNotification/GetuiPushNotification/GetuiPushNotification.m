@@ -60,11 +60,11 @@
 
 
 GetuiDelegateImpl *getuiDelegate;
+FREContext myCtx = nil;
 
 //custom implementations of empty signatures above. Used for push notification delegate implementation.
 void didRegisterForRemoteNotificationsWithDeviceToken(id self, SEL _cmd, UIApplication* application, NSData* deviceToken)
 {
-    NSLog(@"ANE_GETUI: didRegisterForRemoteNotificationsWithDeviceToken ");
     if(getuiDelegate){
         [getuiDelegate didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
     }
@@ -191,7 +191,8 @@ void ContextInitializer(void* extData, const uint8_t* ctxType, FREContext ctx, u
     
     *numFunctionsToTest = sizeof(func) / sizeof(FRENamedFunction);
     *functionsToSet = func;
-        
+    
+    myCtx = ctx;
     NSLog(@"Exiting ContextInitializer()");
 }
 
@@ -246,13 +247,16 @@ ANE_FUNCTION(startWithAppArgs){
     NSString *kAppId = getStringFromFREObject(argv[0]);
     NSString *kAppKey = getStringFromFREObject(argv[1]);
     NSString *kAppSecret = getStringFromFREObject(argv[2]);
+    NSString *kAppVersion = getStringFromFREObject(argv[3]);
     
-    NSLog(@"start with app args:%@,%@,%@",kAppId,kAppKey,kAppSecret);
+    NSLog(@"start with app args:%@,%@,%@,%@",kAppId,kAppKey,kAppSecret,kAppVersion);
     
     getuiDelegate = [[GetuiDelegateImpl alloc] init];
     if(getuiDelegate){
+        getuiDelegate.freContext = myCtx;
+        
         // [1]:使用APPID/APPKEY/APPSECRENT创建个推实例
-        [getuiDelegate startSdkWith:kAppId appKey:kAppKey appSecret:kAppSecret];
+        [getuiDelegate startSdkWith:kAppId appKey:kAppKey appSecret:kAppSecret appVersion:kAppVersion];
         
         // [2]:注册APNS
         [getuiDelegate registerRemoteNotification];
@@ -276,4 +280,11 @@ FREObject createFREBool(BOOL value)
     FRENewObjectFromBool(value, &fo);
     return fo;
 }
+//发送消息到as
+void dispatchExtensionStatusEvent(const uint8_t* code ,const uint8_t* level){
+    if (myCtx != nil) {
+        FREDispatchStatusEventAsync(myCtx, code, level);
+    }
+}
+
 
