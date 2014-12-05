@@ -97,7 +97,7 @@ ANE_FUNCTION(setLogLevel);
 
 ANE_FUNCTION(getTest);
 
-ANE_FUNCTION(startWithAppArgs);
+ANE_FUNCTION(initializePushNotificaiton);
 
 NSString * getStringFromFREObject(FREObject obj);
 FREObject createFREBool(BOOL value);

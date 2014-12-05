@@ -186,7 +186,7 @@ void ContextInitializer(void* extData, const uint8_t* ctxType, FREContext ctx, u
         MAP_FUNCTION(isSupported, NULL),
         MAP_FUNCTION(getTest, NULL),
         MAP_FUNCTION(setLogLevel, NULL),
-        MAP_FUNCTION(startWithAppArgs, NULL)
+        MAP_FUNCTION(initializePushNotificaiton, NULL)
     };
     
     *numFunctionsToTest = sizeof(func) / sizeof(FRENamedFunction);
@@ -243,7 +243,7 @@ ANE_FUNCTION(getTest)
 	return ret;
 }
 
-ANE_FUNCTION(startWithAppArgs){
+ANE_FUNCTION(initializePushNotificaiton){
     NSString *kAppId = getStringFromFREObject(argv[0]);
     NSString *kAppKey = getStringFromFREObject(argv[1]);
     NSString *kAppSecret = getStringFromFREObject(argv[2]);

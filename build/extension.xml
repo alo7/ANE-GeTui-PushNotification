@@ -30,7 +30,7 @@ either expressed or implied, of the FreeBSD Project.
 -->
 
 <extension xmlns="http://ns.adobe.com/air/extension/3.5">
-	<id>com.alo7.ane.GetuiPushNotification</id>
+	<id>com.alo7.ane.getuiPushNotification</id>
 	<versionNumber>1</versionNumber>
 	<platforms>
 		<platform name="iPhone-ARM">
@@ -40,6 +40,20 @@ either expressed or implied, of the FreeBSD Project.
 				<finalizer>GetuiPushNotificationExtFinalizer</finalizer>
 			</applicationDeployment>
 		</platform>
+		<platform name="Android-ARM"> 
+            <applicationDeployment> 
+                <nativeLibrary>libGetuiAndroid.jar</nativeLibrary> 
+                <initializer>com.alo7.ane.getuiPushNotification.GetuiExtension</initializer> 
+                <finalizer>com.alo7.ane.getuiPushNotification.GetuiExtension</finalizer> 
+            </applicationDeployment> 
+        </platform>
+        <platform name="Android-x86"> 
+            <applicationDeployment> 
+                <nativeLibrary>libGetuiAndroid.jar</nativeLibrary> 
+                <initializer>com.alo7.ane.getuiPushNotification.GetuiExtension</initializer> 
+                <finalizer>com.alo7.ane.getuiPushNotification.GetuiExtension</finalizer> 
+            </applicationDeployment> 
+        </platform> 
 		<platform name="default"> 
 			<applicationDeployment/> 
 		</platform>

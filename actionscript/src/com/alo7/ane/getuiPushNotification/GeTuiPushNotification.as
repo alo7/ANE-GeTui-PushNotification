@@ -9,8 +9,8 @@ package com.alo7.ane.getuiPushNotification {
 
     public class GetuiPushNotification extends EventDispatcher {
 
-        private static const EXTENSION_ID:String = "com.alo7.ane.GetuiPushNotification";
-        private static const FUN_START_WITH_APP_ARGS:String = "startWithAppArgs";
+        private static const EXTENSION_ID:String = "com.alo7.ane.getuiPushNotification";
+        private static const FUN_INITIALIZE_PUSH_NOTIFICAITON:String = "initializePushNotificaiton";
 
 
         private static var _instance:GetuiPushNotification;
@@ -50,28 +50,30 @@ package com.alo7.ane.getuiPushNotification {
             var level:String = e.level;
             var event:GetuiPushNotificationEvent;
             switch (e.code) {
-                case GetuiPushNotificationEvent.TOKEN_SUCCESS:
-                    event = new GetuiPushNotificationEvent(GetuiPushNotificationEvent.TOKEN_SUCCESS);
-                    event.data = level;
-                    break;
-                case GetuiPushNotificationEvent.TOKEN_FAIL:
-                    event = new GetuiPushNotificationEvent(GetuiPushNotificationEvent.TOKEN_FAIL);
-                    event.data = level;
-                    break;
-                case GetuiPushNotificationEvent.GETUI_DID_REGISTER_CLIENT:
-                    event = new GetuiPushNotificationEvent(GetuiPushNotificationEvent.GETUI_DID_REGISTER_CLIENT);
-                    event.data = level;
-                    break;
-                case GetuiPushNotificationEvent.GETUI_DID_RECEIVE_PAYLOAD:
-                    event = new GetuiPushNotificationEvent(GetuiPushNotificationEvent.GETUI_DID_RECEIVE_PAYLOAD);
-                    event.data = level;
-                    break;
-                case GetuiPushNotificationEvent.GETUI_DID_OCCUR_ERROR:
-                    event = new GetuiPushNotificationEvent(GetuiPushNotificationEvent.GETUI_DID_OCCUR_ERROR);
-                    event.data = level;
-                    break;
-                default:
-                    break;
+            case GetuiPushNotificationEvent.TOKEN_SUCCESS:
+                event = new GetuiPushNotificationEvent(GetuiPushNotificationEvent.TOKEN_SUCCESS);
+                event.data = level;
+                break;
+            case GetuiPushNotificationEvent.TOKEN_FAIL:
+                event = new GetuiPushNotificationEvent(GetuiPushNotificationEvent.TOKEN_FAIL);
+                event.data = level;
+                break;
+            case GetuiPushNotificationEvent.GETUI_DID_REGISTER_CLIENT:
+                event = new GetuiPushNotificationEvent(GetuiPushNotificationEvent.GETUI_DID_REGISTER_CLIENT);
+                event.data = level;
+                break;
+            case GetuiPushNotificationEvent.GETUI_DID_RECEIVE_PAYLOAD:
+                event = new GetuiPushNotificationEvent(GetuiPushNotificationEvent.GETUI_DID_RECEIVE_PAYLOAD);
+                event.data = level;
+                break;
+            case GetuiPushNotificationEvent.GETUI_DID_OCCUR_ERROR:
+                event = new GetuiPushNotificationEvent(GetuiPushNotificationEvent.GETUI_DID_OCCUR_ERROR);
+                event.data = level;
+                break;
+            default:
+                event = new GetuiPushNotificationEvent(GetuiPushNotificationEvent.OTHER_EVENT);
+                event.data = level;
+                break;
             }
             trace("[getui ane event] : " + e.level + " , " + e.code);
             if (event != null) {
@@ -79,13 +81,18 @@ package com.alo7.ane.getuiPushNotification {
             }
         }
 
-        public function startWithAppArgs(appid:String, appKey:String, appSecret:String, appVersion:String):void {
+        /**
+         * ios 需要传入以下参数，android 所需参数会从 app.xml 文件中获取，无需传参
+         * @param appid
+         * @param appKey
+         * @param appSecret
+         * @param appVersion
+         */
+        public function initializePushNotificaiton(appid:String="", appKey:String="", appSecret:String="", appVersion:String=""):void {
             if (_extContext) {
-                _extContext.call(FUN_START_WITH_APP_ARGS, appid, appKey, appSecret, appVersion);
+                _extContext.call(FUN_INITIALIZE_PUSH_NOTIFICAITON, appid, appKey, appSecret, appVersion);
             }
         }
-
-
 
     }
 }

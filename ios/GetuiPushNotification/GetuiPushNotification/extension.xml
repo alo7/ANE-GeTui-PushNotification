@@ -30,7 +30,7 @@
  -->
 
 <extension xmlns="http://ns.adobe.com/air/extension/3.5">
-    <id>com.alo7.ane.GetuiPushNotification</id>
+    <id>com.alo7.ane.getuiPushNotification</id>
     <versionNumber>1</versionNumber>
     <platforms>
         <platform name="iPhone-ARM">
