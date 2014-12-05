@@ -19,28 +19,28 @@
     - 路径： build
     - 资源目录参考：
 
-           ├── Android-ARM
-           │   ├── libGetuiAndroid.jar
-           │   ├── library.swf
-           │   └── libs
-           │       ├── armeabi
-           │       │   └── libgetuiext.so
-           │       └── armeabi-v7a
-           │           └── libgetuiext.so
-           ├── Android-x86
-           │   ├── libGetuiAndroid.jar
-           │   ├── library.swf
-           │   └── libs
-           │       └── x86
-           │           └── libgetuiext.so
-           ├── GetuiAne.swc
-           ├── build.sh
-           ├── extension.xml
-           ├── iPhone-ARM
-           │   ├── libGetuiPushNotification.a
-           │   └── library.swf
-           ├── library.swf
-           └── platformIOSARM.xml
+            ├── Android-ARM
+            │   ├── libGetuiAndroid.jar
+            │   ├── library.swf
+            │   └── libs
+            │       ├── armeabi
+            │       │   └── libgetuiext.so
+            │       └── armeabi-v7a
+            │           └── libgetuiext.so
+            ├── Android-x86
+            │   ├── libGetuiAndroid.jar
+            │   ├── library.swf
+            │   └── libs
+            │       └── x86
+            │           └── libgetuiext.so
+            ├── GetuiAne.swc
+            ├── build.sh
+            ├── extension.xml
+            ├── iPhone-ARM
+            │   ├── libGetuiPushNotification.a
+            │   └── library.swf
+            ├── library.swf
+            └── platformIOSARM.xml
 
     - 运行 ./build.sh 生成 .ane文件
 
