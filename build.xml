@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="aneGetuiPushNotification" basedir="." default="publish-lib" xmlns:ivy="antlib:org.apache.ivy.ant">
+	<property environment="env"/>
+	<property file="${env.ASHOLE_HOME}/conf/ashole.properties"/>
+	<include file="${ashole.antmodule.dir}/common.xml" />
+	<import file="${ashole.antmodule.dir}/compile-common.xml" />
+	<property name="FLEX_HOME" value="${air.home}" />
+	<taskdef resource="flexTasks.tasks" classpath="${FLEX_HOME}/ant/lib/flexTasks.jar" />
+    
+
+    <target name="publish-lib" description="Publish ane to ivyrepo">
+        <antcall target="publish">
+            <param name="pub-resolver" value="local-private" />
+        </antcall>
+    </target>
+</project>
+
+

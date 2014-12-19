@@ -8,7 +8,7 @@ import com.adobe.fre.FREExtension;
  * Created by li on 2014/12/1.
  */
 public class GetuiExtension implements FREExtension {
-    private static String TAG = "getuiPushNotification";
+    public static String TAG = "getuiPushNotification";
 
     private static GetuiContext _context;
 
@@ -31,13 +31,13 @@ public class GetuiExtension implements FREExtension {
         }
     }
 
-    public static void dispatchEventForAs(String message)
+    public static void dispatchEventForAs(String type, String message)
     {
         Log.d(TAG, message);
 
         if (_context != null)
         {
-            _context.dispatchStatusEventAsync("LOGGING", message);
+            _context.dispatchStatusEventAsync(type, message);
         }
     }
 }
