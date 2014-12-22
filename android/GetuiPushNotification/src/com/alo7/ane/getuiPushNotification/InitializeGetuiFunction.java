@@ -14,24 +14,6 @@ public class InitializeGetuiFunction implements FREFunction {
 
     @Override
     public FREObject call(FREContext freContext, FREObject[] freObjects) {
-        /*String packageName = freContext.getActivity().getPackageName();
-        ApplicationInfo appInfo = null;
-        String appid = "";
-        String appsecret ="";
-        String appkey = "";
-        try{
-            appInfo = freContext.getActivity().getPackageManager().getApplicationInfo(packageName, PackageManager.GET_META_DATA);
-
-        }catch (Exception e){
-            Log.e(TAG,e.getMessage());
-        }
-        if (appInfo!=null && appInfo.metaData != null) {
-
-            appid = appInfo.metaData.getString("PUSH_APPID");http://shadowkong.com/archives/1160
-            appsecret = appInfo.metaData.getString("PUSH_APPSECRET");
-            appkey = (appInfo.metaData.get("PUSH_APPKEY") != null) ? appInfo.metaData.get("PUSH_APPKEY").toString() : null;
-            Log.d(TAG, "initializing sdk..." + appid+ ","+appsecret+","+appkey);
-        }*/
 
         // SDK初始化，第三方程序启动时，都要进行SDK初始化工作
         Log.d(TAG, "initializing sdk...");

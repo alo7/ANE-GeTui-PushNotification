@@ -14,7 +14,7 @@ package com.alo7.ane.getuiPushNotification {
 
 
         private static var _instance:GetuiPushNotification;
-        private var _extContext:ExtensionContext
+        private var _extContext:ExtensionContext;
 
         public function GetuiPushNotification() {
             if (!_instance) {
@@ -35,7 +35,10 @@ package com.alo7.ane.getuiPushNotification {
         }
 
         public static function getInstance():GetuiPushNotification {
-            return _instance ? _instance : new GetuiPushNotification();
+            if(_instance==null) {
+                _instance = new GetuiPushNotification();
+            }
+            return _instance;
         }
 
         /**
@@ -75,9 +78,9 @@ package com.alo7.ane.getuiPushNotification {
                 event.data = level;
                 break;
             }
-            trace("[getui ane event] : " + e.level + " , " + e.code);
             if (event != null) {
-                dispatchEvent(event);
+                trace("[getui ane event] : " + event.type + " , " + event.data);
+                this.dispatchEvent(event);
             }
         }
 
@@ -93,6 +96,5 @@ package com.alo7.ane.getuiPushNotification {
                 _extContext.call(FUN_INITIALIZE_PUSH_NOTIFICAITON, appid, appKey, appSecret, appVersion);
             }
         }
-
     }
 }
