@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import com.igexin.sdk.PushConsts;
 import com.igexin.sdk.PushManager;
 
@@ -14,7 +13,7 @@ public class GetuiPushReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Bundle bundle = intent.getExtras();
 
-        Log.d("GetuiSdk", "onReceive() action=" + bundle.getInt("action"));
+        GetuiExtension.doAsLog("onReceive() action=" + bundle.getInt("action"));
         switch (bundle.getInt(PushConsts.CMD_ACTION)) {
 
             case PushConsts.GET_MSG_DATA:
@@ -27,7 +26,7 @@ public class GetuiPushReceiver extends BroadcastReceiver {
 
                 // smartPush第三方回执调用接口，actionid范围为90000-90999，可根据业务场景执行
                 boolean result = PushManager.getInstance().sendFeedbackMessage(context, taskid, messageid, 90001);
-                Log.d("GetuiSdk", "第三方回执接口调用" + (result ? "成功" : "失败"));
+                GetuiExtension.doAsLog( "第三方回执接口调用" + (result ? "成功" : "失败"));
                 if (payload != null) {
                     String data = new String(payload);
 //				Log.d("GetuiSdk", "Got Payload:" + data);

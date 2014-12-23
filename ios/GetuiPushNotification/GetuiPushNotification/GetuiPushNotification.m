@@ -186,7 +186,9 @@ void ContextInitializer(void* extData, const uint8_t* ctxType, FREContext ctx, u
         MAP_FUNCTION(isSupported, NULL),
         MAP_FUNCTION(getTest, NULL),
         MAP_FUNCTION(setLogLevel, NULL),
-        MAP_FUNCTION(initializePushNotificaiton, NULL)
+        MAP_FUNCTION(initializePushNotificaiton, NULL),
+        MAP_FUNCTION(startGetuiSdk, NULL),
+        MAP_FUNCTION(stopGetuiSdk, NULL)
     };
     
     *numFunctionsToTest = sizeof(func) / sizeof(FRENamedFunction);
@@ -264,6 +266,21 @@ ANE_FUNCTION(initializePushNotificaiton){
     }
     return NULL;
 }
+
+ANE_FUNCTION(startGetuiSdk){
+    if(getuiDelegate && getuiDelegate.sdkStatus==SdkStatusStoped){
+        [getuiDelegate startOrStopSdk];
+    }
+    return NULL;
+}
+
+ANE_FUNCTION(stopGetuiSdk){
+    if(getuiDelegate && getuiDelegate.sdkStatus != SdkStatusStoped){
+        [getuiDelegate startOrStopSdk];
+    }
+    return NULL;
+}
+
 
 //将FREObject转成NSString
 NSString * getStringFromFREObject(FREObject obj)

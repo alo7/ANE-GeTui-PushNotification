@@ -40,4 +40,8 @@ public class GetuiExtension implements FREExtension {
             _context.dispatchStatusEventAsync(type, message);
         }
     }
+
+    public static void doAsLog(String log){
+        dispatchEventForAs("LOG_EVENT",log);
+    }
 }

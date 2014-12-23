@@ -16,6 +16,8 @@ public class GetuiContext extends FREContext {
     public Map<String, FREFunction> getFunctions() {
         Map<String, FREFunction> map = new HashMap<String, FREFunction>();
         map.put("initializePushNotificaiton",new InitializeGetuiFunction());
+        map.put("startGetuiSdk",new StartGetuiSdkFunction());
+        map.put("stopGetuiSdk",new StopGetuiSdkFunction());
         return map;
     }
 

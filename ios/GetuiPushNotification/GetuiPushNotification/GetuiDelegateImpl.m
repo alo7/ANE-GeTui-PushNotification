@@ -148,6 +148,15 @@
     }
 }
 
+- (void)startOrStopSdk
+{
+    if (_sdkStatus == SdkStatusStoped) {
+        [self startSdkWith:_appID appKey:_appKey appSecret:_appSecret appVersion:_appVersion ];
+    } else {
+        [self stopSdk];
+    }
+}
+
 - (BOOL)checkSdkInstance
 {
     if (!_gexinPusher) {
@@ -238,6 +247,7 @@
     }
     
 }
+
 
 @end
 

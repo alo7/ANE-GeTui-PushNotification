@@ -37,10 +37,12 @@ typedef enum {
 - (void)didReceiveRemoteNotification:(NSDictionary *)userinfo;
 - (void)startSdkWith:(NSString *)appID appKey:(NSString *)appKey appSecret:(NSString *)appSecret appVersion:(NSString *)appVersion;
 - (void)stopSdk;
+- (void)startOrStopSdk;
 
 - (void)setDeviceToken:(NSString *)aToken;
 - (BOOL)setTags:(NSArray *)aTag error:(NSError **)error;
 - (NSString *)sendMessage:(NSData *)body error:(NSError **)error;
+
 
 
 

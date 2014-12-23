@@ -11,10 +11,14 @@ package com.alo7.ane.getuiPushNotification {
 
         private static const EXTENSION_ID:String = "com.alo7.ane.getuiPushNotification";
         private static const FUN_INITIALIZE_PUSH_NOTIFICAITON:String = "initializePushNotificaiton";
+        private static const FUN_START_GETUI_SDK:String = "startGetuiSdk";
+        private static const FUN_STOP_GETUI_SDK:String = "stopGetuiSdk";
+
 
 
         private static var _instance:GetuiPushNotification;
         private var _extContext:ExtensionContext;
+        private var _isDebug:Boolean = false;
 
         public function GetuiPushNotification() {
             if (!_instance) {
@@ -79,8 +83,13 @@ package com.alo7.ane.getuiPushNotification {
                 break;
             }
             if (event != null) {
-                trace("[getui ane event] : " + event.type + " , " + event.data);
-                this.dispatchEvent(event);
+
+                if(_isDebug){
+                    trace("[getui ane event] : " + event.type + " | " + event.data);
+                    this.dispatchEvent(event);
+                }else if( event.type!=GetuiPushNotificationEvent.OTHER_EVENT){
+                    this.dispatchEvent(event);
+                }
             }
         }
 
@@ -95,6 +104,32 @@ package com.alo7.ane.getuiPushNotification {
             if (_extContext) {
                 _extContext.call(FUN_INITIALIZE_PUSH_NOTIFICAITON, appid, appKey, appSecret, appVersion);
             }
+        }
+
+        /**
+         *  恢复个推的服务
+         */
+        public function startGetuiSdk():void{
+            if(_extContext){
+                _extContext.call(FUN_START_GETUI_SDK);
+            }
+        }
+
+        /**
+         *  关闭个推的服务
+         */
+        public function stopGetuiSdk():void{
+            if(_extContext){
+                _extContext.call(FUN_STOP_GETUI_SDK);
+            }
+        }
+
+        public function get isDebug():Boolean {
+            return _isDebug;
+        }
+
+        public function set isDebug(value:Boolean):void {
+            _isDebug = value;
         }
     }
 }
