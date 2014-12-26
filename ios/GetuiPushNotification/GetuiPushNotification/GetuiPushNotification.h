@@ -93,17 +93,13 @@ void ContextFinalizer(FREContext ctx);
  * to be able to call the native functions in the ANE from their ActionScript code
 */
 ANE_FUNCTION(isSupported);
-ANE_FUNCTION(setLogLevel);
-
-ANE_FUNCTION(getTest);
-
 ANE_FUNCTION(initializePushNotificaiton);
-
 ANE_FUNCTION(startGetuiSdk);
-
 ANE_FUNCTION(stopGetuiSdk);
-
 ANE_FUNCTION(setTag);
+ANE_FUNCTION(sendLocalNotification);
+ANE_FUNCTION(cancelLocalNotification);
+ANE_FUNCTION(setIsAppInForeground);
 
 NSString * getStringFromFREObject(FREObject obj);
 FREObject createFREBool(BOOL value);

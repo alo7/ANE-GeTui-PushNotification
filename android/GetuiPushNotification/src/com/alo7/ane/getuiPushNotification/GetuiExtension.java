@@ -1,8 +1,12 @@
 package com.alo7.ane.getuiPushNotification;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import com.adobe.fre.FREContext;
 import com.adobe.fre.FREExtension;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by li on 2014/12/1.
@@ -11,6 +15,7 @@ public class GetuiExtension implements FREExtension {
     public static String TAG = "getuiPushNotification";
 
     private static GetuiContext _context;
+    public static boolean isInForeground = false;
 
     @Override
     public void initialize() {
@@ -44,4 +49,5 @@ public class GetuiExtension implements FREExtension {
     public static void doAsLog(String log){
         dispatchEventForAs(EventConst.LOG_EVENT,log);
     }
+
 }

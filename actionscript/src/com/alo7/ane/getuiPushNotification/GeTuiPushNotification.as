@@ -14,8 +14,17 @@ package com.alo7.ane.getuiPushNotification {
         private static const FUN_START_GETUI_SDK:String = "startGetuiSdk";
         private static const FUN_STOP_GETUI_SDK:String = "stopGetuiSdk";
         private static const FUN_SET_TAG:String = "setTag";
+        private static const FUN_SEND_LOCAL_NOTIFICATION:String = "sendLocalNotification";
+        private static const FUN_CANCEL_LOCAL_NOTIFICATION:String = "cancelLocalNotification";
+        private static const FUN_SET_IS_APP_INFOREGROUND:String = "setIsAppInForeground";
 
+        public static const RECURRENCE_NONE:int   = 0;
+        public static const RECURRENCE_DAILY:int  = 1;
+        public static const RECURRENCE_WEEK:int   = 2;
+        public static const RECURRENCE_MONTH:int  = 3;
+        public static const RECURRENCE_YEAR:int   = 4;
 
+        public static const DEFAULT_LOCAL_NOTIFICATION_ID:int = 0;
 
         private static var _instance:GetuiPushNotification;
         private var _extContext:ExtensionContext;
@@ -131,6 +140,58 @@ package com.alo7.ane.getuiPushNotification {
                 result = _extContext.call(FUN_SET_TAG,tag);
             }
             return result;
+        }
+
+
+        /**
+         * only for ios
+         * Sends a local notification to the device.
+         * @param message the local notification text displayed
+         * @param timestamp when the local notification should appear (in sec)
+         * @param title (Android Only) Title of the local notification
+         * @param recurrenceType
+         *
+         */
+        public function sendLocalNotification(message:String, timestamp:int, title:String="", recurrenceType:int = RECURRENCE_NONE,  notificationId:int = DEFAULT_LOCAL_NOTIFICATION_ID):void
+        {
+            if (_extContext)
+            {
+                if (notificationId == DEFAULT_LOCAL_NOTIFICATION_ID)
+                {
+                    _extContext.call(FUN_SEND_LOCAL_NOTIFICATION, message, timestamp, title, recurrenceType);
+                } else
+                {
+                    _extContext.call(FUN_SEND_LOCAL_NOTIFICATION, message, timestamp, title, recurrenceType, notificationId);
+                }
+            }
+        }
+
+        /**
+         * only for ios
+         * cancel a local notification to the device.
+         * @param notificationId
+         *
+         */
+        public function cancelLocalNotification(notificationId:int = DEFAULT_LOCAL_NOTIFICATION_ID):void
+        {
+            if (_extContext)
+            {
+                if (notificationId == DEFAULT_LOCAL_NOTIFICATION_ID)
+                {
+                    _extContext.call(FUN_CANCEL_LOCAL_NOTIFICATION);
+                } else
+                {
+                    _extContext.call(FUN_CANCEL_LOCAL_NOTIFICATION, notificationId);
+                }
+            }
+        }
+
+        public function setIsAppInForeground(value:Boolean):void
+        {
+            if (_extContext)
+            {
+                _extContext.call(FUN_SET_IS_APP_INFOREGROUND, value);
+            }
         }
 
         public function get isDebug():Boolean {

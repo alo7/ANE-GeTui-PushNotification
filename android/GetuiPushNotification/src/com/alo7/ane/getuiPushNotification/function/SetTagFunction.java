@@ -14,7 +14,7 @@ public class SetTagFunction implements FREFunction {
     @Override
     public FREObject call(FREContext freContext, FREObject[] freObjects) {
         String tagString = null;
-        Boolean result = false;
+        boolean result = false;
         try{
             tagString = freObjects[0].getAsString();
         }catch (Exception e){

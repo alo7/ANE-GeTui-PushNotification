@@ -2,10 +2,7 @@ package com.alo7.ane.getuiPushNotification;
 
 import com.adobe.fre.FREContext;
 import com.adobe.fre.FREFunction;
-import com.alo7.ane.getuiPushNotification.function.InitializeGetuiFunction;
-import com.alo7.ane.getuiPushNotification.function.SetTagFunction;
-import com.alo7.ane.getuiPushNotification.function.StartGetuiSdkFunction;
-import com.alo7.ane.getuiPushNotification.function.StopGetuiSdkFunction;
+import com.alo7.ane.getuiPushNotification.function.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,6 +20,9 @@ public class GetuiContext extends FREContext {
         map.put("startGetuiSdk",new StartGetuiSdkFunction());
         map.put("stopGetuiSdk",new StopGetuiSdkFunction());
         map.put("setTag",new SetTagFunction());
+        map.put("sendLocalNotification",new LocalNotificationFunction());
+        map.put("cancelLocalNotification",new CancelLocalNotificationFunction());
+        map.put("setIsAppInForeground",new SetIsAppInForegroundFunction());
         return map;
     }
 
