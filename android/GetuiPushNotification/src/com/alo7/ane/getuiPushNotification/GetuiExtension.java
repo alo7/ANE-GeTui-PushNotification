@@ -42,6 +42,6 @@ public class GetuiExtension implements FREExtension {
     }
 
     public static void doAsLog(String log){
-        dispatchEventForAs("LOG_EVENT",log);
+        dispatchEventForAs(EventConst.LOG_EVENT,log);
     }
 }

@@ -13,6 +13,7 @@ package com.alo7.ane.getuiPushNotification {
         private static const FUN_INITIALIZE_PUSH_NOTIFICAITON:String = "initializePushNotificaiton";
         private static const FUN_START_GETUI_SDK:String = "startGetuiSdk";
         private static const FUN_STOP_GETUI_SDK:String = "stopGetuiSdk";
+        private static const FUN_SET_TAG:String = "setTag";
 
 
 
@@ -122,6 +123,14 @@ package com.alo7.ane.getuiPushNotification {
             if(_extContext){
                 _extContext.call(FUN_STOP_GETUI_SDK);
             }
+        }
+
+        public function setTag(tag:String):Boolean{
+            var result:Boolean = false;
+            if(_extContext){
+                result = _extContext.call(FUN_SET_TAG,tag);
+            }
+            return result;
         }
 
         public function get isDebug():Boolean {

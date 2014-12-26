@@ -1,5 +1,5 @@
 <ivy-module version="2.0">
-    <info organisation="com.alo7" module="aneGetuiPushNotification" revision="1.0.2" >
+    <info organisation="com.alo7" module="aneGetuiPushNotification" revision="1.0.4" >
 	   <description homepage="http://git.shuobaotang.com/SaybotAsLib/anegetuipushnotification"/>
     </info>
     <publications>

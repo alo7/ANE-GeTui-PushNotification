@@ -1,8 +1,9 @@
-package com.alo7.ane.getuiPushNotification;
+package com.alo7.ane.getuiPushNotification.function;
 
 import com.adobe.fre.FREContext;
 import com.adobe.fre.FREFunction;
 import com.adobe.fre.FREObject;
+import com.alo7.ane.getuiPushNotification.GetuiExtension;
 import com.igexin.sdk.PushManager;
 
 /**

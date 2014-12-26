@@ -158,6 +158,13 @@
                	getuiInstance.initializePushNotificaiton("aaaa","bbb","sdfdsf");
             }
 
+## 一些问题
+* android 的推送icon图标push.png是打包在ane中的，无法在实际项目中配置，几种解决办法：
+    * 修改实际项目生成的apk文件，替换其中的push.png文件，参考 scripts/replace_apk_res.sh，apk解包、打包、重签名过程可能出问题，不推荐
+    * 打包apk前，修改个推ane，替换其中的push.png文件，参考 scripts/replace_ane_android_res.sh, 推荐使用此方式
+
+* 和其他基于第三方sdk开发的ane混用的会有冲突
+    * 目前只能去掉一些res下的资源来避免打包失败，比如安卓项目中的res目录下的资源无法全部打包进ane中，寻求更好的解决办法。。。
 
 
 

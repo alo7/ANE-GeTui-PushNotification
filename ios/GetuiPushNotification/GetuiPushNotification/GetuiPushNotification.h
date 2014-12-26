@@ -103,6 +103,8 @@ ANE_FUNCTION(startGetuiSdk);
 
 ANE_FUNCTION(stopGetuiSdk);
 
+ANE_FUNCTION(setTag);
+
 NSString * getStringFromFREObject(FREObject obj);
 FREObject createFREBool(BOOL value);
 void dispatchExtensionStatusEvent(const uint8_t* code ,const uint8_t* level);

@@ -188,7 +188,8 @@ void ContextInitializer(void* extData, const uint8_t* ctxType, FREContext ctx, u
         MAP_FUNCTION(setLogLevel, NULL),
         MAP_FUNCTION(initializePushNotificaiton, NULL),
         MAP_FUNCTION(startGetuiSdk, NULL),
-        MAP_FUNCTION(stopGetuiSdk, NULL)
+        MAP_FUNCTION(stopGetuiSdk, NULL),
+        MAP_FUNCTION(setTag, NULL)
     };
     
     *numFunctionsToTest = sizeof(func) / sizeof(FRENamedFunction);
@@ -279,6 +280,17 @@ ANE_FUNCTION(stopGetuiSdk){
         [getuiDelegate startOrStopSdk];
     }
     return NULL;
+}
+
+ANE_FUNCTION(setTag){
+    NSString *tagName = getStringFromFREObject(argv[0]);
+    NSArray *tagNames = [tagName componentsSeparatedByString:@","];
+    NSError *err = nil;
+    BOOL success = false;
+    if(getuiDelegate){
+      success = [getuiDelegate setTags:tagNames error:&err];
+    }
+    return createFREBool(success);
 }
 
 

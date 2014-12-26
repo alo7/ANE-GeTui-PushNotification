@@ -30,7 +30,7 @@ public class GetuiPushReceiver extends BroadcastReceiver {
                 if (payload != null) {
                     String data = new String(payload);
 //				Log.d("GetuiSdk", "Got Payload:" + data);
-                    GetuiExtension.dispatchEventForAs("GETUI_DID_RECEIVE_PAYLOAD", data);
+                    GetuiExtension.dispatchEventForAs(EventConst.GETUI_DID_RECEIVE_PAYLOAD, data);
                 }
 
                 break;
@@ -39,7 +39,7 @@ public class GetuiPushReceiver extends BroadcastReceiver {
                 // 第三方应用需要将CID上传到第三方服务器，并且将当前用户帐号和CID进行关联，以便日后通过用户帐号查找CID进行消息推送
                 String cid = bundle.getString("clientid");
 //			Log.d("GetuiSdk","client id:" + cid);
-                GetuiExtension.dispatchEventForAs("GETUI_DID_REGISTER_CLIENT", cid);
+                GetuiExtension.dispatchEventForAs(EventConst.GETUI_DID_REGISTER_CLIENT, cid);
                 break;
             case PushConsts.THIRDPART_FEEDBACK:
             /*String appid = bundle.getString("appid");
@@ -55,7 +55,7 @@ public class GetuiPushReceiver extends BroadcastReceiver {
 			Log.d("GetuiSdk", "timestamp = " + timestamp);*/
                 break;
             default:
-                GetuiExtension.dispatchEventForAs("OTHER_EVENT",bundle.toString());
+                GetuiExtension.dispatchEventForAs(EventConst.OTHER_EVENT,bundle.toString());
                 break;
         }
     }
