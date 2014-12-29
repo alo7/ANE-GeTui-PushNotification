@@ -85,6 +85,7 @@ FREContext myCtx = nil;
 //custom implementations of empty signatures above. Used for push notification delegate implementation.
 void didRegisterForRemoteNotificationsWithDeviceToken(id self, SEL _cmd, UIApplication* application, NSData* deviceToken)
 {
+    NSLog(@"ANE_GETUI: didRegisterForRemoteNotificationsWithDeviceToken ");
     if(getuiDelegate){
         [getuiDelegate didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
     }

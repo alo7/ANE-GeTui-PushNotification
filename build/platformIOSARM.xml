@@ -32,12 +32,8 @@ either expressed or implied, of the FreeBSD Project.
 <platform xmlns="http://ns.adobe.com/air/extension/3.9">
     <sdkVersion>8.1</sdkVersion>
     <linkerOptions>
-       <!--  <option>-ios_version_min 5.0</option>
-        <option>-framework CoreGraphics</option>
-        <option>-framework Foundation</option>
-        <option>-framework UIKit</option>
-        <option>-lsqlite3</option>
-        <option>-lz</option> -->
+      <option>-lsqlite3</option>
+      <option>-lz</option>
     </linkerOptions>
     <packagedDependencies>
         <!-- <packagedDependency>libGexinSdk-1.0.7.a</packagedDependency> -->
