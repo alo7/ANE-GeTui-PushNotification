@@ -22,23 +22,24 @@
             ├── Android-ARM
             │   ├── libGetuiAndroid.jar
             │   ├── library.swf
-            │   └── libs
-            │       ├── armeabi
-            │       │   └── libgetuiext.so
-            │       └── armeabi-v7a
-            │           └── libgetuiext.so
+            │   ├── libs
+            │   │   ├── armeabi
+            │   │   │   └── libgetuiext.so
+            │   │   └── armeabi-v7a
+            │   │       └── libgetuiext.so
+            │   └── res
             ├── Android-x86
             │   ├── libGetuiAndroid.jar
             │   ├── library.swf
-            │   └── libs
-            │       └── x86
-            │           └── libgetuiext.so
-            ├── GetuiAne.swc
-            ├── build.sh
-            ├── extension.xml
+            │   ├── libs
+            │   │   └── x86
+            │   │       └── libgetuiext.so
+            │   └── res
             ├── iPhone-ARM
             │   ├── libGetuiPushNotification.a
             │   └── library.swf
+            ├── GetuiAne.swc
+            ├── extension.xml
             ├── library.swf
             └── platformIOSARM.xml
 
