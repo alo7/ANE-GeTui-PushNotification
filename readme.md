@@ -140,8 +140,8 @@
                 </receiver>
                 <provider android:name="com.igexin.download.DownloadProvider"
                     android:process=":pushservice"
-                    android:authorities="downloads.com.alo7.iclass.tots"/>
-                    <!-- android:authorities="downloads.第三方包名" -->
+                    android:authorities="downloads.air.com.alo7.iclass.tots"/>
+                    <!-- android:authorities="downloads.第三方包名",AIR应用包名前可能要加air. -->
                 <!-- ====================================================== -->
 
     * 项目中启用：
@@ -160,6 +160,9 @@
             }
 
 ## 一些问题
+* android 应用当个推的appid，appsecret，appkey变化时，产生的clientId仍会使用老的，导致无法收到推送消息，需要删除应用，
+  并删除设备libs目录下对应应用名的db文件后再重装应用，才会生成新的clientId（bug?）
+
 * android 的推送icon图标push.png是打包在ane中的，无法在实际项目中配置，几种解决办法：
     * 修改实际项目生成的apk文件，替换其中的push.png文件，参考 scripts/replace_apk_res.sh，apk解包、打包、重签名过程可能出问题，不推荐
     * 打包apk前，修改个推ane，替换其中的push.png文件，参考 scripts/replace_ane_android_res.sh, 推荐使用此方式

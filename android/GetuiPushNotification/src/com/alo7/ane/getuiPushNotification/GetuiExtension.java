@@ -1,12 +1,8 @@
 package com.alo7.ane.getuiPushNotification;
 
-import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
 import com.adobe.fre.FREContext;
 import com.adobe.fre.FREExtension;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * Created by li on 2014/12/1.

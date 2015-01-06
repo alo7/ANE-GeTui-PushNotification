@@ -259,8 +259,10 @@ ANE_FUNCTION(initializePushNotificaiton){
     NSString *kAppVersion = getStringFromFREObject(argv[3]);
     
     NSLog(@"start with app args:%@,%@,%@,%@",kAppId,kAppKey,kAppSecret,kAppVersion);
-    
-    getuiDelegate = [[GetuiDelegateImpl alloc] init];
+    if(!getuiDelegate){
+        getuiDelegate = [[GetuiDelegateImpl alloc] init];
+    }
+
     if(getuiDelegate){
         getuiDelegate.freContext = myCtx;
         
