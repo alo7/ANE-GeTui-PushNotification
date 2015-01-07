@@ -19,6 +19,8 @@ public class GetuiPushReceiver extends BroadcastReceiver {
             case PushConsts.GET_MSG_DATA:
                 // 获取透传数据
                 // String appid = bundle.getString("appid");
+                GetuiExtension.doAsLog("get_msg_data:" + bundle.toString());
+
                 byte[] payload = bundle.getByteArray("payload");
 
                 String taskid = bundle.getString("taskid");
@@ -27,11 +29,9 @@ public class GetuiPushReceiver extends BroadcastReceiver {
                 // smartPush第三方回执调用接口，actionid范围为90000-90999，可根据业务场景执行
                 boolean result = PushManager.getInstance().sendFeedbackMessage(context, taskid, messageid, 90001);
                 GetuiExtension.doAsLog( "第三方回执接口调用" + (result ? "成功" : "失败"));
-                if (payload != null) {
-                    String data = new String(payload);
-//				Log.d("GetuiSdk", "Got Payload:" + data);
-                    GetuiExtension.dispatchEventForAs(EventConst.GETUI_DID_RECEIVE_PAYLOAD, data);
-                }
+
+                String data = payload!=null?new String(payload):"null";
+                GetuiExtension.dispatchEventForAs(EventConst.GETUI_DID_RECEIVE_PAYLOAD, data);
 
                 break;
             case PushConsts.GET_CLIENTID:

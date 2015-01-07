@@ -67,37 +67,26 @@ package com.alo7.ane.getuiPushNotification {
             var level:String = e.level;
             var event:GetuiPushNotificationEvent;
             switch (e.code) {
-            case GetuiPushNotificationEvent.TOKEN_SUCCESS:
-                event = new GetuiPushNotificationEvent(GetuiPushNotificationEvent.TOKEN_SUCCESS);
-                event.data = level;
-                break;
-            case GetuiPushNotificationEvent.TOKEN_FAIL:
-                event = new GetuiPushNotificationEvent(GetuiPushNotificationEvent.TOKEN_FAIL);
-                event.data = level;
-                break;
-            case GetuiPushNotificationEvent.GETUI_DID_REGISTER_CLIENT:
-                event = new GetuiPushNotificationEvent(GetuiPushNotificationEvent.GETUI_DID_REGISTER_CLIENT);
-                event.data = level;
-                break;
-            case GetuiPushNotificationEvent.GETUI_DID_RECEIVE_PAYLOAD:
-                event = new GetuiPushNotificationEvent(GetuiPushNotificationEvent.GETUI_DID_RECEIVE_PAYLOAD);
-                event.data = level;
-                break;
-            case GetuiPushNotificationEvent.GETUI_DID_OCCUR_ERROR:
-                event = new GetuiPushNotificationEvent(GetuiPushNotificationEvent.GETUI_DID_OCCUR_ERROR);
-                event.data = level;
-                break;
-            default:
-                event = new GetuiPushNotificationEvent(GetuiPushNotificationEvent.OTHER_EVENT);
-                event.data = level;
-                break;
+                case GetuiPushNotificationEvent.TOKEN_SUCCESS:
+                case GetuiPushNotificationEvent.TOKEN_FAIL:
+                case GetuiPushNotificationEvent.GETUI_DID_REGISTER_CLIENT:
+                case GetuiPushNotificationEvent.GETUI_DID_OCCUR_ERROR:
+                case GetuiPushNotificationEvent.GETUI_DID_RECEIVE_PAYLOAD:
+                case GetuiPushNotificationEvent.RECEIVE_REMOTE_NOTIFICATION:
+                case GetuiPushNotificationEvent.LOG_EVENT:
+                    event = new GetuiPushNotificationEvent(e.code);
+                    event.data = level;
+                    break;
+                default:
+                    event = new GetuiPushNotificationEvent(GetuiPushNotificationEvent.OTHER_EVENT);
+                    event.data = e.code + " , " +level;
+                    break;
             }
             if (event != null) {
-
-                if(_isDebug){
+                if(_isDebug) {
                     trace("[getui ane event] : " + event.type + " | " + event.data);
-                    this.dispatchEvent(event);
-                }else if( event.type!=GetuiPushNotificationEvent.OTHER_EVENT){
+                }
+                if(this.hasEventListener(event.type)){
                     this.dispatchEvent(event);
                 }
             }

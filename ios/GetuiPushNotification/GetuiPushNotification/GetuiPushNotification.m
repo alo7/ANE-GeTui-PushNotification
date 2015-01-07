@@ -420,11 +420,3 @@ FREObject createFREBool(BOOL value)
     FRENewObjectFromBool(value, &fo);
     return fo;
 }
-//发送消息到as
-void dispatchExtensionStatusEvent(const uint8_t* code ,const uint8_t* level){
-    if (myCtx != nil) {
-        FREDispatchStatusEventAsync(myCtx, code, level);
-    }
-}
-
-

@@ -43,6 +43,7 @@ typedef enum {
 - (BOOL)setTags:(NSArray *)aTag error:(NSError **)error;
 - (NSString *)sendMessage:(NSData *)body error:(NSError **)error;
 
++ (NSString*)convertToJSonString:(NSDictionary*)dict;
 
 
 

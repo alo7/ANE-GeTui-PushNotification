@@ -50,7 +50,6 @@
 
 
 
-
 @end
 
 void didRegisterForRemoteNotificationsWithDeviceToken(id self, SEL _cmd, UIApplication* application, NSData* deviceToken);
@@ -103,4 +102,3 @@ ANE_FUNCTION(setIsAppInForeground);
 
 NSString * getStringFromFREObject(FREObject obj);
 FREObject createFREBool(BOOL value);
-void dispatchExtensionStatusEvent(const uint8_t* code ,const uint8_t* level);

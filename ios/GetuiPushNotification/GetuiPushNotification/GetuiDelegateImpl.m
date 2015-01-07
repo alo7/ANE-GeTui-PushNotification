@@ -96,12 +96,11 @@
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
     
     // [4-EXT]:处理APN
-    NSString *payloadMsg = [userinfo objectForKey:@"payload"];
-    NSString *record = [NSString stringWithFormat:@"[APN]%@, %@", [NSDate date], payloadMsg];
-//    NSLog(@"%@",record);
+    NSString *stringInfo = [GetuiDelegateImpl convertToJSonString:userinfo];
+    
     if ( _freContext != nil )
     {
-        FREDispatchStatusEventAsync(_freContext, (uint8_t*)"RECEIVE_REMOTE_NOTIFICATION", (uint8_t*)[record UTF8String]);
+        FREDispatchStatusEventAsync(_freContext, (uint8_t*)"RECEIVE_REMOTE_NOTIFICATION", (uint8_t*)[stringInfo UTF8String]);
     }
 }
 
@@ -246,6 +245,20 @@
         FREDispatchStatusEventAsync(_freContext, (uint8_t*)"GETUI_DID_OCCUR_ERROR", (uint8_t*)[logMsg UTF8String]);
     }
     
+}
+
++ (NSString*)convertToJSonString:(NSDictionary*)dict
+{
+    if(dict == nil) {
+        return @"{}";
+    }
+    NSError *jsonError = nil;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict options:0 error:&jsonError];
+    if (jsonError != nil) {
+        NSLog(@"[AirPushNotification] JSON stringify error: %@", jsonError.localizedDescription);
+        return @"{}";
+    }
+    return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
 }
 
 
