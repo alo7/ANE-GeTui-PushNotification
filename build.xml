@@ -1,18 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<project name="aneGetuiPushNotification" basedir="." default="publish-lib" xmlns:ivy="antlib:org.apache.ivy.ant">
-	<property environment="env"/>
-	<property file="${env.ASHOLE_HOME}/conf/ashole.properties"/>
-	<include file="${ashole.antmodule.dir}/common.xml" />
-	<import file="${ashole.antmodule.dir}/compile-common.xml" />
-	<property name="FLEX_HOME" value="${air.home}" />
-	<taskdef resource="flexTasks.tasks" classpath="${FLEX_HOME}/ant/lib/flexTasks.jar" />
-    
+<project name="aneGetuiPushNotification" basedir="./" default="android"  >
 
-    <target name="publish-lib" description="Publish ane to ivyrepo">
-        <antcall target="publish">
-            <param name="pub-resolver" value="local-private" />
-        </antcall>
+    <property environment="env"/>
+
+    <!-- Config -->
+    <property file="build.properties" />
+
+    <!-- All -->
+    <!--<target name="all" depends="ios,android,swc,package" description="Full build of extension"/>-->
+
+    <!-- iOS -->
+    <target name="ios" description="Build iOS Library">
+        <delete dir="${build.dir.ios}/build"/>
+        <mkdir dir="${build.dir.ios}/build"/>
+        <exec executable="xcodebuild" failonerror="true" dir="${xcode.prj.dir}">
+            <arg line="-project ${xcode.prj.name}.xcodeproj"/>
+            <arg line="-alltargets clean"/>
+        </exec>
+        <exec executable="xcodebuild" failonerror="true" dir="${xcode.prj.dir}">
+            <arg line="-project ${xcode.prj.name}.xcodeproj"/>
+            <arg line="-sdk ${ios.sdkversion}"/>
+            <arg line="-alltargets"/>
+            <!--<arg line="-scheme ${xcode.target.name}" />-->
+            <arg line="-configuration ${xcode.configuration}"/>
+            <arg line="SYMROOT=${basedir}/${build.dir.ios}/build"/>
+        </exec>
+        <copy file="${build.dir.ios}/build/${xcode.configuration}-iphoneos/lib${xcode.target.name}.a" todir="${build.dir.ios}" overwrite="true"/>       
+        <!--delete dir="${build.dir.ios}/build"/-->
     </target>
+
+    <!-- Android -->
+
+    <target name="android" description="Build Android Library">
+        <delete dir="${build.dir.android}/build/" />
+        <mkdir dir="${build.dir.android}/build/classes" />
+        <mkdir dir="${build.dir.android}/build/src" />
+
+        <copy todir="${build.dir.android}/build/src" description="copy prj source code">
+            <fileset dir="${android.prj.dir}/src" />
+        </copy>
+
+        <echo>Generating R.java from the resources ...</echo>
+        <exec executable="${android.build.tools}/aapt" failonerror="true">
+            <arg value="package" />
+            <arg value="-f" />
+            <arg value="-m" />
+            <arg value="-J" />
+            <arg value="${build.dir.android}/build/src" />
+            <arg value="-S" />
+            <arg value="${android.prj.dir}/res" />
+            <arg value="-M" />
+            <arg value="${android.prj.dir}/AndroidManifest.xml" />
+            <arg value="-I" />
+            <arg value="${android.sdk}/android.jar" />
+        </exec>
+
+        <echo>build java files ...</echo>
+        <javac source="1.6" target="1.6" encoding="UTF-8" srcdir="${build.dir.android}/build/src" destdir="${build.dir.android}/build/classes" includeantruntime="false">
+            <classpath>
+                <libfileset dir="${android.prj.dir}/libs" />
+                <pathelement location="${android.sdk}/android.jar"/>
+                <!--<pathelement location="${flex.sdk}/lib/android/FlashRuntimeExtensions.jar"/>-->
+            </classpath>
+        </javac>
+            
+        <echo>unzip libs jar files</echo>
+        <unzip dest="${build.dir.android}/build/classes" description="unzip libs jar">
+            <fileset dir="${android.prj.dir}/libs" includes="*.jar" excludes="FlashRuntimeExtensions.jar" />
+        </unzip>
+
+        <jar jarfile="${build.dir.android}/${android.target.name}.jar" >
+            <fileset dir="${build.dir.android}/build/classes" />
+        </jar>
+
+
+        <!--<copy file="${android.base}/libs/armeabi-v7a/lib${target.name}.so" todir="${target.dir}/android-arm" overwrite="true"/>-->
+        <!--<copy file="${android.base}/libs/x86/lib${target.name}.so" todir="${target.dir}/android-x86" overwrite="true"/>-->
+    </target>
+
 </project>
 
 
