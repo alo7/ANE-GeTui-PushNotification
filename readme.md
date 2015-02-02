@@ -4,7 +4,7 @@
     - [个推 ios sdk 下载](http://www.igetui.com/download/iOS/GETUI_IOS_SDK.zip)
     - 路径： ios/GetuiPushNotification
     - 生成 .a文件
-    
+
 * andorid库项目
     - [个推 android sdk 下载](http://www.igetui.com/download/android/GETUI_ANDROID_SDK.zip)
     - 路径：android/GetuiPushNotification
@@ -35,14 +35,16 @@
             ├── iPhone-ARM
             │   ├── libGetuiPushNotification.a
             │   └── library.swf
-            ├── GetuiAne.swc
+            ├── default
+            │   └── library.swf
+            └── swc
+            │   └── GetuiAne.swc
             ├── extension.xml
-            ├── library.swf
             └── platform.xml
 
     - 在该目录下运行:
 
-            adt -package -target ane aneGetuiPushNotification.ane extension.xml -swc GetuiAne.swc -platform iPhone-ARM -platformoptions platformIOSARM.xml -C iPhone-ARM . -platform Android-ARM -C Android-ARM . -platform Android-x86 -C Android-x86 . -platform default -C ./ library.swf
+            adt -package -target ane aneGetuiPushNotification.ane extension.xml -swc swc/GetuiAne.swc -platform iPhone-ARM -platformoptions platform.xml -C iPhone-ARM . -platform Android-ARM -C Android-ARM . -platform Android-x86 -C Android-x86 . -platform default -C default .
 
     - ant打包，build目录下运行 ： ant all
 
