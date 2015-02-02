@@ -37,7 +37,7 @@
             │   └── library.swf
             ├── default
             │   └── library.swf
-            └── swc
+            ├── swc
             │   └── GetuiAne.swc
             ├── extension.xml
             └── platform.xml
