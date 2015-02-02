@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Air Native Extension Build Scripts" basedir="./" default="publish-lib">
+    <!-- ashole common -->
+    <property environment="env"/>
+    <property file="${env.ASHOLE_HOME}/conf/ashole.properties"/>
+    <import file="${ashole.antmodule.dir}/common.xml" />
+    <import file="${ashole.antmodule.dir}/compile-common.xml" />
+    <property name="sdk.home" value="${air.home}" />
+    <property name="FLEX_HOME" value="${sdk.home}" />
+    <taskdef resource="flexTasks.tasks" classpath="${sdk.home}/ant/lib/flexTasks.jar" />
+
+
+    <target name="publish-lib" description="Publish ane to ivyrepo">
+        <antcall target="publish">
+            <param name="pub-resolver" value="local-private" />
+        </antcall>
+    </target>
+
+</project>

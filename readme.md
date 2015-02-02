@@ -16,8 +16,7 @@
 
 
 * ane打包
-    - 路径： build
-    - 资源目录参考：
+    - 打包目录结构参考：
 
             ├── Android-ARM
             │   ├── libGetuiAndroid.jar
@@ -41,9 +40,16 @@
             ├── GetuiAne.swc
             ├── extension.xml
             ├── library.swf
-            └── platformIOSARM.xml
+            └── platform.xml
 
-    - 运行 ./build.sh 生成 .ane文件 (需要先把adt添加到环境变量)
+    - 目录下运行运行:
+
+            adt -package -target ane aneGetuiPushNotification.ane extension.xml -swc GetuiAne.swc -platform iPhone-ARM -platformoptions platformIOSARM.xml -C iPhone-ARM . -platform Android-ARM -C Android-ARM . -platform Android-x86 -C Android-x86 . -platform default -C ./ library.swf
+
+    - ant打包，buil目录下运行 ： ant all
+
+*  发布lib到ivy
+    - 项目根目录运行： ant -buildfile ivy-build.xml
 
 
 * AIR项目中的使用：

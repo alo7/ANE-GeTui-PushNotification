@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="aneGetuiPushNotification" basedir="./" default="all"  >
+
+    <property environment="env"/>
+
+    <!-- Config -->
+    <property file="build.properties" />
+
+    <!-- All -->
+    <target name="all" depends="clean,ios,android,swc,package" description="Full build of extension"/>
+
+    <!-- clean -->
+    <target name="clean" description="clean build target dir">
+        <delete dir="${target.dir}" />
+    </target>
+
+    <!-- iOS -->
+    <target name="ios" description="Build iOS Library">
+        <delete dir="${build.dir.ios}/build"/>
+        <mkdir dir="${build.dir.ios}/build"/>
+        <exec executable="xcodebuild" failonerror="true" dir="${xcode.prj.dir}">
+            <arg line="-project ${xcode.prj.name}.xcodeproj"/>
+            <arg line="-alltargets clean"/>
+        </exec>
+        <exec executable="xcodebuild" failonerror="true" dir="${xcode.prj.dir}">
+            <arg line="-project ${xcode.prj.name}.xcodeproj"/>
+            <arg line="-sdk ${ios.sdkversion}"/>
+            <arg line="-alltargets"/>
+            <!--<arg line="-scheme ${xcode.target.name}" />-->
+            <arg line="-configuration ${xcode.configuration}"/>
+            <arg line="SYMROOT=${basedir}/${build.dir.ios}/build"/>
+        </exec>
+        <copy file="${build.dir.ios}/build/${xcode.configuration}-iphoneos/lib${xcode.target.name}.a" todir="${build.dir.package}/iPhone-ARM" overwrite="true"/>
+    </target>
+
+    <!-- Android -->
+    <target name="android" description="Build Android Library">
+        <delete dir="${build.dir.android}/build/" />
+        <mkdir dir="${build.dir.android}/build/classes" />
+        <mkdir dir="${build.dir.android}/build/src" />
+
+        <copy todir="${build.dir.android}/build/src" description="copy prj source code">
+            <fileset dir="${android.prj.dir}/src" />
+        </copy>
+
+        <echo>Generating R.java from the resources ...</echo>
+        <exec executable="${android.build.tools}/aapt${bin.ext}" failonerror="true">
+            <arg value="package" />
+            <arg value="-f" />
+            <arg value="-m" />
+            <arg value="-J" />
+            <arg value="${build.dir.android}/build/src" />
+            <arg value="-S" />
+            <arg value="${android.prj.dir}/res" />
+            <arg value="-M" />
+            <arg value="${android.prj.dir}/AndroidManifest.xml" />
+            <arg value="-I" />
+            <arg value="${android.sdk}/android.jar" />
+        </exec>
+
+        <echo>build java files ...</echo>
+        <javac source="1.6" target="1.6" encoding="UTF-8" srcdir="${build.dir.android}/build/src" destdir="${build.dir.android}/build/classes" includeantruntime="false">
+            <classpath>
+                <libfileset dir="${android.prj.dir}/libs" />
+                <pathelement location="${android.sdk}/android.jar"/>
+                <!--<pathelement location="${flex.sdk}/lib/android/FlashRuntimeExtensions.jar"/>-->
+            </classpath>
+        </javac>
+            
+        <echo>unzip libs jar files</echo>
+        <unzip dest="${build.dir.android}/build/classes" description="unzip libs jar">
+            <fileset dir="${android.prj.dir}/libs" includes="*.jar" excludes="FlashRuntimeExtensions.jar" />
+        </unzip>
+
+        <jar jarfile="${build.dir.android}/${android.target.name}.jar" >
+            <fileset dir="${build.dir.android}/build/classes" />
+        </jar>
+        <copy file="${build.dir.android}/${android.target.name}.jar" todir="${build.dir.package}/Android-ARM" overwrite="true"/>
+        <copy todir="${build.dir.package}/Android-ARM/libs/armeabi-v7a" overwrite="true">
+            <fileset dir="${android.prj.dir}/libs/armeabi-v7a"/>
+        </copy>
+        <copy file="${build.dir.android}/${android.target.name}.jar" todir="${build.dir.package}/Android-x86" overwrite="true"/>
+        <copy todir="${build.dir.package}/Android-x86/libs/x86" overwrite="true">
+            <fileset dir="${android.prj.dir}/libs/x86"/>
+        </copy>
+
+        <!-- 安卓的一些配置文件可能和别的ane的同名文件冲突，排除掉部分目前用不到的文件，寻求更好的解决方法。。。 -->
+        <copy todir="${build.dir.package}/Android-ARM/res" overwrite="true">
+            <fileset dir="${android.prj.dir}/res" excludes="values/strings.xml layout/increment_popup_dialog.xml"/>
+        </copy>
+        <copy todir="${build.dir.package}/Android-x86/res" overwrite="true">
+            <fileset dir="${android.prj.dir}/res" excludes="values/strings.xml layout/increment_popup_dialog.xml"/>
+        </copy>
+    </target>
+
+    <!-- Actionscript -->
+    <target name="swc" description="Build SWC library">
+        <delete dir="${build.dir.as}" />
+        <mkdir dir="${build.dir.as}" />
+
+        <fileset dir="${src.as.dir}" casesensitive="yes" id="classfiles">
+            <include name="**/*.as"/>
+        </fileset>
+
+        <pathconvert property="classlist" refid="classfiles" pathsep=" " dirsep=".">
+            <regexpmapper from=".*src.(.*)\.as" to="\1"/>
+        </pathconvert>
+
+        <exec executable="${air.sdk}/bin/compc${bin.ext}" failonerror="true">
+            <env key="AIR_SDK_HOME" value="${air.sdk}"/>
+            <arg line='-source-path ${src.as.dir}'/>
+            <arg line='-output ${build.dir.as}/${as.target.name}.swc'/>
+            <arg line='-swf-version=${swf.version}'/>
+            <arg line='-external-library-path+="${air.sdk}/frameworks/libs/air/airglobal.swc"'/>
+            <arg line='-include-classes ${classlist}'/>
+        </exec>
+
+        <unzip src="${build.dir.as}/${as.target.name}.swc" dest="${build.dir.as}/" overwrite="true"/>
+        <copy file="${build.dir.as}/library.swf" todir="${build.dir.package}/Android-ARM" overwrite="true"/>
+        <copy file="${build.dir.as}/library.swf" todir="${build.dir.package}/Android-x86" overwrite="true"/>
+        <copy file="${build.dir.as}/library.swf" todir="${build.dir.package}/iPhone-ARM" overwrite="true"/>
+        <copy file="${build.dir.as}/library.swf" todir="${build.dir.package}/default" overwrite="true"/>
+    </target>
+
+    <!-- Package -->
+    <target name="package" description="Create the extension package">
+        <exec executable="${air.sdk}/bin/adt${bin.ext}" failonerror="true" dir=".">
+            <env key="AIR_SDK_HOME" value="${air.sdk}"/>
+            <arg value="-package"/>
+            <arg value="-target"/>
+            <arg value="ane"/>
+            <arg value="${target.dir}/${target.name}.ane"/>
+            <arg value="extension.xml"/>
+            <arg line="-swc ${build.dir.as}/${as.target.name}.swc"/>
+            <arg line="-platform iPhone-ARM -platformoptions platform.xml -C ${build.dir.package}/iPhone-ARM/ ."/>
+            <arg line="-platform Android-ARM -C ${build.dir.package}/Android-ARM/ ."/>
+            <arg line="-platform Android-x86 -C ${build.dir.package}/Android-x86/ ."/>
+            <arg line="-platform default -C ${build.dir.package}/default/ ."/>
+        </exec>
+    </target>
+
+</project>
+
+
