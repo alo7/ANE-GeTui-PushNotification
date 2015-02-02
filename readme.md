@@ -3,8 +3,8 @@
 * ios库项目
     - [个推 ios sdk 下载](http://www.igetui.com/download/iOS/GETUI_IOS_SDK.zip)
     - 路径： ios/GetuiPushNotification
-    - 生成 .a文件 (生成的路径??? /Users/xxx/Library/Developer/Xcode/DerivedData/GetuiPushNotification-gmhqnsxyqheawteuypjyzctojmbh/Build/Products/Debug-iphoneos/libGetuiPushNotification.a)
-
+    - 生成 .a文件
+    
 * andorid库项目
     - [个推 android sdk 下载](http://www.igetui.com/download/android/GETUI_ANDROID_SDK.zip)
     - 路径：android/GetuiPushNotification
@@ -22,8 +22,6 @@
             │   ├── libGetuiAndroid.jar
             │   ├── library.swf
             │   ├── libs
-            │   │   ├── armeabi
-            │   │   │   └── libgetuiext.so
             │   │   └── armeabi-v7a
             │   │       └── libgetuiext.so
             │   └── res
@@ -42,11 +40,11 @@
             ├── library.swf
             └── platform.xml
 
-    - 目录下运行运行:
+    - 在该目录下运行:
 
             adt -package -target ane aneGetuiPushNotification.ane extension.xml -swc GetuiAne.swc -platform iPhone-ARM -platformoptions platformIOSARM.xml -C iPhone-ARM . -platform Android-ARM -C Android-ARM . -platform Android-x86 -C Android-x86 . -platform default -C ./ library.swf
 
-    - ant打包，buil目录下运行 ： ant all
+    - ant打包，build目录下运行 ： ant all
 
 *  发布lib到ivy
     - 项目根目录运行： ant -buildfile ivy-build.xml
@@ -174,7 +172,7 @@
     * 打包apk前，修改个推ane，替换其中的push.png文件，参考 scripts/replace_ane_android_res.sh, 推荐使用此方式
 
 * 和其他基于第三方sdk开发的ane混用的会有冲突
-    * 目前只能去掉一些res下的资源来避免打包失败，比如安卓项目中的res目录下的资源无法全部打包进ane中，寻求更好的解决办法。。。
+    * 目前只能去掉一些res下的资源来避免app打包失败，比如安卓项目中的res目录下的资源无法全部打包进ane中，寻求更好的解决办法。。。
 
 
 
