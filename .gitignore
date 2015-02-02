@@ -20,3 +20,4 @@ gen/
 .classpath
 .project
 target/
+build.properties
