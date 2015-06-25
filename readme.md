@@ -1,4 +1,166 @@
-## 个推消息推送ANE
+# Getui Push Notification ANE (IOS + Andorid)
+
+- This is an [Air native extension](http://www.adobe.com/devnet/air/native-extensions-for-air.html) for sending push notifications on iOS and Android by [getui](http://www.getui.com/). 
+- It is derived from [freshplanet/ANE-Push-Notification](https://github.com/freshplanet/ANE-Push-Notification).
+- It is distributed under the [Apache Licence, version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
+
+## Introduce
+
+- [Getui Push Notification](http://www.getui.com/)
+
+## Features:
+
+- AIR apps in IOS receive push notification from Getui ( Getui IOS SDK 1.1.1)  [download](http://www.igetui.com/download/iOS/GETUI_IOS_SDK.zip)
+- AIR apps in Android receive push notification from Getui ( Getui Andorid SDK 2.5.0) [download](http://www.igetui.com/download/android/GETUI_ANDROID_SDK.zip)
+
+## Build
+in build driectory, modify build.properties and run:
+> ant all
+
+## Usage
+ * for ios apps, modify app.xml, when build for appstore, replace `development` to `production`
+
+                <iPhone>
+                    <Entitlements>
+                        <![CDATA[
+                            <key>aps-environment</key>
+                            <string>development</string>
+                        ]]>
+                    </Entitlements>
+                </iPhone>include
+                         libGexinSdk-1.1.1.a
+                
+ * for andorid apps, modify app.xml, look up [getui documents](http://docs.igetui.com/pages/viewpage.action?pageId=589991)
+    * example:
+    
+                <!-- getui sdk setting -->
+                <!-- 3rd party setting -->
+                <meta-data android:name="PUSH_APPID" android:value="u1spWZXtjZ8FxmRUZCPr44" />
+                <meta-data android:name="PUSH_APPSECRET" android:value="HxbuotbFct8IBCCjsqkSq1" />
+                <meta-data android:name="PUSH_APPKEY" android:value="TicIEPTrGZAFcIFsSbXbG7" />
+                <meta-data android:name="PUSH_GROUPID" android:value="" />
+
+                <!-- 3rd party Receiver -->
+                <receiver
+                        android:name="com.alo7.ane.getuiPushNotification.GetuiPushReceiver"
+                        android:exported="false" >
+                    <intent-filter>
+                        <!--  replace action android:name="com.igexin.sdk.action. 3rd party's APPID" -->
+                        <action android:name="com.igexin.sdk.action.u1spWZXtjZ8FxmRUZCPr44" />
+                    </intent-filter>
+                </receiver>
+
+                <!--SKD core service -->
+                <service android:name="com.igexin.sdk.PushService"
+                    android:exported="true"
+                    android:label="NotificationCenter"
+                    android:process=":pushservice" >
+                </service>
+
+                <receiver android:name="com.igexin.sdk.PushReceiver">
+                    <intent-filter>
+                        <action android:name="android.intent.action.BOOT_COMPLETED" />
+                        <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                        <action android:name="android.intent.action.USER_PRESENT" />
+                        <action android:name="com.igexin.sdk.action.refreshls" />
+                    </intent-filter>
+                </receiver>
+                <receiver android:name="com.igexin.sdk.PushManagerReceiver"
+                    android:exported="false" >
+                    <intent-filter>
+                            <action android:name="com.igexin.sdk.action.pushmanager" />
+                    </intent-filter>
+                </receiver>
+
+                <activity android:name="com.igexin.sdk.PushActivity"
+                    android:process=":pushservice"
+                    android:theme="@android:style/Theme.Translucent.NoTitleBar"
+                    android:taskAffinity="com.igexin.sdk.PushActivityTask"
+                    android:excludeFromRecents="true"
+                    android:exported="false">
+                </activity>
+
+                <!-- popup activity -->
+                <activity android:name="com.igexin.getuiext.activity.GetuiExtActivity"
+                    android:process=":pushservice"
+                    android:configChanges="orientation|keyboard|keyboardHidden"
+                    android:excludeFromRecents="true"
+                    android:taskAffinity="android.task.myServicetask"
+                    android:theme="@android:style/Theme.Translucent.NoTitleBar"
+                    android:exported="false" />
+                <receiver android:name="com.igexin.getuiext.service.PayloadReceiver"
+                    android:exported="false" >
+                    <intent-filter>
+                        <!-- com.igexin.sdk.action.7fjUl2Z3LH6xYy7NQK4ni4 don't change  -->
+                        <action android:name="com.igexin.sdk.action.7fjUl2Z3LH6xYy7NQK4ni4" />
+                        <!-- android:name="com.igexin.sdk.action. 3rd party's appId" -->
+                        <action android:name="com.igexin.sdk.action.u1spWZXtjZ8FxmRUZCPr44" />
+                    </intent-filter>
+                </receiver>
+                <service android:name="com.igexin.getuiext.service.GetuiExtService"
+                    android:process=":pushservice" />
+
+                <!-- download module-->
+                <service android:name="com.igexin.download.DownloadService"
+                    android:process=":pushservice" />
+                <receiver
+                    android:exported="false" android:name="com.igexin.download.DownloadReceiver">
+                    <intent-filter>
+                        <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                    </intent-filter>
+                </receiver>
+                <provider android:name="com.igexin.download.DownloadProvider"
+                    android:process=":pushservice"
+                    android:authorities="downloads.air.com.alo7.xxxx"/>
+                    <!-- android:authorities="downloads.3rd party's package name", add air. for air apps name -->
+                <!-- ====================================================== -->
+        
+   * use in AIR project
+   
+         public function initializeGetuiPushNotification():void{
+                        if(GetuiPushNotification.isPushNotificationSupported){
+                            var getuiInstance:GetuiPushNotification = GetuiPushNotification.getInstance();
+                            // add event listener
+                            getuiInstance.addEventListener(GetuiPushNotificationEvent.TOKEN_SUCCESS,onTokenSuccess);
+                            getuiInstance.addEventListener(GetuiPushNotificationEvent.TOKEN_FAIL,onTokenFail);
+                            getuiInstance.addEventListener(GetuiPushNotificationEvent.GETUI_DID_REGISTER_CLIENT,onGetuiDidRegisterClient);
+                            getuiInstance.addEventListener(GetuiPushNotificationEvent.GETUI_DID_RECEIVE_PAYLOAD,onGetuiDidReceivePayload);
+                            getuiInstance.addEventListener(GetuiPushNotificationEvent.GETUI_DID_OCCUR_ERROR,onGetuiDidOccurError);
+            
+                            // arguments is required for ios apps, android apps get then from app.xml 
+                            getuiInstance.initializePushNotificaiton("appId","appKey","appSecret");
+                        }
+                    }
+                    
+                    
+        // upload clientId to your app's server, then your server can push notification to this device
+        private function onGetuiDidRegisterClient(e:GetuiPushNotificationEvent):void{
+            var clientId:String = String(e.data);
+            ...                
+        }
+        
+## Caution
+* in Android device, when appid，appsecret ,appkey changed, the getui cliendId maybe won't create new one ,then apps can't receive noticication( bug?), 
+we need to uninstall apps and delete apps name .db file in device libs driectory, reinstall apps.
+ 
+* for Android apps, the icon of notificaiton packed in ane is a default image, if need use custom icon, need to replace it by self. look up:
+    * scripts/replace_ane_android_res.sh (recommended)
+    * scripts/replace_apk_res.sh (not recommended)
+    
+* for android apps, sometime build apk error when with other ane together, because ane's res driectory has same name files, remove these files if they are useless.
+
+
+# 个推消息推送ANE(IOS + Andorid)
+
+- 实现移动AIR应用接受[个推](http://www.getui.com/)的消息推送。
+- 参考[freshplanet/ANE-Push-Notification](https://github.com/freshplanet/ANE-Push-Notification)的实现方式
+- 基于[Apache Licence, version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
+
+## [个推消息推送](http://www.getui.com/)
+
+* 已实现以下功能
+    - IOS 接受个推消息推送 (个推 IOS SDK 1.1.1)
+    - Android 接受个推消息推送 (个推 Andorid SDK 2.5.0)
 
 * ios库项目
     - [个推 ios sdk 下载](http://www.igetui.com/download/iOS/GETUI_IOS_SDK.zip)
@@ -16,40 +178,7 @@
 
 
 * ane打包
-    - 打包目录结构参考：
-
-            ├── Android-ARM
-            │   ├── libGetuiAndroid.jar
-            │   ├── library.swf
-            │   ├── libs
-            │   │   └── armeabi-v7a
-            │   │       └── libgetuiext.so
-            │   └── res
-            ├── Android-x86
-            │   ├── libGetuiAndroid.jar
-            │   ├── library.swf
-            │   ├── libs
-            │   │   └── x86
-            │   │       └── libgetuiext.so
-            │   └── res
-            ├── iPhone-ARM
-            │   ├── libGetuiPushNotification.a
-            │   └── library.swf
-            ├── default
-            │   └── library.swf
-            ├── swc
-            │   └── GetuiAne.swc
-            ├── extension.xml
-            └── platform.xml
-
-    - 在该目录下运行:
-
-            adt -package -target ane aneGetuiPushNotification.ane extension.xml -swc swc/GetuiAne.swc -platform iPhone-ARM -platformoptions platform.xml -C iPhone-ARM . -platform Android-ARM -C Android-ARM . -platform Android-x86 -C Android-x86 . -platform default -C default .
-
-    - ant打包，build目录下运行 ： ant all
-
-*  发布lib到ivy
-    - 项目根目录运行： ant -buildfile ivy-build.xml
+    - ant打包，build目录下运行：ant all
 
 
 * AIR项目中的使用：
@@ -146,23 +275,32 @@
                 </receiver>
                 <provider android:name="com.igexin.download.DownloadProvider"
                     android:process=":pushservice"
-                    android:authorities="downloads.air.com.alo7.iclass.tots"/>
+                    android:authorities="downloads.air.com.alo7.xxxx"/>
                     <!-- android:authorities="downloads.第三方包名",AIR应用包名前可能要加air. -->
                 <!-- ====================================================== -->
 
     * 项目中启用：
-
-            if(GetuiPushNotification.isPushNotificationSupported){
-                var getuiInstance:GetuiPushNotification = GetuiPushNotification.getInstance();
-                // 事件监听
-                getuiInstance.addEventListener(GetuiPushNotificationEvent.TOKEN_SUCCESS,onTokenSuccess);
-                getuiInstance.addEventListener(GetuiPushNotificationEvent.TOKEN_FAIL,onTokenFail);
-                getuiInstance.addEventListener(GetuiPushNotificationEvent.GETUI_DID_REGISTER_CLIENT,onGetuiDidRegisterClient);
-                getuiInstance.addEventListener(GetuiPushNotificationEvent.GETUI_DID_RECEIVE_PAYLOAD,onGetuiDidReceivePayload);
-                getuiInstance.addEventListener(GetuiPushNotificationEvent.GETUI_DID_OCCUR_ERROR,onGetuiDidOccurError);
-
-                // ios必须要传入前三位参数，android端前三位参数是从app.xml中获取，这里传不传都可以
-               	getuiInstance.initializePushNotificaiton("aaaa","bbb","sdfdsf");
+    
+            public function initializeGetuiPushNotification():void{
+                if(GetuiPushNotification.isPushNotificationSupported){
+                    var getuiInstance:GetuiPushNotification = GetuiPushNotification.getInstance();
+                    // 事件监听
+                    getuiInstance.addEventListener(GetuiPushNotificationEvent.TOKEN_SUCCESS,onTokenSuccess);
+                    getuiInstance.addEventListener(GetuiPushNotificationEvent.TOKEN_FAIL,onTokenFail);
+                    getuiInstance.addEventListener(GetuiPushNotificationEvent.GETUI_DID_REGISTER_CLIENT,onGetuiDidRegisterClient);
+                    getuiInstance.addEventListener(GetuiPushNotificationEvent.GETUI_DID_RECEIVE_PAYLOAD,onGetuiDidReceivePayload);
+                    getuiInstance.addEventListener(GetuiPushNotificationEvent.GETUI_DID_OCCUR_ERROR,onGetuiDidOccurError);
+    
+                    // ios必须要传入前三位参数，android端前三位参数是从app.xml中获取，这里可以不传
+                    getuiInstance.initializePushNotificaiton("appId","appKey","appSecret");
+                }
+            }
+            
+            
+            // 把获取到的clienId 发送个应用自己的服务端，服务端就可以给改设备发通知了
+            private function onGetuiDidRegisterClient(e:GetuiPushNotificationEvent):void{
+                var clientId:String = String(e.data);
+                ...                
             }
 
 ## 一些问题

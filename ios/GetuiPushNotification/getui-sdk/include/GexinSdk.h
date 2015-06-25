@@ -34,6 +34,9 @@
 - (BOOL)setTags:(NSArray *)tags;
 - (NSString *)sendMessage:(NSData *)body error:(NSError **)error;
 - (void)destroy;
+- (NSString *)clientId;
+- (void)bindAlias:(NSString *)alias;
+- (void)unbindAlias:(NSString *)alias;
 
 @end
 
