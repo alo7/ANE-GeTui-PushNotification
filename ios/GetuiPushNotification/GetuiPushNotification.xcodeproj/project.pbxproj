@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C2001C301B3BE8F60004E825 /* libGexinSdk-1.1.1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C2001C2F1B3BE8F60004E825 /* libGexinSdk-1.1.1.a */; };
 		C23A25CB1A2C58A0001726C6 /* GetuiDelegateImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = C23A25C91A2C58A0001726C6 /* GetuiDelegateImpl.m */; };
 		C23A25CC1A2C58A0001726C6 /* GetuiDelegateImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = C23A25CA1A2C58A0001726C6 /* GetuiDelegateImpl.h */; };
 		C2547AE51A274B0400905F4B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2547AE41A274B0400905F4B /* Foundation.framework */; };
@@ -22,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C2001C2F1B3BE8F60004E825 /* libGexinSdk-1.1.1.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libGexinSdk-1.1.1.a"; path = "getui-sdk/libGexinSdk-1.1.1.a"; sourceTree = "<group>"; };
 		C23A25C91A2C58A0001726C6 /* GetuiDelegateImpl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetuiDelegateImpl.m; sourceTree = "<group>"; };
 		C23A25CA1A2C58A0001726C6 /* GetuiDelegateImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetuiDelegateImpl.h; sourceTree = "<group>"; };
 		C2547AE11A274B0400905F4B /* libGetuiPushNotification.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libGetuiPushNotification.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -51,6 +53,7 @@
 			files = (
 				C2547AF31A274B0400905F4B /* CFNetwork.framework in Frameworks */,
 				C2547AEF1A274B0400905F4B /* SystemConfiguration.framework in Frameworks */,
+				C2001C301B3BE8F60004E825 /* libGexinSdk-1.1.1.a in Frameworks */,
 				C2547B011A274B0400905F4B /* Security.framework in Frameworks */,
 				C2547AE71A274B0400905F4B /* CoreFoundation.framework in Frameworks */,
 				C2547AEB1A274B0400905F4B /* MobileCoreServices.framework in Frameworks */,
@@ -83,6 +86,7 @@
 		C2547AE31A274B0400905F4B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C2001C2F1B3BE8F60004E825 /* libGexinSdk-1.1.1.a */,
 				C2547AE41A274B0400905F4B /* Foundation.framework */,
 				C2547AE61A274B0400905F4B /* CoreFoundation.framework */,
 				C2547AE81A274B0400905F4B /* UIKit.framework */,
@@ -289,7 +293,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GetuiPushNotification/GetuiPushNotification-Prefix.pch";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/getui-sdk";
+				LIBRARY_SEARCH_PATHS = (
+					"$(SRCROOT)/getui-sdk",
+					"$(PROJECT_DIR)/getui-sdk",
+				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -306,7 +313,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GetuiPushNotification/GetuiPushNotification-Prefix.pch";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/getui-sdk";
+				LIBRARY_SEARCH_PATHS = (
+					"$(SRCROOT)/getui-sdk",
+					"$(PROJECT_DIR)/getui-sdk",
+				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
