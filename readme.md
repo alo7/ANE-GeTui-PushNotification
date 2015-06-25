@@ -1,6 +1,6 @@
 # Getui Push Notification ANE (IOS + Andorid)
 
-- This is an [Air native extension](http://www.adobe.com/devnet/air/native-extensions-for-air.html) for sending push notifications on iOS and Android by [getui](http://www.getui.com/). 
+- This is an [Air native extension](http://www.adobe.com/devnet/air/native-extensions-for-air.html) for receive push notifications on iOS and Android from [getui](http://www.getui.com/).
 - It is derived from [freshplanet/ANE-Push-Notification](https://github.com/freshplanet/ANE-Push-Notification).
 - It is distributed under the [Apache Licence, version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
 
