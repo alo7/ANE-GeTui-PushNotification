@@ -117,27 +117,27 @@ in build driectory, modify build.properties and run:
         
    * use in AIR project
    
-         public function initializeGetuiPushNotification():void{
-                        if(GetuiPushNotification.isPushNotificationSupported){
-                            var getuiInstance:GetuiPushNotification = GetuiPushNotification.getInstance();
-                            // add event listener
-                            getuiInstance.addEventListener(GetuiPushNotificationEvent.TOKEN_SUCCESS,onTokenSuccess);
-                            getuiInstance.addEventListener(GetuiPushNotificationEvent.TOKEN_FAIL,onTokenFail);
-                            getuiInstance.addEventListener(GetuiPushNotificationEvent.GETUI_DID_REGISTER_CLIENT,onGetuiDidRegisterClient);
-                            getuiInstance.addEventListener(GetuiPushNotificationEvent.GETUI_DID_RECEIVE_PAYLOAD,onGetuiDidReceivePayload);
-                            getuiInstance.addEventListener(GetuiPushNotificationEvent.GETUI_DID_OCCUR_ERROR,onGetuiDidOccurError);
-            
-                            // arguments is required for ios apps, android apps get then from app.xml 
-                            getuiInstance.initializePushNotificaiton("appId","appKey","appSecret");
-                        }
-                    }
-                    
-                    
-        // upload clientId to your app's server, then your server can push notification to this device
-        private function onGetuiDidRegisterClient(e:GetuiPushNotificationEvent):void{
-            var clientId:String = String(e.data);
-            ...                
-        }
+            public function initializeGetuiPushNotification():void{
+                if(GetuiPushNotification.isPushNotificationSupported){
+                    var getuiInstance:GetuiPushNotification = GetuiPushNotification.getInstance();
+                    // add event listener
+                    getuiInstance.addEventListener(GetuiPushNotificationEvent.TOKEN_SUCCESS,onTokenSuccess);
+                    getuiInstance.addEventListener(GetuiPushNotificationEvent.TOKEN_FAIL,onTokenFail);
+                    getuiInstance.addEventListener(GetuiPushNotificationEvent.GETUI_DID_REGISTER_CLIENT,onGetuiDidRegisterClient);
+                    getuiInstance.addEventListener(GetuiPushNotificationEvent.GETUI_DID_RECEIVE_PAYLOAD,onGetuiDidReceivePayload);
+                    getuiInstance.addEventListener(GetuiPushNotificationEvent.GETUI_DID_OCCUR_ERROR,onGetuiDidOccurError);
+    
+                    // arguments is required for ios apps, android apps get then from app.xml 
+                    getuiInstance.initializePushNotificaiton("appId","appKey","appSecret");
+                }
+            }
+                        
+                        
+            // upload clientId to your app's server, then your server can push notification to this device
+            private function onGetuiDidRegisterClient(e:GetuiPushNotificationEvent):void{
+                var clientId:String = String(e.data);
+                ...                
+            }
         
 ## Caution
 * in Android device, when appid，appsecret ,appkey changed, the getui cliendId maybe won't create new one ,then apps can't receive noticication( bug?), 
@@ -313,9 +313,3 @@ we need to uninstall apps and delete apps name .db file in device libs driectory
 
 * 和其他基于第三方sdk开发的ane混用的会有冲突
     * 目前只能去掉一些res下的资源来避免app打包失败，比如安卓项目中的res目录下的资源无法全部打包进ane中，寻求更好的解决办法。。。
-
-
-
-
-
-
