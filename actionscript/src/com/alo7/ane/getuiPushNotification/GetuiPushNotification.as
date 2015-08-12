@@ -11,20 +11,20 @@ package com.alo7.ane.getuiPushNotification {
 
         private static const EXTENSION_ID:String = "com.alo7.ane.getuiPushNotification";
         private static const FUN_INITIALIZE_PUSH_NOTIFICAITON:String = "initializePushNotificaiton";
-        private static const FUN_START_GETUI_SDK:String = "startGetuiSdk";
-        private static const FUN_STOP_GETUI_SDK:String = "stopGetuiSdk";
+        private static const FUN_PAUSE_GETUI_SDK:String = "pauseGetuiSdk";
+        private static const FUN_RESUME_GETUI_SDK:String = "resumeGetuiSdk";
         private static const FUN_SET_TAG:String = "setTag";
         private static const FUN_SEND_LOCAL_NOTIFICATION:String = "sendLocalNotification";
         private static const FUN_CANCEL_LOCAL_NOTIFICATION:String = "cancelLocalNotification";
         private static const FUN_SET_IS_APP_INFOREGROUND:String = "setIsAppInForeground";
 
-        public static const RECURRENCE_NONE:int   = 0;
+/*        public static const RECURRENCE_NONE:int   = 0;
         public static const RECURRENCE_DAILY:int  = 1;
         public static const RECURRENCE_WEEK:int   = 2;
         public static const RECURRENCE_MONTH:int  = 3;
         public static const RECURRENCE_YEAR:int   = 4;
 
-        public static const DEFAULT_LOCAL_NOTIFICATION_ID:int = 0;
+        public static const DEFAULT_LOCAL_NOTIFICATION_ID:int = 0;*/
 
         private static var _instance:GetuiPushNotification;
         private var _extContext:ExtensionContext;
@@ -108,18 +108,18 @@ package com.alo7.ane.getuiPushNotification {
         /**
          *  恢复个推的服务
          */
-        public function startGetuiSdk():void{
+        public function resumeGetuiSdk():void{
             if(_extContext){
-                _extContext.call(FUN_START_GETUI_SDK);
+                _extContext.call(FUN_RESUME_GETUI_SDK);
             }
         }
 
         /**
-         *  关闭个推的服务
+         *  暂停个推的服务
          */
-        public function stopGetuiSdk():void{
+        public function pauseGetuiSdk():void{
             if(_extContext){
-                _extContext.call(FUN_STOP_GETUI_SDK);
+                _extContext.call(FUN_PAUSE_GETUI_SDK);
             }
         }
 
@@ -132,7 +132,7 @@ package com.alo7.ane.getuiPushNotification {
         }
 
 
-        /**
+       /* /!**
          * only for ios
          * Sends a local notification to the device.
          * @param message the local notification text displayed
@@ -140,7 +140,7 @@ package com.alo7.ane.getuiPushNotification {
          * @param title (Android Only) Title of the local notification
          * @param recurrenceType
          *
-         */
+         *!/
         public function sendLocalNotification(message:String, timestamp:int, title:String="", recurrenceType:int = RECURRENCE_NONE,  notificationId:int = DEFAULT_LOCAL_NOTIFICATION_ID):void
         {
             if (_extContext)
@@ -155,12 +155,12 @@ package com.alo7.ane.getuiPushNotification {
             }
         }
 
-        /**
+        /!**
          * only for ios
          * cancel a local notification to the device.
          * @param notificationId
          *
-         */
+         *!/
         public function cancelLocalNotification(notificationId:int = DEFAULT_LOCAL_NOTIFICATION_ID):void
         {
             if (_extContext)
@@ -181,7 +181,7 @@ package com.alo7.ane.getuiPushNotification {
             {
                 _extContext.call(FUN_SET_IS_APP_INFOREGROUND, value);
             }
-        }
+        }*/
 
         public function get isDebug():Boolean {
             return _isDebug;

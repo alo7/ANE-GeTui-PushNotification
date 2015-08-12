@@ -7,26 +7,22 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "GexinSdk.h"
+#import "GeTuiSdk.h"
 #import "FlashRuntimeExtensions.h"
 
-typedef enum {
-    SdkStatusStoped,
-    SdkStatusStarting,
-    SdkStatusStarted
-} SdkStatus;
-
-@interface GetuiDelegateImpl : NSObject <GexinSdkDelegate>
+@interface GetuiDelegateImpl : NSObject <GeTuiSdkDelegate> {
+@private
+    NSString *_deviceToken;
+}
 
 @property (assign, nonatomic) FREContext freContext;
-@property (strong, nonatomic) GexinSdk *gexinPusher;
-@property (retain, nonatomic) NSString *deviceToken;
+
 @property (retain, nonatomic) NSString *appKey;
 @property (retain, nonatomic) NSString *appSecret;
 @property (retain, nonatomic) NSString *appID;
-@property (retain, nonatomic) NSString *appVersion;
 @property (retain, nonatomic) NSString *clientId;
 @property (assign, nonatomic) SdkStatus sdkStatus;
+
 @property (assign, nonatomic) int lastPayloadIndex;
 @property (retain, nonatomic) NSString *payloadId;
 
@@ -35,16 +31,24 @@ typedef enum {
 - (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken;
 - (void)didFailToRegisterForRemoteNotificationsWithError:(NSError*)error;
 - (void)didReceiveRemoteNotification:(NSDictionary *)userinfo;
-- (void)startSdkWith:(NSString *)appID appKey:(NSString *)appKey appSecret:(NSString *)appSecret appVersion:(NSString *)appVersion;
+
+- (void)startSdkWith:(NSString *)appID appKey:(NSString *)appKey appSecret:(NSString *)appSecret;
 - (void)stopSdk;
-- (void)startOrStopSdk;
+
+- (void)enterBackground;
+- (void)recoverFromBackground;
 
 - (void)setDeviceToken:(NSString *)aToken;
 - (BOOL)setTags:(NSArray *)aTag error:(NSError **)error;
 - (NSString *)sendMessage:(NSData *)body error:(NSError **)error;
 
-+ (NSString*)convertToJSonString:(NSDictionary*)dict;
+- (void)bindAlias:(NSString *)aAlias;
+- (void)unbindAlias:(NSString *)aAlias;
 
+//- (void)testSdkFunction;
+//- (void)testGetClientId;
+
++ (NSString*)convertToJSonString:(NSDictionary*)dict;
 
 
 @end

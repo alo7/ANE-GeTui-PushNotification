@@ -17,12 +17,12 @@ public class GetuiContext extends FREContext {
     public Map<String, FREFunction> getFunctions() {
         Map<String, FREFunction> map = new HashMap<String, FREFunction>();
         map.put("initializePushNotificaiton",new InitializeGetuiFunction());
-        map.put("startGetuiSdk",new StartGetuiSdkFunction());
-        map.put("stopGetuiSdk",new StopGetuiSdkFunction());
+        map.put("resumeGetuiSdk",new ResumeGetuiSdkFunction());
+        map.put("pauseGetuiSdk",new PauseGetuiSdkFunction());
         map.put("setTag",new SetTagFunction());
-        map.put("sendLocalNotification",new LocalNotificationFunction());
-        map.put("cancelLocalNotification",new CancelLocalNotificationFunction());
-        map.put("setIsAppInForeground",new SetIsAppInForegroundFunction());
+//        map.put("sendLocalNotification",new LocalNotificationFunction());
+//        map.put("cancelLocalNotification",new CancelLocalNotificationFunction());
+//        map.put("setIsAppInForeground",new SetIsAppInForegroundFunction());
         return map;
     }
 

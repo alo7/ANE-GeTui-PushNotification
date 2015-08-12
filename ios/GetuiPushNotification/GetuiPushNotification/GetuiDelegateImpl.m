@@ -8,13 +8,16 @@
 
 #import "GetuiDelegateImpl.h"
 
+#define NotifyActionKey "NotifyAction"
+NSString* const NotificationCategoryIdent  = @"ACTIONABLE";
+NSString* const NotificationActionOneIdent = @"ACTION_ONE";
+NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
+
 @implementation GetuiDelegateImpl
 
 @synthesize freContext = _freContext;
-@synthesize gexinPusher = _gexinPusher;
 @synthesize appKey = _appKey;
 @synthesize appSecret = _appSecret;
-@synthesize appVersion = _appVersion;
 @synthesize appID = _appID;
 @synthesize clientId = _clientId;
 @synthesize sdkStatus = _sdkStatus;
@@ -24,11 +27,9 @@
 -(void)dealloc
 {
     [_deviceToken release];
-    [_gexinPusher release];
     [_appKey release];
     [_appSecret release];
     [_appID release];
-    [_appVersion release];
     [_clientId release];
     [_payloadId release];
     
@@ -41,19 +42,82 @@
 {
 #ifdef __IPHONE_8_0
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0) {
+        //IOS8 新的通知机制category注册
+        UIMutableUserNotificationAction *action1;
+        action1 = [[UIMutableUserNotificationAction alloc] init];
+        [action1 setActivationMode:UIUserNotificationActivationModeBackground];
+        [action1 setTitle:@"取消"];
+        [action1 setIdentifier:NotificationActionOneIdent];
+        [action1 setDestructive:NO];
+        [action1 setAuthenticationRequired:NO];
         
-        UIUserNotificationSettings *uns = [UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeAlert|UIUserNotificationTypeBadge|UIUserNotificationTypeSound) categories:nil];
+        UIMutableUserNotificationAction *action2;
+        action2 = [[UIMutableUserNotificationAction alloc] init];
+        [action2 setActivationMode:UIUserNotificationActivationModeBackground];
+        [action2 setTitle:@"回复"];
+        [action2 setIdentifier:NotificationActionTwoIdent];
+        [action2 setDestructive:NO];
+        [action2 setAuthenticationRequired:NO];
+        
+        UIMutableUserNotificationCategory *actionCategory;
+        actionCategory = [[UIMutableUserNotificationCategory alloc] init];
+        [actionCategory setIdentifier:NotificationCategoryIdent];
+        [actionCategory setActions:@[action1, action2]
+                        forContext:UIUserNotificationActionContextDefault];
+        
+        NSSet *categories = [NSSet setWithObject:actionCategory];
+        UIUserNotificationType types = (UIUserNotificationTypeAlert|
+                                        UIUserNotificationTypeSound|
+                                        UIUserNotificationTypeBadge);
+        
+        UIUserNotificationSettings *settings;
+        settings = [UIUserNotificationSettings settingsForTypes:types categories:categories];
         [[UIApplication sharedApplication] registerForRemoteNotifications];
-        [[UIApplication sharedApplication] registerUserNotificationSettings:uns];
+        [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
+        
+        [action1 release];
+        [action2 release];
+        [actionCategory release];
+        
     } else {
-        UIRemoteNotificationType apn_type = (UIRemoteNotificationType)(UIRemoteNotificationTypeAlert|UIRemoteNotificationTypeSound|UIRemoteNotificationTypeBadge);
+        UIRemoteNotificationType apn_type = (UIRemoteNotificationType)(UIRemoteNotificationTypeAlert|
+                                                                       UIRemoteNotificationTypeSound|
+                                                                       UIRemoteNotificationTypeBadge);
         [[UIApplication sharedApplication] registerForRemoteNotificationTypes:apn_type];
     }
 #else
-    UIRemoteNotificationType apn_type = (UIRemoteNotificationType)(UIRemoteNotificationTypeAlert|UIRemoteNotificationTypeSound|UIRemoteNotificationTypeBadge);
+    UIRemoteNotificationType apn_type = (UIRemoteNotificationType)(UIRemoteNotificationTypeAlert|
+                                                                   UIRemoteNotificationTypeSound|
+                                                                   UIRemoteNotificationTypeBadge);
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:apn_type];
 #endif
 }
+
+-(void) stopSdk {
+    [GeTuiSdk enterBackground];
+}
+
+- (void) enterBackground {
+    // [EXT] APP进入后台时，通知个推SDK进入后台
+    [GeTuiSdk enterBackground];
+}
+
+- (void) recoverFromBackground {
+    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+    
+    // [EXT] 重新上线
+    [self startSdkWith:_appID appKey:_appKey appSecret:_appSecret];
+}
+
+
+//#pragma mark - background fetch  唤醒
+//- (void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+//    
+//    //[5] Background Fetch 恢复SDK 运行
+//    [GeTuiSdk resume];
+//    completionHandler(UIBackgroundFetchResultNewData);
+//}
 
 // 注册成功
 - (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
@@ -67,10 +131,8 @@
         FREDispatchStatusEventAsync(_freContext, (uint8_t*)"TOKEN_SUCCESS", (uint8_t*)[_deviceToken UTF8String]);
     }
     
-       // [3]:向个推服务器注册deviceToken
-    if (_gexinPusher) {
-        [_gexinPusher registerDeviceToken:_deviceToken];
-    }
+    // [3]:向个推服务器注册deviceToken
+    [GeTuiSdk registerDeviceToken:_deviceToken];
 }
 
 //注册失败
@@ -85,136 +147,91 @@
     }
     
     // [3-EXT]:如果APNS注册失败，通知个推服务器
-    if (_gexinPusher) {
-        [_gexinPusher registerDeviceToken:@""];
-    }
+    [GeTuiSdk registerDeviceToken:@""];
 }
 
 - (void)didReceiveRemoteNotification:(NSDictionary *)userinfo
 {
     [[UIApplication sharedApplication] cancelAllLocalNotifications];
-    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
     
     // [4-EXT]:处理APN
     NSString *stringInfo = [GetuiDelegateImpl convertToJSonString:userinfo];
-    
     if ( _freContext != nil )
     {
         FREDispatchStatusEventAsync(_freContext, (uint8_t*)"RECEIVE_REMOTE_NOTIFICATION", (uint8_t*)[stringInfo UTF8String]);
     }
 }
 
-
-- (void)startSdkWith:(NSString *)appID appKey:(NSString *)appKey appSecret:(NSString *)appSecret appVersion:(NSString *)appVersion
+- (void)startSdkWith:(NSString *)appID appKey:(NSString *)appKey appSecret:(NSString *)appSecret
 {
-    if (!_gexinPusher) {
-        _sdkStatus = SdkStatusStoped;
-        
-        self.appID = appID;
-        self.appKey = appKey;
-        self.appSecret = appSecret;
-        self.appVersion = appVersion;
-        
-        [_clientId release];
-        _clientId = nil;
-        
-        NSError *err = nil;
-        _gexinPusher = [GexinSdk createSdkWithAppId:_appID
-                                             appKey:_appKey
-                                          appSecret:_appSecret
-                                         appVersion:_appVersion
-                                           delegate:self
-                                              error:&err];
-        if (_gexinPusher) {
-            _sdkStatus = SdkStatusStarting;
-        }
-        
+    _appID = [appID retain];
+    _appKey = [appKey retain];
+    _appSecret = [appSecret retain];
+    
+    NSError *err = nil;
+    
+    //[1-1]:通过 AppId、 appKey 、appSecret 启动SDK
+    [GeTuiSdk startSdkWithAppId:appID appKey:appKey appSecret:appSecret delegate:self error:&err];
+    
+    //[1-2]:设置是否后台运行开关
+    [GeTuiSdk runBackgroundEnable:NO];
+    
+    //[1-3]:设置电子围栏功能，开启LBS定位服务 和 是否允许SDK 弹出用户定位请求
+    [GeTuiSdk lbsLocationEnable:NO andUserVerify:NO];
+    
+    if(err &&  _freContext != nil) {
+        FREDispatchStatusEventAsync(_freContext, (uint8_t*)"start_getui_sdk_error", (uint8_t*)[[err localizedDescription] UTF8String]);
     }
-}
-
-- (void)stopSdk
-{
-    if (_gexinPusher) {
-        [_gexinPusher destroy];
-        [_gexinPusher release];
-        _gexinPusher = nil;
-        
-        _sdkStatus = SdkStatusStoped;
-        
-        [_clientId release];
-        _clientId = nil;
-        
-    }
-}
-
-- (void)startOrStopSdk
-{
-    if (_sdkStatus == SdkStatusStoped) {
-        [self startSdkWith:_appID appKey:_appKey appSecret:_appSecret appVersion:_appVersion ];
-    } else {
-        [self stopSdk];
-    }
-}
-
-- (BOOL)checkSdkInstance
-{
-    if (!_gexinPusher) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"错误" message:@"SDK未启动" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-        [alertView show];
-        [alertView release];
-        return NO;
-    }
-    return YES;
+    
 }
 
 - (void)setDeviceToken:(NSString *)aToken
 {
-    if (![self checkSdkInstance]) {
-        return;
-    }
-    
-    [_gexinPusher registerDeviceToken:aToken];
+    [GeTuiSdk registerDeviceToken:aToken];
 }
 
 - (BOOL)setTags:(NSArray *)aTags error:(NSError **)error
 {
-    if (![self checkSdkInstance]) {
-        return NO;
-    }
-    
-    return [_gexinPusher setTags:aTags];
+    return [GeTuiSdk setTags:aTags];
 }
 
-- (NSString *)sendMessage:(NSData *)body error:(NSError **)error {
-    if (![self checkSdkInstance]) {
-        return nil;
-    }
-    
-    return [_gexinPusher sendMessage:body error:error];
+- (NSString *)sendMessage:(NSData *)body error:(NSError **)error
+{
+    return [GeTuiSdk sendMessage:body error:error];
 }
 
+- (void)bindAlias:(NSString *)aAlias {
+    [GeTuiSdk bindAlias:aAlias];
+}
+
+- (void)unbindAlias:(NSString *)aAlias {
+    
+    [GeTuiSdk unbindAlias:aAlias];
+}
 
 #pragma mark - GexinSdkDelegate
 - (void)GexinSdkDidRegisterClient:(NSString *)clientId
 {
-    // [4-EXT-1]: 个推SDK已注册
-    _sdkStatus = SdkStatusStarted;
+    // [4-EXT-1]: 个推SDK已注册，返回clientId
     [_clientId release];
     _clientId = [clientId retain];
-    
+    if (_deviceToken) {
+        [GeTuiSdk registerDeviceToken:_deviceToken];
+    }
     if ( _freContext != nil )
     {
         FREDispatchStatusEventAsync(_freContext, (uint8_t*)"GETUI_DID_REGISTER_CLIENT", (uint8_t*)[_clientId UTF8String]);
     }
 }
 
-- (void)GexinSdkDidReceivePayload:(NSString *)payloadId fromApplication:(NSString *)appId
+- (void)GeTuiSdkDidReceivePayload:(NSString *)payloadId andTaskId:(NSString *)taskId andMessageId:(NSString *)aMsgId fromApplication:(NSString *)appId
 {
     // [4]: 收到个推消息
     [_payloadId release];
     _payloadId = [payloadId retain];
     
-    NSData *payload = [_gexinPusher retrivePayloadById:payloadId];
+    NSData* payload = [GeTuiSdk retrivePayloadById:payloadId];
     NSString *payloadMsg = nil;
     if (payload) {
         payloadMsg = [[NSString alloc] initWithBytes:payload.bytes
@@ -222,11 +239,10 @@
                                             encoding:NSUTF8StringEncoding];
         if ( _freContext != nil )
         {
-            NSString *record = [NSString stringWithFormat:@"%d, %@, %@", ++_lastPaylodIndex, [NSDate date], payloadMsg];
+            NSString *record = [NSString stringWithFormat:@"%d, %@, %@", ++_lastPaylodIndex, [self formateTime:[NSDate date]], payloadMsg];
             FREDispatchStatusEventAsync(_freContext, (uint8_t*)"GETUI_DID_RECEIVE_PAYLOAD", (uint8_t*)[record UTF8String]);
         }
     }
-
     [payloadMsg release];
 }
 
@@ -238,13 +254,39 @@
 - (void)GexinSdkDidOccurError:(NSError *)error
 {
     // [EXT]:个推错误报告，集成步骤发生的任何错误都在这里通知，如果集成后，无法正常收到消息，查看这里的通知。
-//    [_viewController logMsg:[NSString stringWithFormat:@">>>[GexinSdk error]:%@", [error localizedDescription]]];
     if ( _freContext != nil )
     {
-        NSString *logMsg = [NSString stringWithFormat:@">>>[GexinSdk error]:%@", [error localizedDescription]];
+        NSString *logMsg = [NSString stringWithFormat:@">>>[GeTuiSdk error]:%@", [error localizedDescription]];
         FREDispatchStatusEventAsync(_freContext, (uint8_t*)"GETUI_DID_OCCUR_ERROR", (uint8_t*)[logMsg UTF8String]);
     }
+}
+
+- (void)GeTuiSDkDidNotifySdkState:(SdkStatus)aStatus {
+    // [EXT]:通知SDK运行状态
+    _sdkStatus = aStatus;
+}
+
+//SDK设置推送模式回调
+- (void)GeTuiSdkDidSetPushMode:(BOOL)isModeOff error:(NSError *)error {
+    NSString *logMsg;
+    if (error) {
+        logMsg = [NSString stringWithFormat:@">>>[SetModeOff error]: %@", [error localizedDescription]];
+    }else{
+        logMsg = [NSString stringWithFormat:@">>>[GexinSdkSetModeOff]: %@",isModeOff?@"开启":@"关闭"];
+    }
+    if(_freContext != nil)
+    {
+        FREDispatchStatusEventAsync(_freContext, (uint8_t*)"GETUI_SET_PUSH_MODE_INFO", (uint8_t*)[logMsg UTF8String]);
+    }
     
+}
+
+-(NSString*) formateTime:(NSDate*) date {
+    NSDateFormatter* formatter = [[NSDateFormatter alloc]init];
+    [formatter setDateFormat:@"HH:mm:ss"];
+    NSString* dateTime = [formatter stringFromDate:date];
+    [formatter release];
+    return dateTime;
 }
 
 + (NSString*)convertToJSonString:(NSDictionary*)dict

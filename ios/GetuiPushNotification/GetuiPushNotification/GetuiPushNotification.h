@@ -93,8 +93,8 @@ void ContextFinalizer(FREContext ctx);
 */
 ANE_FUNCTION(isSupported);
 ANE_FUNCTION(initializePushNotificaiton);
-ANE_FUNCTION(startGetuiSdk);
-ANE_FUNCTION(stopGetuiSdk);
+ANE_FUNCTION(pauseGetuiSdk);
+ANE_FUNCTION(resumeGetuiSdk);
 ANE_FUNCTION(setTag);
 ANE_FUNCTION(sendLocalNotification);
 ANE_FUNCTION(cancelLocalNotification);

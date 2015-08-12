@@ -114,6 +114,9 @@ void didReceiveRemoteNotification(id self, SEL _cmd, UIApplication* application,
 //BOOL didFinishLaunchingWithOptions(id self,SEL _cmd, UIApplication* application,NSDictionary* launchOptions)
 //{
 //    NSLog(@"ANE_GETUI: didFinishLaunchingWithOptions:%@ ",launchOptions);
+//    if(getuiDelegate){
+//        [getuiDelegate didReceiveRemoteNotification:launchOptions];
+//    }
 //    return YES;
 //}
 
@@ -206,8 +209,8 @@ void ContextInitializer(void* extData, const uint8_t* ctxType, FREContext ctx, u
     {
         MAP_FUNCTION(isSupported, NULL),
         MAP_FUNCTION(initializePushNotificaiton, NULL),
-        MAP_FUNCTION(startGetuiSdk, NULL),
-        MAP_FUNCTION(stopGetuiSdk, NULL),
+        MAP_FUNCTION(pauseGetuiSdk, NULL),
+        MAP_FUNCTION(resumeGetuiSdk, NULL),
         MAP_FUNCTION(setTag, NULL),
         MAP_FUNCTION(sendLocalNotification, NULL),
         MAP_FUNCTION(cancelLocalNotification, NULL),
@@ -256,9 +259,8 @@ ANE_FUNCTION(initializePushNotificaiton){
     NSString *kAppId = getStringFromFREObject(argv[0]);
     NSString *kAppKey = getStringFromFREObject(argv[1]);
     NSString *kAppSecret = getStringFromFREObject(argv[2]);
-    NSString *kAppVersion = getStringFromFREObject(argv[3]);
     
-    NSLog(@"start with app args:%@,%@,%@,%@",kAppId,kAppKey,kAppSecret,kAppVersion);
+    NSLog(@"start with app args:%@,%@,%@",kAppId,kAppKey,kAppSecret);
     if(!getuiDelegate){
         getuiDelegate = [[GetuiDelegateImpl alloc] init];
     }
@@ -267,7 +269,7 @@ ANE_FUNCTION(initializePushNotificaiton){
         getuiDelegate.freContext = myCtx;
         
         // [1]:使用APPID/APPKEY/APPSECRENT创建个推实例
-        [getuiDelegate startSdkWith:kAppId appKey:kAppKey appSecret:kAppSecret appVersion:kAppVersion];
+        [getuiDelegate startSdkWith:kAppId appKey:kAppKey appSecret:kAppSecret];
         
         // [2]:注册APNS
         [getuiDelegate registerRemoteNotification];
@@ -276,16 +278,16 @@ ANE_FUNCTION(initializePushNotificaiton){
     return NULL;
 }
 
-ANE_FUNCTION(startGetuiSdk){
-    if(getuiDelegate && getuiDelegate.sdkStatus==SdkStatusStoped){
-        [getuiDelegate startOrStopSdk];
+ANE_FUNCTION(pauseGetuiSdk){
+    if(getuiDelegate){
+        [getuiDelegate enterBackground];
     }
     return NULL;
 }
 
-ANE_FUNCTION(stopGetuiSdk){
-    if(getuiDelegate && getuiDelegate.sdkStatus != SdkStatusStoped){
-        [getuiDelegate startOrStopSdk];
+ANE_FUNCTION(resumeGetuiSdk){
+    if(getuiDelegate){
+        [getuiDelegate recoverFromBackground];
     }
     return NULL;
 }
