@@ -211,7 +211,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 }
 
 #pragma mark - GexinSdkDelegate
-- (void)GexinSdkDidRegisterClient:(NSString *)clientId
+- (void)GeTuiSdkDidRegisterClient:(NSString *)clientId
 {
     // [4-EXT-1]: 个推SDK已注册，返回clientId
     [_clientId release];
@@ -246,12 +246,12 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     [payloadMsg release];
 }
 
-- (void)GexinSdkDidSendMessage:(NSString *)messageId result:(int)result {
+- (void)GeTuiSdkDidSendMessage:(NSString *)messageId result:(int)result {
     // [4-EXT]:发送上行消息结果反馈
 //    NSString *record = [NSString stringWithFormat:@"Received sendmessage:%@ result:%d", messageId, result];
 }
 
-- (void)GexinSdkDidOccurError:(NSError *)error
+- (void)GeTuiSdkDidOccurError:(NSError *)error
 {
     // [EXT]:个推错误报告，集成步骤发生的任何错误都在这里通知，如果集成后，无法正常收到消息，查看这里的通知。
     if ( _freContext != nil )

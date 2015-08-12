@@ -102,3 +102,4 @@ ANE_FUNCTION(setIsAppInForeground);
 
 NSString * getStringFromFREObject(FREObject obj);
 FREObject createFREBool(BOOL value);
+void uncaughtExceptionHandler(NSException *exception);

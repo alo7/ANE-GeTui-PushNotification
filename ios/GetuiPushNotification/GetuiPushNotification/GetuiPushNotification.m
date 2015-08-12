@@ -275,6 +275,7 @@ ANE_FUNCTION(initializePushNotificaiton){
         [getuiDelegate registerRemoteNotification];
 
     }
+    NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
     return NULL;
 }
 
@@ -421,4 +422,9 @@ FREObject createFREBool(BOOL value)
     FREObject fo;
     FRENewObjectFromBool(value, &fo);
     return fo;
+}
+
+void uncaughtExceptionHandler(NSException *exception) {
+    NSLog(@"CRASH: %@", exception);
+    NSLog(@"Stack Trace: %@", [exception callStackSymbols]);
 }
