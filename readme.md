@@ -10,8 +10,8 @@
 
 ## Features:
 
-- AIR apps in IOS receive push notification from Getui ( Getui IOS SDK 1.1.1)  [download](http://www.igetui.com/download/iOS/GETUI_IOS_SDK.zip)
-- AIR apps in Android receive push notification from Getui ( Getui Andorid SDK 2.5.0) [download](http://www.igetui.com/download/android/GETUI_ANDROID_SDK.zip)
+- AIR apps in IOS receive push notification from Getui ( Getui IOS SDK 1.2.1)  [download](http://www.igetui.com/download/iOS/GETUI_IOS_SDK.zip)
+- AIR apps in Android receive push notification from Getui ( Getui Andorid SDK 2.6.0) [download](http://www.igetui.com/download/android/GETUI_ANDROID_SDK.zip)
 
 ## Build
 in build driectory, modify build.properties and run:
@@ -138,6 +138,16 @@ in build driectory, modify build.properties and run:
                 var clientId:String = String(e.data);
                 ...                
             }
+            
+            // for ios enter background
+            public function onDeActivate():void{                
+                GetuiPushNotification.getInstance().pauseGetuiSdk();
+            }
+            
+            // for ios resume from background
+            public function onActivate():void{
+                GetuiPushNotification.getInstance().resumeGetuiSdk();
+            }
         
 ## Caution
 * in Android device, when appid，appsecret ,appkey changed, the getui cliendId maybe won't create new one ,then apps can't receive noticication( bug?), 
@@ -159,8 +169,8 @@ we need to uninstall apps and delete apps name .db file in device libs driectory
 ## [个推消息推送](http://www.getui.com/)
 
 * 已实现以下功能
-    - IOS 接受个推消息推送 (个推 IOS SDK 1.1.1)
-    - Android 接受个推消息推送 (个推 Andorid SDK 2.5.0)
+    - IOS 接受个推消息推送 (个推 IOS SDK 1.2.1)
+    - Android 接受个推消息推送 (个推 Andorid SDK 2.6.0)
 
 * ios库项目
     - [个推 ios sdk 下载](http://www.igetui.com/download/iOS/GETUI_IOS_SDK.zip)
@@ -302,6 +312,17 @@ we need to uninstall apps and delete apps name .db file in device libs driectory
                 var clientId:String = String(e.data);
                 ...                
             }
+            
+            // for ios 切到后台	
+            public function onDeActivate():void{                
+                GetuiPushNotification.getInstance().pauseGetuiSdk();
+            }
+            
+            // for ios 从后台恢复
+            public function onActivate():void{
+                GetuiPushNotification.getInstance().resumeGetuiSdk();
+            }
+            
 
 ## 一些问题
 * android 应用当个推的appid，appsecret，appkey变化时，产生的clientId仍会使用老的，导致无法收到推送消息，需要删除应用，
