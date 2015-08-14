@@ -14,8 +14,6 @@ tmp
 *.xcworkspace
 xcuserdata
 console.log
-*.ane
-bin/
 gen/
 .classpath
 .project
