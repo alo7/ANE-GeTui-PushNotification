@@ -27,8 +27,7 @@ in build driectory, modify build.properties and run:
                             <string>development</string>
                         ]]>
                     </Entitlements>
-                </iPhone>include
-                         libGexinSdk-1.1.1.a
+                </iPhone>
                 
  * for andorid apps, modify app.xml, look up [getui documents](http://docs.igetui.com/pages/viewpage.action?pageId=589991)
     * example:
