@@ -229,6 +229,13 @@ we need to uninstall apps and delete apps name .db file in device libs driectory
                     android:label="NotificationCenter"
                     android:process=":pushservice" >
                 </service>
+                
+                <!-- SDK　2.6.1.0版本新增配置项 -->
+                <service
+                    android:name="com.igexin.sdk.PushServiceUser"
+                    android:exported="true"
+                    android:label="NotificationCenterUser" >
+                </service>
 
                 <receiver android:name="com.igexin.sdk.PushReceiver">
                     <intent-filter>
@@ -236,8 +243,13 @@ we need to uninstall apps and delete apps name .db file in device libs driectory
                         <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
                         <action android:name="android.intent.action.USER_PRESENT" />
                         <action android:name="com.igexin.sdk.action.refreshls" />
+                        <!-- 以下三项为可选的action声明，可大大提高service存活率和消息到达速度 -->
+                        <action android:name="android.intent.action.MEDIA_MOUNTED" />
+                        <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
+                        <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
                     </intent-filter>
                 </receiver>
+                
                 <receiver android:name="com.igexin.sdk.PushManagerReceiver"
                     android:exported="false" >
                     <intent-filter>
