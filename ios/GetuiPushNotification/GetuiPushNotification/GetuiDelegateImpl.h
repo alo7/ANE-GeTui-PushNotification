@@ -12,7 +12,7 @@
 
 @interface GetuiDelegateImpl : NSObject <GeTuiSdkDelegate> {
 @private
-    NSString *_deviceToken;
+
 }
 
 @property (assign, nonatomic) FREContext freContext;
@@ -20,11 +20,8 @@
 @property (retain, nonatomic) NSString *appKey;
 @property (retain, nonatomic) NSString *appSecret;
 @property (retain, nonatomic) NSString *appID;
-@property (retain, nonatomic) NSString *clientId;
-@property (assign, nonatomic) SdkStatus sdkStatus;
 
 @property (assign, nonatomic) int lastPayloadIndex;
-@property (retain, nonatomic) NSString *payloadId;
 
 
 - (void)registerRemoteNotification;
@@ -35,7 +32,6 @@
 - (void)startSdkWith:(NSString *)appID appKey:(NSString *)appKey appSecret:(NSString *)appSecret;
 - (void)stopSdk;
 
-- (void)enterBackground;
 - (void)recoverFromBackground;
 
 - (void)setDeviceToken:(NSString *)aToken;

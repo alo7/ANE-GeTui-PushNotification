@@ -1,5 +1,5 @@
 //
-//  GetuiDelegate.m
+//  GetuiDelegateImpl.m
 //  GetuiPushNotification
 //
 //  Created by jiong.li on 14/11/28.
@@ -19,19 +19,13 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 @synthesize appKey = _appKey;
 @synthesize appSecret = _appSecret;
 @synthesize appID = _appID;
-@synthesize clientId = _clientId;
-@synthesize sdkStatus = _sdkStatus;
-@synthesize lastPayloadIndex = _lastPaylodIndex;
-@synthesize payloadId = _payloadId;
+@synthesize lastPayloadIndex = _lastPayloadIndex;
 
 -(void)dealloc
 {
-    [_deviceToken release];
     [_appKey release];
     [_appSecret release];
     [_appID release];
-    [_clientId release];
-    [_payloadId release];
     
     [super dealloc];
 }
@@ -93,13 +87,8 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 #endif
 }
 
--(void) stopSdk {
-    [GeTuiSdk enterBackground];
-}
-
-- (void) enterBackground {
-    // [EXT] APP进入后台时，通知个推SDK进入后台
-    [GeTuiSdk enterBackground];
+- (void) stopSdk {
+    [GeTuiSdk stopSdk];
 }
 
 - (void) recoverFromBackground {
@@ -123,16 +112,15 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 - (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
 {
     NSString *token = [[deviceToken description] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
-    [_deviceToken release];
-    _deviceToken = [[token stringByReplacingOccurrencesOfString:@" " withString:@""] retain];
-   
+    token = [[token stringByReplacingOccurrencesOfString:@" " withString:@""] retain];
+    NSLog(@"deviceToken:%@", token);
     if ( _freContext != nil )
     {
-        FREDispatchStatusEventAsync(_freContext, (uint8_t*)"TOKEN_SUCCESS", (uint8_t*)[_deviceToken UTF8String]);
+        FREDispatchStatusEventAsync(_freContext, (uint8_t*)"TOKEN_SUCCESS", (uint8_t*)[token UTF8String]);
     }
     
     // [3]:向个推服务器注册deviceToken
-    [GeTuiSdk registerDeviceToken:_deviceToken];
+    [GeTuiSdk registerDeviceToken:token];
 }
 
 //注册失败
@@ -169,10 +157,11 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     _appKey = [appKey retain];
     _appSecret = [appSecret retain];
     
-    NSError *err = nil;
+//    NSError *err = nil;
     
     //[1-1]:通过 AppId、 appKey 、appSecret 启动SDK
-    [GeTuiSdk startSdkWithAppId:appID appKey:appKey appSecret:appSecret delegate:self error:&err];
+//    [GeTuiSdk startSdkWithAppId:appID appKey:appKey appSecret:appSecret delegate:self error:&err];
+    [GeTuiSdk startSdkWithAppId:appID appKey:appKey appSecret:appSecret delegate:self];
     
     //[1-2]:设置是否后台运行开关
     [GeTuiSdk runBackgroundEnable:NO];
@@ -180,9 +169,9 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     //[1-3]:设置电子围栏功能，开启LBS定位服务 和 是否允许SDK 弹出用户定位请求
     [GeTuiSdk lbsLocationEnable:NO andUserVerify:NO];
     
-    if(err &&  _freContext != nil) {
-        FREDispatchStatusEventAsync(_freContext, (uint8_t*)"start_getui_sdk_error", (uint8_t*)[[err localizedDescription] UTF8String]);
-    }
+//    if(err &&  _freContext != nil) {
+//        FREDispatchStatusEventAsync(_freContext, (uint8_t*)"start_getui_sdk_error", (uint8_t*)[[err localizedDescription] UTF8String]);
+//    }
     
 }
 
@@ -214,24 +203,17 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 - (void)GeTuiSdkDidRegisterClient:(NSString *)clientId
 {
     // [4-EXT-1]: 个推SDK已注册，返回clientId
-    [_clientId release];
-    _clientId = [clientId retain];
-    if (_deviceToken) {
-        [GeTuiSdk registerDeviceToken:_deviceToken];
-    }
+    NSLog(@">>>[GeTuiSdk RegisterClient]:%@", clientId);
     if ( _freContext != nil )
     {
-        FREDispatchStatusEventAsync(_freContext, (uint8_t*)"GETUI_DID_REGISTER_CLIENT", (uint8_t*)[_clientId UTF8String]);
+        FREDispatchStatusEventAsync(_freContext, (uint8_t*)"GETUI_DID_REGISTER_CLIENT", (uint8_t*)[clientId UTF8String]);
     }
 }
 
-- (void)GeTuiSdkDidReceivePayload:(NSString *)payloadId andTaskId:(NSString *)taskId andMessageId:(NSString *)aMsgId fromApplication:(NSString *)appId
+- (void)GeTuiSdkDidReceivePayload:(NSString *)payloadId andTaskId:(NSString *)taskId andMessageId:(NSString *)aMsgId andOffLine:(BOOL)offLine fromApplication:(NSString *)appId
 {
     // [4]: 收到个推消息
-    [_payloadId release];
-    _payloadId = [payloadId retain];
-    
-    NSData* payload = [GeTuiSdk retrivePayloadById:payloadId];
+    NSData *payload = [GeTuiSdk retrivePayloadById:payloadId];
     NSString *payloadMsg = nil;
     if (payload) {
         payloadMsg = [[NSString alloc] initWithBytes:payload.bytes
@@ -239,11 +221,12 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
                                             encoding:NSUTF8StringEncoding];
         if ( _freContext != nil )
         {
-            NSString *record = [NSString stringWithFormat:@"%d, %@, %@", ++_lastPaylodIndex, [self formateTime:[NSDate date]], payloadMsg];
-            FREDispatchStatusEventAsync(_freContext, (uint8_t*)"GETUI_DID_RECEIVE_PAYLOAD", (uint8_t*)[record UTF8String]);
+            NSString *record = [NSString stringWithFormat:@"%d, %@, %@%@", ++_lastPayloadIndex, [self formateTime:[NSDate date]], payloadMsg, offLine ? @"<离线消息>" : @""];
+            NSLog(@"ane_getui_receive_payload:%@",record);
+            NSString *msg = [NSString stringWithFormat:@"%@ : %@%@", [self formateTime:[NSDate date]], payloadMsg, offLine ? @"<离线消息>" : @""];
+            FREDispatchStatusEventAsync(_freContext, (uint8_t*)"GETUI_DID_RECEIVE_PAYLOAD", (uint8_t*)[msg UTF8String]);
         }
     }
-    [payloadMsg release];
 }
 
 - (void)GeTuiSdkDidSendMessage:(NSString *)messageId result:(int)result {
@@ -263,7 +246,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 
 - (void)GeTuiSDkDidNotifySdkState:(SdkStatus)aStatus {
     // [EXT]:通知SDK运行状态
-    _sdkStatus = aStatus;
+    NSLog(@"\n>>>[GexinSdk SdkState]:%u\n\n",aStatus);
 }
 
 //SDK设置推送模式回调

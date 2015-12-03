@@ -281,7 +281,7 @@ ANE_FUNCTION(initializePushNotificaiton){
 
 ANE_FUNCTION(pauseGetuiSdk){
     if(getuiDelegate){
-        [getuiDelegate enterBackground];
+        [getuiDelegate stopSdk];
     }
     return NULL;
 }
