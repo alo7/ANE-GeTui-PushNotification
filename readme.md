@@ -143,17 +143,8 @@ in build driectory, modify build.properties and run:
             private function onGetuiDidRegisterClient(e:GetuiPushNotificationEvent):void{
                 var clientId:String = String(e.data);
                 ...                
-            }
-            
-            // for ios enter background
-            public function onDeActivate():void{                
-                GetuiPushNotification.getInstance().pauseGetuiSdk();
-            }
-            
-            // for ios resume from background
-            public function onActivate():void{
-                GetuiPushNotification.getInstance().resumeGetuiSdk();
-            }
+            }         
+          
         
 ## Caution
 * in Android device, when appid，appsecret ,appkey changed, the getui cliendId maybe won't create new one ,then apps can't receive noticication( bug?), 
@@ -329,17 +320,8 @@ we need to uninstall apps and delete apps name .db file in device libs driectory
             private function onGetuiDidRegisterClient(e:GetuiPushNotificationEvent):void{
                 var clientId:String = String(e.data);
                 ...                
-            }
+            }  
             
-            // for ios 切到后台	
-            public function onDeActivate():void{                
-                GetuiPushNotification.getInstance().pauseGetuiSdk();
-            }
-            
-            // for ios 从后台恢复
-            public function onActivate():void{
-                GetuiPushNotification.getInstance().resumeGetuiSdk();
-            }
             
 
 ## 一些问题

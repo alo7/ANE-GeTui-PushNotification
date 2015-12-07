@@ -288,7 +288,7 @@ ANE_FUNCTION(pauseGetuiSdk){
 
 ANE_FUNCTION(resumeGetuiSdk){
     if(getuiDelegate){
-        [getuiDelegate recoverFromBackground];
+        [getuiDelegate reStartSdk];
     }
     return NULL;
 }

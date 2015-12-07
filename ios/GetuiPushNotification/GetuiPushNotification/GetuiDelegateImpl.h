@@ -31,8 +31,7 @@
 
 - (void)startSdkWith:(NSString *)appID appKey:(NSString *)appKey appSecret:(NSString *)appSecret;
 - (void)stopSdk;
-
-- (void)recoverFromBackground;
+- (void)reStartSdk;
 
 - (void)setDeviceToken:(NSString *)aToken;
 - (BOOL)setTags:(NSArray *)aTag error:(NSError **)error;

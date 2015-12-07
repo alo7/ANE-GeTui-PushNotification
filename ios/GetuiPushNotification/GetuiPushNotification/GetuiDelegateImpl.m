@@ -91,7 +91,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     [GeTuiSdk stopSdk];
 }
 
-- (void) recoverFromBackground {
+- (void) reStartSdk {
     [[UIApplication sharedApplication] cancelAllLocalNotifications];
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
     
