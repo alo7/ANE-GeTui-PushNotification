@@ -92,8 +92,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 }
 
 - (void) reStartSdk {
-    [[UIApplication sharedApplication] cancelAllLocalNotifications];
-    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+    [GeTuiSdk clearAllNotificationForNotificationBar];
     
     // [EXT] 重新上线
     [self startSdkWith:_appID appKey:_appKey appSecret:_appSecret];
@@ -140,8 +139,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 
 - (void)didReceiveRemoteNotification:(NSDictionary *)userinfo
 {
-    [[UIApplication sharedApplication] cancelAllLocalNotifications];
-    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+    [GeTuiSdk clearAllNotificationForNotificationBar];
     
     // [4-EXT]:处理APN
     NSString *stringInfo = [GetuiDelegateImpl convertToJSonString:userinfo];
@@ -157,6 +155,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     _appKey = [appKey retain];
     _appSecret = [appSecret retain];
     
+    NSLog(@">>>[GeTuiSdk version]:%@", [GeTuiSdk version]);
 //    NSError *err = nil;
     
     //[1-1]:通过 AppId、 appKey 、appSecret 启动SDK
@@ -255,7 +254,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     if (error) {
         logMsg = [NSString stringWithFormat:@">>>[SetModeOff error]: %@", [error localizedDescription]];
     }else{
-        logMsg = [NSString stringWithFormat:@">>>[GexinSdkSetModeOff]: %@",isModeOff?@"开启":@"关闭"];
+        logMsg = [NSString stringWithFormat:@">>>[GexinSdkSetModeOff]: %@",isModeOff?@"on":@"off"];
     }
     if(_freContext != nil)
     {
