@@ -10,8 +10,8 @@
 
 ## Features:
 
-- AIR apps in IOS receive push notification from Getui ( Getui IOS SDK 1.2.1)  [download](http://www.igetui.com/download/iOS/GETUI_IOS_SDK.zip)
-- AIR apps in Android receive push notification from Getui ( Getui Andorid SDK 2.6.4) [download](http://www.igetui.com/download/android/GETUI_ANDROID_SDK.zip)
+- AIR apps in IOS receive push notification from Getui ( Getui IOS SDK 1.3.2)  [download](http://www.igetui.com/download/iOS/GETUI_IOS_SDK.zip)
+- AIR apps in Android receive push notification from Getui ( Getui Andorid SDK 2.7.0) [download](http://www.igetui.com/download/android/GETUI_ANDROID_SDK.zip)
 
 ## Build
 in build driectory, modify build.properties and run:
@@ -143,7 +143,17 @@ in build driectory, modify build.properties and run:
             private function onGetuiDidRegisterClient(e:GetuiPushNotificationEvent):void{
                 var clientId:String = String(e.data);
                 ...                
-            }         
+            } 
+             		
+             // only for ios
+            public function onActivate():void{
+                    GetuiPushNotification.getInstance().resumeGetuiSdk();
+            }
+             	
+             // only for ios
+            public function onDeActivate():void{
+                GetuiPushNotification.getInstance().pauseGetuiSdk(); 
+            }
           
         
 ## Caution
@@ -166,8 +176,8 @@ we need to uninstall apps and delete apps name .db file in device libs driectory
 ## [个推消息推送](http://www.getui.com/)
 
 * 已实现以下功能
-    - IOS 接受个推消息推送 (个推 IOS SDK 1.2.1)
-    - Android 接受个推消息推送 (个推 Andorid SDK 2.6.4)
+    - IOS 接受个推消息推送 (个推 IOS SDK 1.3.2)
+    - Android 接受个推消息推送 (个推 Andorid SDK 2.7.0)
 
 * ios库项目
     - [个推 ios sdk 下载](http://www.igetui.com/download/iOS/GETUI_IOS_SDK.zip)
@@ -321,6 +331,20 @@ we need to uninstall apps and delete apps name .db file in device libs driectory
                 var clientId:String = String(e.data);
                 ...                
             }  
+            
+            /**
+             * 切回来时重新初始化
+             */		
+            public function onActivate():void{
+                    GetuiPushNotification.getInstance().resumeGetuiSdk();
+            }
+            
+            /**
+             * ios切到后台时关闭个推 
+             */		
+            public function onDeActivate():void{
+                GetuiPushNotification.getInstance().pauseGetuiSdk();//安卓不能调用这个，会收不到通知
+            }	
             
             
 
