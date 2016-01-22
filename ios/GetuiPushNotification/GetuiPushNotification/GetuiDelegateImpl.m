@@ -88,14 +88,18 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 }
 
 - (void) stopSdk {
-    [GeTuiSdk stopSdk];
+    if ([GeTuiSdk status] == SdkStatusStarted || [GeTuiSdk status] == SdkStatusStarting) {
+        [GeTuiSdk destroy];
+    }
 }
 
 - (void) reStartSdk {
     [GeTuiSdk clearAllNotificationForNotificationBar];
     
     // [EXT] 重新上线
-    [self startSdkWith:_appID appKey:_appKey appSecret:_appSecret];
+    if ([GeTuiSdk status] == SdkStatusStoped) {
+        [self startSdkWith:_appID appKey:_appKey appSecret:_appSecret];
+    }
 }
 
 
