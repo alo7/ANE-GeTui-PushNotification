@@ -202,7 +202,13 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     [GeTuiSdk unbindAlias:aAlias];
 }
 
+- (NSString *)getVersion
+{
+    return [GeTuiSdk version];
+}
+
 #pragma mark - GexinSdkDelegate
+/** SDK启动成功返回cid */
 - (void)GeTuiSdkDidRegisterClient:(NSString *)clientId
 {
     // [4-EXT-1]: 个推SDK已注册，返回clientId
@@ -213,14 +219,13 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     }
 }
 
-- (void)GeTuiSdkDidReceivePayload:(NSString *)payloadId andTaskId:(NSString *)taskId andMessageId:(NSString *)aMsgId andOffLine:(BOOL)offLine fromApplication:(NSString *)appId
-{
+/** SDK收到透传消息回调 */
+- (void)GeTuiSdkDidReceivePayloadData:(NSData *)payloadData andTaskId:(NSString *)taskId andMsgId:(NSString *)msgId andOffLine:(BOOL)offLine fromGtAppId:(NSString *)appId {
     // [4]: 收到个推消息
-    NSData *payload = [GeTuiSdk retrivePayloadById:payloadId];
     NSString *payloadMsg = nil;
-    if (payload) {
-        payloadMsg = [[NSString alloc] initWithBytes:payload.bytes
-                                              length:payload.length
+    if (payloadData) {
+        payloadMsg = [[NSString alloc] initWithBytes:payloadData.bytes
+                                              length:payloadData.length
                                             encoding:NSUTF8StringEncoding];
         if ( _freContext != nil )
         {
@@ -237,6 +242,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 //    NSString *record = [NSString stringWithFormat:@"Received sendmessage:%@ result:%d", messageId, result];
 }
 
+/** SDK遇到错误回调 */
 - (void)GeTuiSdkDidOccurError:(NSError *)error
 {
     // [EXT]:个推错误报告，集成步骤发生的任何错误都在这里通知，如果集成后，无法正常收到消息，查看这里的通知。
@@ -247,6 +253,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     }
 }
 
+/** SDK运行状态通知 */
 - (void)GeTuiSDkDidNotifySdkState:(SdkStatus)aStatus {
     // [EXT]:通知SDK运行状态
     NSLog(@"\n>>>[GexinSdk SdkState]:%u\n\n",aStatus);

@@ -99,7 +99,9 @@ ANE_FUNCTION(setTag);
 ANE_FUNCTION(sendLocalNotification);
 ANE_FUNCTION(cancelLocalNotification);
 ANE_FUNCTION(setIsAppInForeground);
+ANE_FUNCTION(getVersion);
 
 NSString * getStringFromFREObject(FREObject obj);
 FREObject createFREBool(BOOL value);
+FREObject getFREObjectFromString (NSString* objcString);
 void uncaughtExceptionHandler(NSException *exception);

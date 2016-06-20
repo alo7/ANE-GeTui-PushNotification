@@ -35,6 +35,7 @@ either expressed or implied, of the FreeBSD Project.
         <option>-ios_version_min 6.0</option>
         <option>-framework CoreBluetooth</option>
         <option>-framework CoreTelephony</option>
+        <option>-framework JavaScriptCore</option>
         <option>-lsqlite3</option>
         <option>-lz</option>
     </linkerOptions>

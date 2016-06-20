@@ -214,7 +214,8 @@ void ContextInitializer(void* extData, const uint8_t* ctxType, FREContext ctx, u
         MAP_FUNCTION(setTag, NULL),
         MAP_FUNCTION(sendLocalNotification, NULL),
         MAP_FUNCTION(cancelLocalNotification, NULL),
-        MAP_FUNCTION(setIsAppInForeground, NULL)
+        MAP_FUNCTION(setIsAppInForeground, NULL),
+        MAP_FUNCTION(getVersion, NULL)
     };
     
     *numFunctionsToTest = sizeof(func) / sizeof(FRENamedFunction);
@@ -408,6 +409,14 @@ ANE_FUNCTION(setIsAppInForeground)
     return NULL;
 }
 
+ANE_FUNCTION(getVersion)
+{
+    if(getuiDelegate){
+        return getFREObjectFromString([getuiDelegate getVersion]);
+    }
+    return NULL;
+}
+
 //将FREObject转成NSString
 NSString * getStringFromFREObject(FREObject obj)
 {
@@ -422,6 +431,20 @@ FREObject createFREBool(BOOL value)
     FREObject fo;
     FRENewObjectFromBool(value, &fo);
     return fo;
+}
+
+//将NSString转成FREObject
+FREObject getFREObjectFromString (NSString* objcString)
+{
+    FREObject returnFREobject = NULL;
+    
+    if ([objcString length] > 0)
+    {
+        const uint8_t   *strAS = (const uint8_t *)[objcString cStringUsingEncoding:NSUTF8StringEncoding];
+        FRENewObjectFromUTF8((uint32_t)(strlen((const char *)strAS)+1), strAS, &returnFREobject);
+    }
+    
+    return returnFREobject;
 }
 
 void uncaughtExceptionHandler(NSException *exception) {

@@ -39,6 +39,7 @@
 
 - (void)bindAlias:(NSString *)aAlias;
 - (void)unbindAlias:(NSString *)aAlias;
+- (NSString *)getVersion;
 
 //- (void)testSdkFunction;
 //- (void)testGetClientId;
