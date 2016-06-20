@@ -20,8 +20,6 @@
 		C2B276D81D17E8B0002DB798 /* libGeTuiSdk-1.4.2-noidfa.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C2B276D71D17E8B0002DB798 /* libGeTuiSdk-1.4.2-noidfa.a */; };
 		C2B276DA1D17F6FB002DB798 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2B276D91D17F6FB002DB798 /* JavaScriptCore.framework */; };
 		C2B8BD331B3BDFA600F95A05 /* FlashRuntimeExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = C2B8BD321B3BDFA600F95A05 /* FlashRuntimeExtensions.h */; };
-		C2EE02FD1C1581170034A8CA /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C2EE02FC1C1581170034A8CA /* libsqlite3.dylib */; };
-		C2EE02FF1C15817A0034A8CA /* libz.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C2EE02FE1C15817A0034A8CA /* libz.1.dylib */; };
 		C2FC32A61B7A1582004D9229 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2FC32A51B7A1582004D9229 /* CoreLocation.framework */; };
 		C2FC32A81B7A162E004D9229 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2FC32A71B7A162E004D9229 /* CoreTelephony.framework */; };
 		C2FC32AC1B7A1696004D9229 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2FC32AB1B7A1696004D9229 /* AVFoundation.framework */; };
@@ -55,8 +53,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C2B276DA1D17F6FB002DB798 /* JavaScriptCore.framework in Frameworks */,
-				C2EE02FF1C15817A0034A8CA /* libz.1.dylib in Frameworks */,
-				C2EE02FD1C1581170034A8CA /* libsqlite3.dylib in Frameworks */,
 				C26B09A01C10622000100E68 /* CoreBluetooth.framework in Frameworks */,
 				C2FC32AC1B7A1696004D9229 /* AVFoundation.framework in Frameworks */,
 				C2FC32A81B7A162E004D9229 /* CoreTelephony.framework in Frameworks */,
@@ -299,7 +295,11 @@
 					"$(PROJECT_DIR)/GetuiPushNotification/GtSdkLib",
 				);
 				ONLY_ACTIVE_ARCH = NO;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-lz",
+					"-lsqlite3",
+					"-ObjC",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/GetuiPushNotification/GtSdkLib ${SRCROOT}/GetuiPushNotification/";
@@ -320,7 +320,11 @@
 					"$(PROJECT_DIR)/GetuiPushNotification/GtSdkLib",
 				);
 				ONLY_ACTIVE_ARCH = NO;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-lz",
+					"-lsqlite3",
+					"-ObjC",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/GetuiPushNotification/GtSdkLib ${SRCROOT}/GetuiPushNotification/";

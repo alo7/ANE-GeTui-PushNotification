@@ -14,6 +14,7 @@ package com.alo7.ane.getuiPushNotification {
         private static const FUN_PAUSE_GETUI_SDK:String = "pauseGetuiSdk";
         private static const FUN_RESUME_GETUI_SDK:String = "resumeGetuiSdk";
         private static const FUN_SET_TAG:String = "setTag";
+        private static const FUN_GET_VERSION:String = "getVersion";
         private static const FUN_SEND_LOCAL_NOTIFICATION:String = "sendLocalNotification";
         private static const FUN_CANCEL_LOCAL_NOTIFICATION:String = "cancelLocalNotification";
         private static const FUN_SET_IS_APP_INFOREGROUND:String = "setIsAppInForeground";
@@ -127,6 +128,14 @@ package com.alo7.ane.getuiPushNotification {
             var result:Boolean = false;
             if(_extContext){
                 result = _extContext.call(FUN_SET_TAG,tag);
+            }
+            return result;
+        }
+
+        public function getVersion():String{
+            var result:String;
+            if(_extContext){
+                result =  String(_extContext.call(FUN_GET_VERSION));
             }
             return result;
         }

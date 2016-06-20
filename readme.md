@@ -10,8 +10,8 @@
 
 ## Features:
 
-- AIR apps in IOS receive push notification from Getui ( Getui IOS SDK 1.3.2)  [download](http://www.igetui.com/download/iOS/GETUI_IOS_SDK.zip)
-- AIR apps in Android receive push notification from Getui ( Getui Andorid SDK 2.7.0) [download](http://www.igetui.com/download/android/GETUI_ANDROID_SDK.zip)
+- AIR apps in IOS receive push notification from Getui ( Getui IOS SDK 1.4.2)  [download](http://www.getui.com/download/docs/iOS/GETUI_IOS_SDK.zip)
+- AIR apps in Android receive push notification from Getui ( Getui Andorid SDK 2.9.0.0) [download](http://www.getui.com/download/docs/android/GETUI_ANDROID_SDK.zip)
 
 ## Build
 in build driectory, modify build.properties and run:
@@ -54,9 +54,11 @@ in build driectory, modify build.properties and run:
                     android:exported="true"
                     android:label="NotificationCenter"
                     android:process=":pushservice" >
+                    <intent-filter>
+                        <action android:name="com.igexin.sdk.action.service.message"/> 
+                    </intent-filter>
                 </service>
 
-                <!-- SDK　2.6.1.0 new setting -->
                 <service
                     android:name="com.igexin.sdk.PushServiceUser"
                     android:exported="true"
@@ -68,7 +70,11 @@ in build driectory, modify build.properties and run:
                         <action android:name="android.intent.action.BOOT_COMPLETED" />
                         <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
                         <action android:name="android.intent.action.USER_PRESENT" />
-                        <action android:name="com.igexin.sdk.action.refreshls" />
+                        <action android:name="com.igexin.sdk.action.refreshls" />                        
+                         <!-- up livability  -->
+                        <action android:name="android.intent.action.MEDIA_MOUNTED" />
+                        <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
+                        <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
                     </intent-filter>
                 </receiver>
                 <receiver android:name="com.igexin.sdk.PushManagerReceiver"
@@ -78,46 +84,31 @@ in build driectory, modify build.properties and run:
                     </intent-filter>
                 </receiver>
 
-                <activity android:name="com.igexin.sdk.PushActivity"
-                    android:process=":pushservice"
-                    android:theme="@android:style/Theme.Translucent.NoTitleBar"
-                    android:taskAffinity="com.igexin.sdk.PushActivityTask"
-                    android:excludeFromRecents="true"
-                    android:exported="false">
-                </activity>
-
-                <!-- popup activity -->
-                <activity android:name="com.igexin.getuiext.activity.GetuiExtActivity"
-                    android:process=":pushservice"
-                    android:configChanges="orientation|keyboard|keyboardHidden"
-                    android:excludeFromRecents="true"
-                    android:taskAffinity="android.task.myServicetask"
-                    android:theme="@android:style/Theme.Translucent.NoTitleBar"
-                    android:exported="false" />
-                <receiver android:name="com.igexin.getuiext.service.PayloadReceiver"
-                    android:exported="false" >
+                <activity
+                    android:name="com.igexin.sdk.PushActivity" android:excludeFromRecents="true"
+                    android:exported="false"
+                    android:process=":pushservice" 
+                    android:taskAffinity="com.igexin.sdk.PushActivityTask" 
+                    android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+                <activity
+                    android:name="com.igexin.sdk.GActivity" android:excludeFromRecents="true"
+                    android:exported="true"
+                    android:process=":pushservice" 
+                    android:taskAffinity="com.igexin.sdk.PushActivityTask" 
+                    android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+                <service
+                    android:name="com.igexin.download.DownloadService"
+                    android:process=":pushservice"/>
+                <receiver android:name="com.igexin.download.DownloadReceiver">
                     <intent-filter>
-                        <!-- com.igexin.sdk.action.7fjUl2Z3LH6xYy7NQK4ni4 don't change  -->
-                        <action android:name="com.igexin.sdk.action.7fjUl2Z3LH6xYy7NQK4ni4" />
-                        <!-- android:name="com.igexin.sdk.action. 3rd party's appId" -->
-                        <action android:name="com.igexin.sdk.action.u1spWZXtjZ8FxmRUZCPr44" />
+                        <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
                     </intent-filter>
                 </receiver>
-                <service android:name="com.igexin.getuiext.service.GetuiExtService"
-                    android:process=":pushservice" />
-
-                <!-- download module-->
-                <service android:name="com.igexin.download.DownloadService"
-                    android:process=":pushservice" />
-                <receiver
-                    android:exported="false" android:name="com.igexin.download.DownloadReceiver">
-                    <intent-filter>
-                        <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-                    </intent-filter>
-                </receiver>
-                <provider android:name="com.igexin.download.DownloadProvider"
-                    android:process=":pushservice"
-                    android:authorities="downloads.air.com.alo7.xxxx"/>
+                <provider
+                    android:name="com.igexin.download.DownloadProvider" 
+                    android:authorities="downloads.air.com.alo7.xxx" 
+                    android:exported="true" 
+                    android:process=":pushservice"/>              
                     <!-- android:authorities="downloads.3rd party's package name", add air. for air apps name -->
                 <!-- ====================================================== -->
         
@@ -176,8 +167,8 @@ we need to uninstall apps and delete apps name .db file in device libs driectory
 ## [个推消息推送](http://www.getui.com/)
 
 * 已实现以下功能
-    - IOS 接受个推消息推送 (个推 IOS SDK 1.3.2)
-    - Android 接受个推消息推送 (个推 Andorid SDK 2.7.0)
+    - IOS 接受个推消息推送 (个推 IOS SDK 1.4.2)
+    - Android 接受个推消息推送 (个推 Andorid SDK 2.9.0)
 
 * ios库项目
     - [个推 ios sdk 下载](http://www.igetui.com/download/iOS/GETUI_IOS_SDK.zip)
@@ -211,7 +202,7 @@ we need to uninstall apps and delete apps name .db file in device libs driectory
                 </iPhone>
 
     * android平台
-        * 需要修改app.xml,添加权限和服务配置，详见[个推安卓sdk的接入文档：在AndroidManifest.xml 里添加相关声明](http://docs.igetui.com/pages/viewpage.action?pageId=589991)
+        * 需要修改app.xml,添加权限和服务配置，详见[个推安卓sdk的接入文档：在AndroidManifest.xml 里添加相关声明](http://docs.getui.com/mobile/android/eclipse/#androidmanifestxml)
         * 部分配置参考
 
                 <!-- 个推SDK配置开始 -->
@@ -236,6 +227,9 @@ we need to uninstall apps and delete apps name .db file in device libs driectory
                     android:exported="true"
                     android:label="NotificationCenter"
                     android:process=":pushservice" >
+                    <intent-filter>
+                        <action android:name="com.igexin.sdk.action.service.message"/> 
+                    </intent-filter>
                 </service>
                 
                 <!-- SDK　2.6.1.0版本新增配置项 -->
@@ -273,38 +267,31 @@ we need to uninstall apps and delete apps name .db file in device libs driectory
                     android:exported="false">
                 </activity>
 
-                <!-- 配置弹框activity -->
-                <activity android:name="com.igexin.getuiext.activity.GetuiExtActivity"
-                    android:process=":pushservice"
-                    android:configChanges="orientation|keyboard|keyboardHidden"
-                    android:excludeFromRecents="true"
-                    android:taskAffinity="android.task.myServicetask"
-                    android:theme="@android:style/Theme.Translucent.NoTitleBar"
-                    android:exported="false" />
-                <receiver android:name="com.igexin.getuiext.service.PayloadReceiver"
-                    android:exported="false" >
+                <activity
+                    android:name="com.igexin.sdk.PushActivity" android:excludeFromRecents="true"
+                    android:exported="false"
+                    android:process=":pushservice" 
+                    android:taskAffinity="com.igexin.sdk.PushActivityTask" 
+                    android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+                <activity
+                    android:name="com.igexin.sdk.GActivity" android:excludeFromRecents="true"
+                    android:exported="true"
+                    android:process=":pushservice" 
+                    android:taskAffinity="com.igexin.sdk.PushActivityTask" 
+                    android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+                <service
+                    android:name="com.igexin.download.DownloadService"
+                    android:process=":pushservice"/>
+                <receiver android:name="com.igexin.download.DownloadReceiver">
                     <intent-filter>
-                        <!-- 这个com.igexin.sdk.action.7fjUl2Z3LH6xYy7NQK4ni4固定，不能修改  -->
-                        <action android:name="com.igexin.sdk.action.7fjUl2Z3LH6xYy7NQK4ni4" />
-                        <!-- android:name="com.igexin.sdk.action.第三方的appId" -->
-                        <action android:name="com.igexin.sdk.action.u1spWZXtjZ8FxmRUZCPr44" />
+                        <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
                     </intent-filter>
                 </receiver>
-                <service android:name="com.igexin.getuiext.service.GetuiExtService"
-                    android:process=":pushservice" />
-
-                <!-- 个推download模块配置-->
-                <service android:name="com.igexin.download.DownloadService"
-                    android:process=":pushservice" />
-                <receiver
-                    android:exported="false" android:name="com.igexin.download.DownloadReceiver">
-                    <intent-filter>
-                        <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-                    </intent-filter>
-                </receiver>
-                <provider android:name="com.igexin.download.DownloadProvider"
-                    android:process=":pushservice"
-                    android:authorities="downloads.air.com.alo7.xxxx"/>
+                <provider
+                    android:name="com.igexin.download.DownloadProvider" 
+                    android:authorities="downloads.air.com.alo7.xxx" 
+                    android:exported="true" 
+                    android:process=":pushservice"/> 
                     <!-- android:authorities="downloads.第三方包名",AIR应用包名前可能要加air. -->
                 <!-- ====================================================== -->
 
@@ -326,7 +313,7 @@ we need to uninstall apps and delete apps name .db file in device libs driectory
             }
             
             
-            // 把获取到的clienId 发送个应用自己的服务端，服务端就可以给改设备发通知了
+            // 把获取到的clienId 发送给应用自己的服务端，服务端就可以给改设备发通知了
             private function onGetuiDidRegisterClient(e:GetuiPushNotificationEvent):void{
                 var clientId:String = String(e.data);
                 ...                
@@ -353,8 +340,7 @@ we need to uninstall apps and delete apps name .db file in device libs driectory
   并删除设备libs目录下对应应用名的db文件后再重装应用，才会生成新的clientId（bug?）
 
 * android 的推送icon图标push.png是打包在ane中的，无法在实际项目中配置，几种解决办法：
-    * 修改实际项目生成的apk文件，替换其中的push.png文件，参考 scripts/replace_apk_res.sh，apk解包、打包、重签名过程可能出问题，不推荐
-    * 打包apk前，修改个推ane，替换其中的push.png文件，参考 scripts/replace_ane_android_res.sh, 推荐使用此方式
-
+    * 打包apk前，修改个推ane，替换其中的push.png文件，参考 scripts/replace_ane_android_res.sh
+    
 * 和其他基于第三方sdk开发的ane混用的会有冲突
-    * 目前只能去掉一些res下的资源来避免app打包失败，比如安卓项目中的res目录下的资源无法全部打包进ane中，寻求更好的解决办法。。。
+    * 目前只能去掉一些res下的资源来避免app打包失败，比如不要把安卓项目中的res目录下的资源无法全部打包进ane中。

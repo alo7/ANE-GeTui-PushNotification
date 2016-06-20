@@ -20,6 +20,7 @@ public class GetuiContext extends FREContext {
         map.put("resumeGetuiSdk",new ResumeGetuiSdkFunction());
         map.put("pauseGetuiSdk",new PauseGetuiSdkFunction());
         map.put("setTag",new SetTagFunction());
+        map.put("getVersion", new GetVersionFunction());
 //        map.put("sendLocalNotification",new LocalNotificationFunction());
 //        map.put("cancelLocalNotification",new CancelLocalNotificationFunction());
 //        map.put("setIsAppInForeground",new SetIsAppInForegroundFunction());
