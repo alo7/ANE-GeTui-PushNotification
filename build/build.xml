@@ -86,10 +86,12 @@
 
         <!-- 安卓的一些配置文件可能和别的ane的同名文件冲突，排除掉部分目前用不到的文件，寻求更好的解决方法。。。 -->
         <copy todir="${build.dir.package}/Android-ARM/res" overwrite="true">
-            <fileset dir="${android.prj.dir}/res" excludes="values/strings.xml layout/increment_popup_dialog.xml"/>
+            <fileset dir="${android.prj.dir}/res"/>
+            <!--<fileset dir="${android.prj.dir}/res" excludes="values/strings.xml layout/increment_popup_dialog.xml"/>-->
         </copy>
         <copy todir="${build.dir.package}/Android-x86/res" overwrite="true">
-            <fileset dir="${android.prj.dir}/res" excludes="values/strings.xml layout/increment_popup_dialog.xml"/>
+            <fileset dir="${android.prj.dir}/res"/>
+            <!--<fileset dir="${android.prj.dir}/res" excludes="values/strings.xml layout/increment_popup_dialog.xml"/>-->
         </copy>
     </target>
 

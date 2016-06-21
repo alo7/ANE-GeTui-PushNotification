@@ -344,3 +344,14 @@ we need to uninstall apps and delete apps name .db file in device libs driectory
     
 * 和其他基于第三方sdk开发的ane混用的会有冲突
     * 目前只能去掉一些res下的资源来避免app打包失败，比如不要把安卓项目中的res目录下的资源无法全部打包进ane中。
+    
+* 出现Error: This attribute must be localized. (at 'text' with value 'xxxx').
+    * 修改对应的文本,字string.xml中添加string,替代布局文件中出错的文本,     
+
+        For example, in res/values/string.xml:    
+        
+        <string name="topLeftContent">TOP_LEFT</string>
+            
+        And in your main.xml layout, refer to the content by name: 
+           
+        android:text="@string/topLeftContent"

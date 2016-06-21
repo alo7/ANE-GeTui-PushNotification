@@ -416,7 +416,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
-                    android:text="50%"
+                    android:text="@string/getui_text_1"
                     android:textSize="12sp"/>
             </RelativeLayout>
         </LinearLayout>
@@ -446,7 +446,7 @@
                     android:layout_weight="1"
                     android:ellipsize="end"
                     android:singleLine="true"
-                    android:text="title"/>
+                    android:text="@string/getui_text_2"/>
 
                 <TextView
                     android:id="@+id/getui_notification_L_time"
