@@ -10,8 +10,8 @@
 
 ## Features:
 
-- AIR apps in IOS receive push notification from Getui ( Getui IOS SDK 1.4.2)  [download](http://www.getui.com/download/docs/iOS/GETUI_IOS_SDK.zip)
-- AIR apps in Android receive push notification from Getui ( Getui Andorid SDK 2.9.0.0) [download](http://www.getui.com/download/docs/android/GETUI_ANDROID_SDK.zip)
+- AIR apps in IOS receive push notification from Getui ( Getui IOS SDK 1.5.3)  [download](http://www.getui.com/download/docs/iOS/GETUI_IOS_SDK.zip)
+- AIR apps in Android receive push notification from Getui ( Getui Andorid SDK 2.9.3.0) [download](http://www.getui.com/download/docs/android/GETUI_ANDROID_SDK.zip)
 
 ## Build
 in build driectory, modify build.properties and run:
@@ -167,8 +167,8 @@ we need to uninstall apps and delete apps name .db file in device libs driectory
 ## [个推消息推送](http://www.getui.com/)
 
 * 已实现以下功能
-    - IOS 接受个推消息推送 (个推 IOS SDK 1.4.2)
-    - Android 接受个推消息推送 (个推 Andorid SDK 2.9.0)
+    - IOS 接受个推消息推送 (个推 IOS SDK 1.5.3)
+    - Android 接受个推消息推送 (个推 Andorid SDK 2.9.3)
 
 * ios库项目
     - [个推 ios sdk 下载](http://www.igetui.com/download/iOS/GETUI_IOS_SDK.zip)

@@ -10,14 +10,15 @@
 		C216B2291C51D2F700230CF1 /* GeTuiSdk.h in Headers */ = {isa = PBXBuildFile; fileRef = C216B2271C51D2F700230CF1 /* GeTuiSdk.h */; };
 		C23A25CB1A2C58A0001726C6 /* GetuiDelegateImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = C23A25C91A2C58A0001726C6 /* GetuiDelegateImpl.m */; };
 		C23A25CC1A2C58A0001726C6 /* GetuiDelegateImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = C23A25CA1A2C58A0001726C6 /* GetuiDelegateImpl.h */; };
+		C2481D0A1DE317B30000033B /* libGeTuiSdk-1.5.3-noidfa.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C2481D071DE317B30000033B /* libGeTuiSdk-1.5.3-noidfa.a */; };
+		C2481D101DE31A9D0000033B /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2481D0F1DE31A9D0000033B /* MobileCoreServices.framework */; };
+		C2481D121DE31CE60000033B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2481D111DE31CE60000033B /* Security.framework */; };
 		C2547AE51A274B0400905F4B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2547AE41A274B0400905F4B /* Foundation.framework */; };
 		C2547AE91A274B0400905F4B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2547AE81A274B0400905F4B /* UIKit.framework */; };
 		C2547AEF1A274B0400905F4B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2547AEE1A274B0400905F4B /* SystemConfiguration.framework */; };
 		C2547AF31A274B0400905F4B /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2547AF21A274B0400905F4B /* CFNetwork.framework */; };
 		C2547B101A274B0400905F4B /* GetuiPushNotification.h in Headers */ = {isa = PBXBuildFile; fileRef = C2547B0F1A274B0400905F4B /* GetuiPushNotification.h */; };
 		C2547B121A274B0400905F4B /* GetuiPushNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = C2547B111A274B0400905F4B /* GetuiPushNotification.m */; };
-		C26B09A01C10622000100E68 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C26B099F1C10622000100E68 /* CoreBluetooth.framework */; };
-		C2B276D81D17E8B0002DB798 /* libGeTuiSdk-1.4.2-noidfa.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C2B276D71D17E8B0002DB798 /* libGeTuiSdk-1.4.2-noidfa.a */; };
 		C2B276DA1D17F6FB002DB798 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2B276D91D17F6FB002DB798 /* JavaScriptCore.framework */; };
 		C2B8BD331B3BDFA600F95A05 /* FlashRuntimeExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = C2B8BD321B3BDFA600F95A05 /* FlashRuntimeExtensions.h */; };
 		C2FC32A61B7A1582004D9229 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2FC32A51B7A1582004D9229 /* CoreLocation.framework */; };
@@ -29,6 +30,10 @@
 		C216B2271C51D2F700230CF1 /* GeTuiSdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeTuiSdk.h; sourceTree = "<group>"; };
 		C23A25C91A2C58A0001726C6 /* GetuiDelegateImpl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetuiDelegateImpl.m; sourceTree = "<group>"; };
 		C23A25CA1A2C58A0001726C6 /* GetuiDelegateImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetuiDelegateImpl.h; sourceTree = "<group>"; };
+		C2481D071DE317B30000033B /* libGeTuiSdk-1.5.3-noidfa.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libGeTuiSdk-1.5.3-noidfa.a"; sourceTree = "<group>"; };
+		C2481D0D1DE31A3D0000033B /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		C2481D0F1DE31A9D0000033B /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		C2481D111DE31CE60000033B /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		C2547AE11A274B0400905F4B /* libGetuiPushNotification.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libGetuiPushNotification.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2547AE41A274B0400905F4B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C2547AE81A274B0400905F4B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -37,7 +42,6 @@
 		C2547B0F1A274B0400905F4B /* GetuiPushNotification.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GetuiPushNotification.h; sourceTree = "<group>"; };
 		C2547B111A274B0400905F4B /* GetuiPushNotification.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GetuiPushNotification.m; sourceTree = "<group>"; };
 		C26B099F1C10622000100E68 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
-		C2B276D71D17E8B0002DB798 /* libGeTuiSdk-1.4.2-noidfa.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libGeTuiSdk-1.4.2-noidfa.a"; sourceTree = "<group>"; };
 		C2B276D91D17F6FB002DB798 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		C2B8BD321B3BDFA600F95A05 /* FlashRuntimeExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlashRuntimeExtensions.h; sourceTree = "<group>"; };
 		C2EE02FC1C1581170034A8CA /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = ../../../../../../usr/lib/libsqlite3.dylib; sourceTree = "<group>"; };
@@ -52,14 +56,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C2481D121DE31CE60000033B /* Security.framework in Frameworks */,
+				C2481D101DE31A9D0000033B /* MobileCoreServices.framework in Frameworks */,
+				C2547AEF1A274B0400905F4B /* SystemConfiguration.framework in Frameworks */,
 				C2B276DA1D17F6FB002DB798 /* JavaScriptCore.framework in Frameworks */,
-				C26B09A01C10622000100E68 /* CoreBluetooth.framework in Frameworks */,
+				C2481D0A1DE317B30000033B /* libGeTuiSdk-1.5.3-noidfa.a in Frameworks */,
 				C2FC32AC1B7A1696004D9229 /* AVFoundation.framework in Frameworks */,
 				C2FC32A81B7A162E004D9229 /* CoreTelephony.framework in Frameworks */,
 				C2FC32A61B7A1582004D9229 /* CoreLocation.framework in Frameworks */,
 				C2547AF31A274B0400905F4B /* CFNetwork.framework in Frameworks */,
-				C2547AEF1A274B0400905F4B /* SystemConfiguration.framework in Frameworks */,
-				C2B276D81D17E8B0002DB798 /* libGeTuiSdk-1.4.2-noidfa.a in Frameworks */,
 				C2547AE91A274B0400905F4B /* UIKit.framework in Frameworks */,
 				C2547AE51A274B0400905F4B /* Foundation.framework in Frameworks */,
 			);
@@ -71,7 +76,7 @@
 		C216B2261C51D2F700230CF1 /* GtSdkLib */ = {
 			isa = PBXGroup;
 			children = (
-				C2B276D71D17E8B0002DB798 /* libGeTuiSdk-1.4.2-noidfa.a */,
+				C2481D071DE317B30000033B /* libGeTuiSdk-1.5.3-noidfa.a */,
 				C216B2271C51D2F700230CF1 /* GeTuiSdk.h */,
 			);
 			path = GtSdkLib;
@@ -97,6 +102,9 @@
 		C2547AE31A274B0400905F4B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C2481D111DE31CE60000033B /* Security.framework */,
+				C2481D0F1DE31A9D0000033B /* MobileCoreServices.framework */,
+				C2481D0D1DE31A3D0000033B /* libc++.tbd */,
 				C2B276D91D17F6FB002DB798 /* JavaScriptCore.framework */,
 				C2EE02FC1C1581170034A8CA /* libsqlite3.dylib */,
 				C2EE02FE1C15817A0034A8CA /* libz.1.dylib */,
@@ -298,6 +306,7 @@
 				OTHER_LDFLAGS = (
 					"-lz",
 					"-lsqlite3",
+					"-lc++",
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -323,6 +332,7 @@
 				OTHER_LDFLAGS = (
 					"-lz",
 					"-lsqlite3",
+					"-lc++",
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";

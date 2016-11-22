@@ -34,57 +34,18 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 // 注册消息推送
 - (void)registerRemoteNotification
 {
-#ifdef __IPHONE_8_0
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0) {
-        //IOS8 新的通知机制category注册
-        UIMutableUserNotificationAction *action1;
-        action1 = [[UIMutableUserNotificationAction alloc] init];
-        [action1 setActivationMode:UIUserNotificationActivationModeBackground];
-        [action1 setTitle:@"取消"];
-        [action1 setIdentifier:NotificationActionOneIdent];
-        [action1 setDestructive:NO];
-        [action1 setAuthenticationRequired:NO];
-        
-        UIMutableUserNotificationAction *action2;
-        action2 = [[UIMutableUserNotificationAction alloc] init];
-        [action2 setActivationMode:UIUserNotificationActivationModeBackground];
-        [action2 setTitle:@"回复"];
-        [action2 setIdentifier:NotificationActionTwoIdent];
-        [action2 setDestructive:NO];
-        [action2 setAuthenticationRequired:NO];
-        
-        UIMutableUserNotificationCategory *actionCategory;
-        actionCategory = [[UIMutableUserNotificationCategory alloc] init];
-        [actionCategory setIdentifier:NotificationCategoryIdent];
-        [actionCategory setActions:@[action1, action2]
-                        forContext:UIUserNotificationActionContextDefault];
-        
-        NSSet *categories = [NSSet setWithObject:actionCategory];
-        UIUserNotificationType types = (UIUserNotificationTypeAlert|
-                                        UIUserNotificationTypeSound|
-                                        UIUserNotificationTypeBadge);
-        
-        UIUserNotificationSettings *settings;
-        settings = [UIUserNotificationSettings settingsForTypes:types categories:categories];
-        [[UIApplication sharedApplication] registerForRemoteNotifications];
+        UIUserNotificationType types = (UIUserNotificationTypeAlert | UIUserNotificationTypeSound | UIUserNotificationTypeBadge);
+        UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
         [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
-        
-        [action1 release];
-        [action2 release];
-        [actionCategory release];
-        
+        [[UIApplication sharedApplication] registerForRemoteNotifications];
     } else {
         UIRemoteNotificationType apn_type = (UIRemoteNotificationType)(UIRemoteNotificationTypeAlert|
                                                                        UIRemoteNotificationTypeSound|
                                                                        UIRemoteNotificationTypeBadge);
         [[UIApplication sharedApplication] registerForRemoteNotificationTypes:apn_type];
     }
-#else
-    UIRemoteNotificationType apn_type = (UIRemoteNotificationType)(UIRemoteNotificationTypeAlert|
-                                                                   UIRemoteNotificationTypeSound|
-                                                                   UIRemoteNotificationTypeBadge);
-    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:apn_type];
-#endif
+
 }
 
 - (void) stopSdk {
@@ -162,15 +123,15 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     NSLog(@">>>[GeTuiSdk version]:%@", [GeTuiSdk version]);
 //    NSError *err = nil;
     
-    //[1-1]:通过 AppId、 appKey 、appSecret 启动SDK
-//    [GeTuiSdk startSdkWithAppId:appID appKey:appKey appSecret:appSecret delegate:self error:&err];
-    [GeTuiSdk startSdkWithAppId:appID appKey:appKey appSecret:appSecret delegate:self];
-    
-    //[1-2]:设置是否后台运行开关
+    //设置是否后台运行开关
     [GeTuiSdk runBackgroundEnable:NO];
     
-    //[1-3]:设置电子围栏功能，开启LBS定位服务 和 是否允许SDK 弹出用户定位请求
+    //设置电子围栏功能，开启LBS定位服务 和 是否允许SDK 弹出用户定位请求
     [GeTuiSdk lbsLocationEnable:NO andUserVerify:NO];
+    
+    //通过 AppId、 appKey 、appSecret 启动SDK
+    [GeTuiSdk startSdkWithAppId:appID appKey:appKey appSecret:appSecret delegate:self];
+    
     
 //    if(err &&  _freContext != nil) {
 //        FREDispatchStatusEventAsync(_freContext, (uint8_t*)"start_getui_sdk_error", (uint8_t*)[[err localizedDescription] UTF8String]);
@@ -191,15 +152,6 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 - (NSString *)sendMessage:(NSData *)body error:(NSError **)error
 {
     return [GeTuiSdk sendMessage:body error:error];
-}
-
-- (void)bindAlias:(NSString *)aAlias {
-    [GeTuiSdk bindAlias:aAlias];
-}
-
-- (void)unbindAlias:(NSString *)aAlias {
-    
-    [GeTuiSdk unbindAlias:aAlias];
 }
 
 - (NSString *)getVersion

@@ -63,7 +63,7 @@
             <classpath>
                 <libfileset dir="${android.prj.dir}/libs" />
                 <pathelement location="${android.sdk}/android.jar"/>
-                <!--<pathelement location="${flex.sdk}/lib/android/FlashRuntimeExtensions.jar"/>-->
+                <pathelement location="${air.sdk}/lib/android/FlashRuntimeExtensions.jar"/>
             </classpath>
         </javac>
             

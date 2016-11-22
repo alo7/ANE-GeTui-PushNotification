@@ -14,6 +14,9 @@ typedef enum {
     SdkStatusStoped    // 停止
 } SdkStatus;
 
+#define kGtResponseBindType @"bindAlias"
+#define kGtResponseUnBindType @"unbindAlias"
+
 @protocol GeTuiSdkDelegate;
 
 @interface GeTuiSdk : NSObject
@@ -29,11 +32,6 @@ typedef enum {
  *  @param delegate  回调代理delegate
  */
 + (void)startSdkWithAppId:(NSString *)appid appKey:(NSString *)appKey appSecret:(NSString *)appSecret delegate:(id<GeTuiSdkDelegate>)delegate;
-
-/**
- *  停止SDK，并且释放资源（已弃用）
- */
-+ (void)stopSdk __deprecated;
 
 /**
  *  销毁SDK，并且释放资源
@@ -88,15 +86,17 @@ typedef enum {
  */
 + (void)lbsLocationEnable:(BOOL)isEnable andUserVerify:(BOOL)isVerify;
 
+#pragma mark -
+
 /**
- *  设置处理显示的AlertView是否随屏幕旋转
+ *  设置渠道
  *  备注：SDK可以未启动就调用该方法
  *
- *  @param orientations 支持的屏幕方向列表，具体值请参照UIInterfaceOrientation（From iOS SDK）
+ *  SDK-1.5.0+
+ *
+ *  @param aChannelId 渠道值，可以为空值
  */
-+ (void)setAllowedRotateUiOrientations:(NSArray *)orientations;
-
-#pragma mark -
++ (void)setChannelId:(NSString *)aChannelId;
 
 /**
  *  向个推服务器注册DeviceToken
@@ -111,15 +111,17 @@ typedef enum {
  *  绑定别名功能:后台可以根据别名进行推送
  *
  *  @param alias 别名字符串
+ *  @param aSn   绑定序列码, 不为nil
  */
-+ (void)bindAlias:(NSString *)alias;
++ (void)bindAlias:(NSString *)alias andSequenceNum:(NSString *)aSn;
 
 /**
  *  取消绑定别名功能
  *
  *  @param alias 别名字符串
+ *  @param aSn   绑定序列码, 不为nil
  */
-+ (void)unbindAlias:(NSString *)alias;
++ (void)unbindAlias:(NSString *)alias andSequenceNum:(NSString *)aSn;
 
 /**
  *  给用户打标签 , 后台可以根据标签进行推送
@@ -135,7 +137,7 @@ typedef enum {
  *
  *  @param isValue 消息推送开发，YES.关闭消息推送 NO.开启消息推送
  *
- *  SDK-1.2.1
+ *  SDK-1.2.1+
  *
  */
 + (void)setPushModeForOff:(BOOL)isValue;
@@ -144,7 +146,7 @@ typedef enum {
  *  同步角标值到个推服务器
  *  该方法只是同步角标值到个推服务器，本地仍须调用setApplicationIconBadgeNumber函数
  *
- *  SDK-1.4.0
+ *  SDK-1.4.0+
  *
  *  @param value 角标数值
  */
@@ -153,12 +155,19 @@ typedef enum {
 /**
  *  复位角标，等同于"setBadge:0"
  *
- *  SDK-1.4.0
+ *  SDK-1.4.0+
  *
  */
 + (void)resetBadge;
 
 #pragma mark -
+
+/**
+ *  远程推送消息处理
+ *
+ *  @param userInfo 远程推送消息
+ */
++ (void)handleRemoteNotification:(NSDictionary *)userInfo;
 
 /**
  *  SDK发送上行消息结果
@@ -180,21 +189,12 @@ typedef enum {
  *  @return BOOL，YES表示尝试提交成功，NO表示尝试提交失败。注：该结果不代表服务器收到该条数据
  *  该方法需要在回调方法“GeTuiSdkDidReceivePayload:andTaskId:andMessageId:andOffLine:fromApplication:”使用
  */
-+ (BOOL)sendFeedbackMessage:(NSInteger)actionId taskId:(NSString *)taskId msgId:(NSString *)msgId;
++ (BOOL)sendFeedbackMessage:(NSInteger)actionId andTaskId:(NSString *)taskId andMsgId:(NSString *)msgId;
 
 /**
  *  清空下拉通知栏全部通知,并将角标置“0”，不显示角标
  */
 + (void)clearAllNotificationForNotificationBar;
-
-/**
- *  根据payloadId取回Payload数据（已弃用）
- *
- *  @param payloadId 个推SDK获取到透传消息时返回的payloadId
- *
- *  @return 下发的消息数据
- */
-+ (NSData *)retrivePayloadById:(NSString *)payloadId __deprecated;
 
 @end
 
@@ -211,18 +211,6 @@ typedef enum {
  *  注意: 注册成功仅表示推送通道建立，如果appid/appkey/appSecret等验证不通过，依然无法接收到推送消息，请确保验证信息正确。
  */
 - (void)GeTuiSdkDidRegisterClient:(NSString *)clientId;
-
-/**
- *  SDK通知收到个推推送的透传消息（已弃用）
- *
- *  @param payloadId 代表推送消息的唯一id
- *  @param taskId    推送消息的任务id
- *  @param aMsgId    推送消息的messageid
- *  @param offLine   是否是离线消息，YES.是离线消息
- *  @param appId     应用的appId
- *  说明: SDK会将推送消息在本地数据库中保留5天，请及时取出（See retrivePayloadById：），取出后消息将被删除。
- */
-- (void)GeTuiSdkDidReceivePayload:(NSString *)payloadId andTaskId:(NSString *)taskId andMessageId:(NSString *)aMsgId andOffLine:(BOOL)offLine fromApplication:(NSString *)appId __deprecated;
 
 /**
  *  SDK通知收到个推推送的透传消息
@@ -266,5 +254,15 @@ typedef enum {
  *  @param error     错误回调，返回设置时的错误信息
  */
 - (void)GeTuiSdkDidSetPushMode:(BOOL)isModeOff error:(NSError *)error;
+
+/**
+ *  SDK绑定、解绑回调
+ *
+ *  @param action       回调动作类型 kGtResponseBindType 或 kGtResponseUnBindType
+ *  @param isSuccess    成功返回 YES, 失败返回 NO
+ *  @param aSn          返回请求的序列码
+ *  @param aError       成功返回nil, 错误返回相应error信息
+ */
+- (void)GeTuiSdkDidAliasAction:(NSString *)action result:(BOOL)isSuccess sequenceNum:(NSString *)aSn error:(NSError *)aError;
 
 @end

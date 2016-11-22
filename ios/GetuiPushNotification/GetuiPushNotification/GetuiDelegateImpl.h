@@ -37,8 +37,6 @@
 - (BOOL)setTags:(NSArray *)aTag error:(NSError **)error;
 - (NSString *)sendMessage:(NSData *)body error:(NSError **)error;
 
-- (void)bindAlias:(NSString *)aAlias;
-- (void)unbindAlias:(NSString *)aAlias;
 - (NSString *)getVersion;
 
 //- (void)testSdkFunction;
