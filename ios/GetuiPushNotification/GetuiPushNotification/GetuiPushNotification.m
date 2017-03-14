@@ -57,25 +57,6 @@
 //- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{return YES;}
 
 
-+ (void) cancelAllLocalNotificationsWithId:(NSNumber*) notifId
-{
-    // we remove all notifications with the localNotificationId
-    for (UILocalNotification* notif in [UIApplication sharedApplication].scheduledLocalNotifications)
-    {
-        if (notif.userInfo != nil)
-        {
-            if ([notif.userInfo objectForKey:[notifId stringValue]])
-            {
-                [[UIApplication sharedApplication] cancelLocalNotification:notif];
-            }
-        } else if ([notifId intValue] == 0) // for migration purpose (all the notifications without userInfo will be removed)
-        {
-            [[UIApplication sharedApplication] cancelLocalNotification:notif];
-        }
-    }
-}
-
-
 @end
 
 
@@ -212,9 +193,6 @@ void ContextInitializer(void* extData, const uint8_t* ctxType, FREContext ctx, u
         MAP_FUNCTION(pauseGetuiSdk, NULL),
         MAP_FUNCTION(resumeGetuiSdk, NULL),
         MAP_FUNCTION(setTag, NULL),
-        MAP_FUNCTION(sendLocalNotification, NULL),
-        MAP_FUNCTION(cancelLocalNotification, NULL),
-        MAP_FUNCTION(setIsAppInForeground, NULL),
         MAP_FUNCTION(getVersion, NULL)
     };
     
@@ -303,110 +281,6 @@ ANE_FUNCTION(setTag){
       success = [getuiDelegate setTags:tagNames error:&err];
     }
     return createFREBool(success);
-}
-
-// sends local notification to the device.
-ANE_FUNCTION(sendLocalNotification)
-{
-    
-    uint32_t string_length;
-    const uint8_t *utf8_message;
-    // message
-    if (FREGetObjectAsUTF8(argv[0], &string_length, &utf8_message) != FRE_OK)
-    {
-        return nil;
-    }
-    
-    NSString* message = [NSString stringWithUTF8String:(char*)utf8_message];
-    
-    // timestamp
-    uint32_t timestamp;
-    if (FREGetObjectAsUint32(argv[1], &timestamp) != FRE_OK)
-    {
-        return nil;
-    }
-    
-    // recurrence
-    uint32_t recurrence = 0;
-    if (argc >= 4 )
-    {
-        FREGetObjectAsUint32(argv[3], &recurrence);
-    }
-    
-    // local notif id: 0 is default
-    uint32_t localNotificationId = 0;
-    if (argc == 5)
-    {
-        if (FREGetObjectAsUint32(argv[4], &localNotificationId) != FRE_OK)
-        {
-            localNotificationId = 0;
-        }
-    }
-    
-    NSNumber *localNotifIdNumber =[NSNumber numberWithInt:localNotificationId];
-    
-    [GetuiPushNotification cancelAllLocalNotificationsWithId:localNotifIdNumber];
-    
-    NSDate *itemDate = [NSDate dateWithTimeIntervalSince1970:timestamp];
-    
-    UILocalNotification *localNotif = [[UILocalNotification alloc] init];
-    if (localNotif == nil)
-        return NULL;
-    localNotif.fireDate = itemDate;
-    localNotif.timeZone = [NSTimeZone defaultTimeZone];
-    
-    localNotif.alertBody = message;
-    localNotif.alertAction = @"View Details";
-    localNotif.soundName = UILocalNotificationDefaultSoundName;
-    
-    localNotif.userInfo = [NSDictionary dictionaryWithObject:@"" forKey:[localNotifIdNumber stringValue]];
-    if (recurrence > 0)
-    {
-        if (recurrence == 1)
-        {
-            localNotif.repeatInterval = NSDayCalendarUnit;
-        } else if (recurrence == 2)
-        {
-            localNotif.repeatInterval = NSWeekCalendarUnit;
-        } else if (recurrence == 3)
-        {
-            localNotif.repeatInterval = NSMonthCalendarUnit;
-        } else if (recurrence == 4)
-        {
-            localNotif.repeatInterval = NSYearCalendarUnit;
-        }
-        
-    }
-    
-    [[UIApplication sharedApplication] scheduleLocalNotification:localNotif];
-    [localNotif release];
-    return NULL;
-}
-
-// sends local notification to the device.
-ANE_FUNCTION(cancelLocalNotification)
-{
-    uint32_t localNotificationId;
-    if (argc == 1)
-    {
-        if (FREGetObjectAsUint32(argv[0], &localNotificationId) != FRE_OK)
-        {
-            return nil;
-        }
-    } else
-    {
-        localNotificationId = 0;
-    }
-    
-    [GetuiPushNotification cancelAllLocalNotificationsWithId:[NSNumber numberWithInt:localNotificationId]];
-    return nil;
-    
-}
-
-// nothing to do for ios
-ANE_FUNCTION(setIsAppInForeground)
-{
-    return NULL;
 }
 
 ANE_FUNCTION(getVersion)

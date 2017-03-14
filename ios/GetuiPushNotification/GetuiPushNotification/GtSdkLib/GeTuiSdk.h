@@ -17,7 +17,9 @@ typedef enum {
 #define kGtResponseBindType @"bindAlias"
 #define kGtResponseUnBindType @"unbindAlias"
 
+//SDK Delegate 回调接口
 @protocol GeTuiSdkDelegate;
+
 
 @interface GeTuiSdk : NSObject
 
@@ -103,9 +105,10 @@ typedef enum {
  *  备注：可以未启动SDK就调用该方法
  *
  *  @param deviceToken 推送时使用的deviceToken
+ *  @return deviceToken有效判断，YES.有效 NO.无效
  *
  */
-+ (void)registerDeviceToken:(NSString *)deviceToken;
++ (BOOL)registerDeviceToken:(NSString *)deviceToken;
 
 /**
  *  绑定别名功能:后台可以根据别名进行推送
@@ -199,6 +202,7 @@ typedef enum {
 @end
 
 #pragma mark - SDK Delegate
+
 @protocol GeTuiSdkDelegate <NSObject>
 
 @optional

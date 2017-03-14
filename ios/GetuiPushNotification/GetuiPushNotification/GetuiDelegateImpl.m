@@ -183,8 +183,8 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
         {
             NSString *record = [NSString stringWithFormat:@"%d, %@, %@%@", ++_lastPayloadIndex, [self formateTime:[NSDate date]], payloadMsg, offLine ? @"<离线消息>" : @""];
             NSLog(@"ane_getui_receive_payload:%@",record);
-            NSString *msg = [NSString stringWithFormat:@"%@ : %@%@", [self formateTime:[NSDate date]], payloadMsg, offLine ? @"<离线消息>" : @""];
-            FREDispatchStatusEventAsync(_freContext, (uint8_t*)"GETUI_DID_RECEIVE_PAYLOAD", (uint8_t*)[msg UTF8String]);
+//            NSString *msg = [NSString stringWithFormat:@"%@ : %@%@", [self formateTime:[NSDate date]], payloadMsg, offLine ? @"<离线消息>" : @""];
+            FREDispatchStatusEventAsync(_freContext, (uint8_t*)"GETUI_DID_RECEIVE_PAYLOAD", (uint8_t*)[payloadMsg UTF8String]);
         }
     }
 }
