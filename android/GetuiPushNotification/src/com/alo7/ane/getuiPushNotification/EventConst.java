@@ -9,6 +9,8 @@ public class EventConst {
 
     public static String GETUI_DID_REGISTER_CLIENT = "GETUI_DID_REGISTER_CLIENT";
 
+    public static String GETUI_NEED_PERMISSION = "GETUI_NEED_PERMISSION";
+
     public static String OTHER_EVENT = "OTHER_EVENT";
 
     public static String LOG_EVENT = "LOG_EVENT";

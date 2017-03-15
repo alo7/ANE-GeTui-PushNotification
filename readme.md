@@ -10,8 +10,8 @@
 
 ## Features:
 
-- AIR apps in IOS receive push notification from Getui ( Getui IOS SDK 1.5.3)  [download](http://www.getui.com/download/docs/iOS/GETUI_IOS_SDK.zip)
-- AIR apps in Android receive push notification from Getui ( Getui Andorid SDK 2.9.3.0) [download](http://www.getui.com/download/docs/android/GETUI_ANDROID_SDK.zip)
+- AIR apps in IOS receive push notification from Getui ( Getui IOS SDK 1.6.1.0)  [download](http://www.getui.com/download/docs/iOS/GETUI_IOS_SDK.zip)
+- AIR apps in Android receive push notification from Getui ( Getui Andorid SDK 2.10.2.0) [download](http://www.getui.com/download/docs/android/GETUI_ANDROID_SDK.zip)
 
 ## Build
 in build driectory, modify build.properties and run:
@@ -32,86 +32,82 @@ in build driectory, modify build.properties and run:
  * for andorid apps, modify app.xml, look up [getui documents](http://docs.igetui.com/pages/viewpage.action?pageId=589991)
     * example:
     
-                <!-- getui sdk setting -->
-                <!-- 3rd party setting -->
-                <meta-data android:name="PUSH_APPID" android:value="u1spWZXtjZ8FxmRUZCPr44" />
-                <meta-data android:name="PUSH_APPSECRET" android:value="HxbuotbFct8IBCCjsqkSq1" />
-                <meta-data android:name="PUSH_APPKEY" android:value="TicIEPTrGZAFcIFsSbXbG7" />
-                <meta-data android:name="PUSH_GROUPID" android:value="" />
-
-                <!-- 3rd party Receiver -->
-                <receiver
-                        android:name="com.alo7.ane.getuiPushNotification.GetuiPushReceiver"
-                        android:exported="false" >
-                    <intent-filter>
-                        <!--  replace action android:name="com.igexin.sdk.action. 3rd party's APPID" -->
-                        <action android:name="com.igexin.sdk.action.u1spWZXtjZ8FxmRUZCPr44" />
-                    </intent-filter>
-                </receiver>
-
-                <!--SKD core service -->
+            <!-- ====================config start==================== -->                       
+                       
+            <uses-permission android:name="getui.permission.GetuiService.your_app_package_name"/>
+            <permission
+                android:name="getui.permission.GetuiService.your_app_package_name"
+                android:protectionLevel="normal" >
+            </permission>
+           
+            <application android:enabled="true" >
+                
+                <meta-data android:name="PUSH_APPID" android:value="your APPID" />
+                <meta-data android:name="PUSH_APPSECRET" android:value="your APPSECRET" />
+                <meta-data android:name="PUSH_APPKEY" android:value="your APPKEY" />
+    
                 <service android:name="com.igexin.sdk.PushService"
                     android:exported="true"
                     android:label="NotificationCenter"
                     android:process=":pushservice" >
                     <intent-filter>
-                        <action android:name="com.igexin.sdk.action.service.message"/> 
-                    </intent-filter>
+                           <action android:name="com.igexin.sdk.action.service.message"/> 
+                       </intent-filter>
                 </service>
-
-                <service
-                    android:name="com.igexin.sdk.PushServiceUser"
-                    android:exported="true"
-                    android:label="NotificationCenterUser" >
-                </service>
-            
+                
                 <receiver android:name="com.igexin.sdk.PushReceiver">
                     <intent-filter>
                         <action android:name="android.intent.action.BOOT_COMPLETED" />
                         <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
                         <action android:name="android.intent.action.USER_PRESENT" />
-                        <action android:name="com.igexin.sdk.action.refreshls" />                        
-                         <!-- up livability  -->
+                        <action android:name="com.igexin.sdk.action.refreshls" />
                         <action android:name="android.intent.action.MEDIA_MOUNTED" />
                         <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
                         <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
                     </intent-filter>
                 </receiver>
-                <receiver android:name="com.igexin.sdk.PushManagerReceiver"
-                    android:exported="false" >
-                    <intent-filter>
-                            <action android:name="com.igexin.sdk.action.pushmanager" />
-                    </intent-filter>
-                </receiver>
-
+                
                 <activity
-                    android:name="com.igexin.sdk.PushActivity" android:excludeFromRecents="true"
-                    android:exported="false"
+                       android:name="com.igexin.sdk.PushActivity"
+                       android:excludeFromRecents="true"
+                       android:exported="false"
+                       android:process=":pushservice"
+                       android:taskAffinity="com.igexin.sdk.PushActivityTask"
+                       android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+                   <activity
+                       android:name="com.igexin.sdk.GActivity"
+                       android:excludeFromRecents="true"
+                       android:exported="true"
+                       android:process=":pushservice"
+                       android:taskAffinity="com.igexin.sdk.PushActivityTask"
+                       android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+                   <service
+                       android:name="com.igexin.download.DownloadService"
+                       android:process=":pushservice"/>
+                   <receiver android:name="com.igexin.download.DownloadReceiver">
+                       <intent-filter>
+                           <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+                       </intent-filter>
+                   </receiver>  
+                
+                <provider android:name="com.igexin.download.DownloadProvider" 
                     android:process=":pushservice" 
-                    android:taskAffinity="com.igexin.sdk.PushActivityTask" 
-                    android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
-                <activity
-                    android:name="com.igexin.sdk.GActivity" android:excludeFromRecents="true"
                     android:exported="true"
-                    android:process=":pushservice" 
-                    android:taskAffinity="com.igexin.sdk.PushActivityTask" 
-                    android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
-                <service
-                    android:name="com.igexin.download.DownloadService"
-                    android:process=":pushservice"/>
-                <receiver android:name="com.igexin.download.DownloadReceiver">
-                    <intent-filter>
-                        <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
-                    </intent-filter>
-                </receiver>
-                <provider
-                    android:name="com.igexin.download.DownloadProvider" 
-                    android:authorities="downloads.air.com.alo7.xxx" 
-                    android:exported="true" 
-                    android:process=":pushservice"/>              
-                    <!-- android:authorities="downloads.3rd party's package name", add air. for air apps name -->
-                <!-- ====================================================== -->
-        
+                    android:authorities="downloads.your_app_package_name"/>
+    
+                   <!-- ane中自定义的service -->
+                   <service
+                       android:name="com.alo7.ane.getuiPushNotification.GetuiPushService"
+                    android:exported="true"
+                       android:label="PushService"
+                       android:process=":pushservice" />
+    
+                   <service
+                       android:name="com.alo7.ane.getuiPushNotification.GetuiIntentService" />
+                       
+             </application >
+            <!-- ====================config end==================== -->
+
    * use in AIR project
    
             public function initializeGetuiPushNotification():void{
@@ -167,8 +163,8 @@ we need to uninstall apps and delete apps name .db file in device libs driectory
 ## [个推消息推送](http://www.getui.com/)
 
 * 已实现以下功能
-    - IOS 接受个推消息推送 (个推 IOS SDK 1.5.3)
-    - Android 接受个推消息推送 (个推 Andorid SDK 2.9.3)
+    - IOS 接受个推消息推送 (个推 IOS SDK 1.6.1.0)
+    - Android 接受个推消息推送 (个推 Andorid SDK 2.10.2.0)
 
 * ios库项目
     - [个推 ios sdk 下载](http://www.igetui.com/download/iOS/GETUI_IOS_SDK.zip)
@@ -202,25 +198,26 @@ we need to uninstall apps and delete apps name .db file in device libs driectory
                 </iPhone>
 
     * android平台
-        * 需要修改app.xml,添加权限和服务配置，详见[个推安卓sdk的接入文档：在AndroidManifest.xml 里添加相关声明](http://docs.getui.com/mobile/android/eclipse/#androidmanifestxml)
-        * 部分配置参考
-
-                <!-- 个推SDK配置开始 -->
+        * 需要修改app.xml,添加权限和服务配置，详见[个推安卓sdk的接入文档：在AndroidManifest.xml 里添加相关声明](http://docs.getui.com/mobile/android/overview/)
+        * 配置参考:
+                
+                
+            <!-- ====================个推SDK配置开始==================== -->
+           
+           
+            <!--个推自定义权限-->
+            <uses-permission android:name="getui.permission.GetuiService.你的应用包名"/>
+            <permission
+                android:name="getui.permission.GetuiService.你的应用包名"
+                android:protectionLevel="normal" >
+            </permission>
+           
+            <application android:enabled="true" >
+                
                 <!-- 配置的第三方参数属性 -->
-                <meta-data android:name="PUSH_APPID" android:value="u1spWZXtjZ8FxmRUZCPr44" />
-                <meta-data android:name="PUSH_APPSECRET" android:value="HxbuotbFct8IBCCjsqkSq1" />
-                <meta-data android:name="PUSH_APPKEY" android:value="TicIEPTrGZAFcIFsSbXbG7" />
-                <meta-data android:name="PUSH_GROUPID" android:value="" />
-
-                <!-- 配置第三方Receiver -->
-                <receiver
-                        android:name="com.alo7.ane.getuiPushNotification.GetuiPushReceiver"
-                        android:exported="false" >
-                    <intent-filter>
-                        <!-- 替换为action android:name="com.igexin.sdk.action.第三方应用APPID" -->
-                        <action android:name="com.igexin.sdk.action.u1spWZXtjZ8FxmRUZCPr44" />
-                    </intent-filter>
-                </receiver>
+                <meta-data android:name="PUSH_APPID" android:value="你的APPID" />
+                <meta-data android:name="PUSH_APPSECRET" android:value="你的APPSECRET" />
+                <meta-data android:name="PUSH_APPKEY" android:value="你的APPKEY" />
 
                 <!--配置SDK核心服务-->
                 <service android:name="com.igexin.sdk.PushService"
@@ -228,17 +225,10 @@ we need to uninstall apps and delete apps name .db file in device libs driectory
                     android:label="NotificationCenter"
                     android:process=":pushservice" >
                     <intent-filter>
-                        <action android:name="com.igexin.sdk.action.service.message"/> 
-                    </intent-filter>
+                           <action android:name="com.igexin.sdk.action.service.message"/> 
+                       </intent-filter>
                 </service>
                 
-                <!-- SDK　2.6.1.0版本新增配置项 -->
-                <service
-                    android:name="com.igexin.sdk.PushServiceUser"
-                    android:exported="true"
-                    android:label="NotificationCenterUser" >
-                </service>
-
                 <receiver android:name="com.igexin.sdk.PushReceiver">
                     <intent-filter>
                         <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -252,48 +242,46 @@ we need to uninstall apps and delete apps name .db file in device libs driectory
                     </intent-filter>
                 </receiver>
                 
-                <receiver android:name="com.igexin.sdk.PushManagerReceiver"
-                    android:exported="false" >
-                    <intent-filter>
-                            <action android:name="com.igexin.sdk.action.pushmanager" />
-                    </intent-filter>
-                </receiver>
-
-                <activity android:name="com.igexin.sdk.PushActivity"
-                    android:process=":pushservice"
-                    android:theme="@android:style/Theme.Translucent.NoTitleBar"
-                    android:taskAffinity="com.igexin.sdk.PushActivityTask"
-                    android:excludeFromRecents="true"
-                    android:exported="false">
-                </activity>
-
                 <activity
-                    android:name="com.igexin.sdk.PushActivity" android:excludeFromRecents="true"
-                    android:exported="false"
+                       android:name="com.igexin.sdk.PushActivity"
+                       android:excludeFromRecents="true"
+                       android:exported="false"
+                       android:process=":pushservice"
+                       android:taskAffinity="com.igexin.sdk.PushActivityTask"
+                       android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+                   <activity
+                       android:name="com.igexin.sdk.GActivity"
+                       android:excludeFromRecents="true"
+                       android:exported="true"
+                       android:process=":pushservice"
+                       android:taskAffinity="com.igexin.sdk.PushActivityTask"
+                       android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+                   <service
+                       android:name="com.igexin.download.DownloadService"
+                       android:process=":pushservice"/>
+                   <receiver android:name="com.igexin.download.DownloadReceiver">
+                       <intent-filter>
+                           <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+                       </intent-filter>
+                   </receiver>  
+                
+                <provider android:name="com.igexin.download.DownloadProvider" 
                     android:process=":pushservice" 
-                    android:taskAffinity="com.igexin.sdk.PushActivityTask" 
-                    android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
-                <activity
-                    android:name="com.igexin.sdk.GActivity" android:excludeFromRecents="true"
                     android:exported="true"
-                    android:process=":pushservice" 
-                    android:taskAffinity="com.igexin.sdk.PushActivityTask" 
-                    android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
-                <service
-                    android:name="com.igexin.download.DownloadService"
-                    android:process=":pushservice"/>
-                <receiver android:name="com.igexin.download.DownloadReceiver">
-                    <intent-filter>
-                        <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
-                    </intent-filter>
-                </receiver>
-                <provider
-                    android:name="com.igexin.download.DownloadProvider" 
-                    android:authorities="downloads.air.com.alo7.xxx" 
-                    android:exported="true" 
-                    android:process=":pushservice"/> 
-                    <!-- android:authorities="downloads.第三方包名",AIR应用包名前可能要加air. -->
-                <!-- ====================================================== -->
+                    android:authorities="downloads.你的应用包名"/>
+
+                   <!-- ane中自定义的service -->
+                   <service
+                       android:name="com.alo7.ane.getuiPushNotification.GetuiPushService"
+                    android:exported="true"
+                       android:label="PushService"
+                       android:process=":pushservice" />
+
+                   <service
+                       android:name="com.alo7.ane.getuiPushNotification.GetuiIntentService" />
+                       
+             </application >
+            <!-- ====================个推SDK配置结束==================== -->
 
     * 项目中启用：
     
@@ -336,14 +324,12 @@ we need to uninstall apps and delete apps name .db file in device libs driectory
             
 
 ## 一些问题
-* android 应用当个推的appid，appsecret，appkey变化时，产生的clientId仍会使用老的，导致无法收到推送消息，需要删除应用，
-  并删除设备libs目录下对应应用名的db文件后再重装应用，才会生成新的clientId（bug?）
 
 * android 的推送icon图标push.png是打包在ane中的，无法在实际项目中配置，几种解决办法：
     * 打包apk前，修改个推ane，替换其中的push.png文件，参考 scripts/replace_ane_android_res.sh
     
 * 和其他基于第三方sdk开发的ane混用的会有冲突
-    * 目前只能去掉一些res下的资源来避免app打包失败，比如不要把安卓项目中的res目录下的资源无法全部打包进ane中。
+    * 目前只能去掉一些res下的资源来避免app打包失败。
     
 * 出现Error: This attribute must be localized. (at 'text' with value 'xxxx').
     * 修改对应的文本,字string.xml中添加string,替代布局文件中出错的文本,     
