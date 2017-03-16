@@ -30,6 +30,9 @@
             <arg line="-configuration ${xcode.configuration}"/>
             <arg line="SYMROOT=${basedir}/${build.dir.ios}/build"/>
         </exec>
+        <copy todir="${build.dir.package}/iPhone-ARM" overwrite="true">
+            <fileset dir="${xcode.prj.dir}/${xcode.prj.name}/GtSdkLib/" includes="*.a"/>
+        </copy>
         <copy file="${build.dir.ios}/build/${xcode.configuration}-iphoneos/lib${xcode.target.name}.a" todir="${build.dir.package}/iPhone-ARM" overwrite="true"/>
     </target>
 

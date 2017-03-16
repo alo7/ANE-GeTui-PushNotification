@@ -30,9 +30,9 @@ either expressed or implied, of the FreeBSD Project.
 -->
 
 <platform xmlns="http://ns.adobe.com/air/extension/3.9">
-    <sdkVersion>9.0</sdkVersion>
+    <sdkVersion>9.3</sdkVersion>
     <linkerOptions>
-        <option>-ios_version_min 6.0</option>
+        <option>-ios_version_min 7.0</option>
         <option>-framework CoreTelephony</option>
         <option>-framework JavaScriptCore</option>
         <option>-lc++</option>
@@ -40,6 +40,7 @@ either expressed or implied, of the FreeBSD Project.
         <option>-lz</option>
     </linkerOptions>
     <packagedDependencies>
+        <packagedDependency>libGeTuiSdk-1.6.1.0-noidfa.a</packagedDependency>
     </packagedDependencies>
 </platform>
 
